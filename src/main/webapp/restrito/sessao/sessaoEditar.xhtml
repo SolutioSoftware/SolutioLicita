@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/TemplateLicitaPaineis.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="pn_info">
+
+        <h:form id="formDtSessao">
+
+            <p:dataTable id='dt_sessao' var="entidade" value="#{controladorSessao.sessoes}" 
+                         widgetVar="tbl_sessoes" paginator="true" style="padding:5px" rows="10" rowsPerPageTemplate="5,10"  
+                         emptyMessage="Nenhuma sessão cadastrada"  paginatorAlwaysVisible="true">
+
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <p:commandButton value="Novo" style="width: 80px" action="#{controladorSessao.limparDados}" update="@form"  icon="fa fa-plus" 
+                                         class="botaoNovo"/>
+                        <p:inputText id="globalFilter" onkeyup="PF('tbl_sessoes').filter()" style="width:250px" placeholder="Digite sua busca" />
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="Numero do Pregão" filterBy="#{entidade.idPregao.numeroPregao}" filterMatchMode="contains" 
+                          filterStyle="display:none" >
+                    <h:outputText value="#{entidade.idPregao.numeroPregao}" />
+                </p:column>
+
+                <p:column headerText="Codigo da Sessão" filterBy="#{entidade.id}" filterMatchMode="contains" 
+                          filterStyle="display:none" >
+                    <h:outputText value="#{entidade.id}" />
+                </p:column>
+
+                <p:column headerText="Data Previsto" filterBy="#{entidade.dataRealizacao.date} or #{entidade.dataRealizacao.month+1}" filterMatchMode="contains" 
+                          filterStyle="display:none" >
+                    <h:outputText value="#{entidade.dataRealizacao.date}/#{entidade.dataRealizacao.month+1}" />
+                </p:column>
+
+                <p:column headerText="Status da Sessão" filterBy="#{entidade.statusSessao}" filterMatchMode="contains" 
+                          filterStyle="display:none" >
+                    <h:outputText value="#{entidade.statusSessao}" />
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+
+    </ui:define>
+
+    <ui:define name="pn_conteudo">
+
+        <h:form id="sessao_form" title="Sessão" style="text-align: center"  >
+
+            <p:growl id="growSessao" showDetail="false" life="3000" class="ui-growl" />
+
+            <div style="margin-left: 25%; margin-top: 2%">
+
+                <h:panelGrid columns="2" id="panelGridSaveSessao" columnClasses="colunaEsquerda,colunaDireita"  >
+
+                    <p:outputLabel value="Numero do Pregão:" for="numeroDoPregao"/>
+                    <h:selectOneMenu id="numeroDoPregao" value="#{controladorSessao.entidade.idPregao}" style="width: 190px" required="true" 
+                                     requiredMessage="O campo Numero de Pregão deve ser selecionado" converter="pregaoConverter">
+                        
+                        <f:selectItems value="#{controladorPregao.pregoes}" var="pregao" itemLabel="#{pregao.numeroPregao}" 
+                                       itemValue="#{controladorPregao.entidade.id}"/>
+                        
+                    </h:selectOneMenu>
+                    
+                    <p:outputLabel value="Data Prevista:" for="dataPrevista"/>
+                    <p:calendar id="dataPrevista" value="#{controladorSessao.entidade.dataRealizacao}" mindate="#{controladorSessao.dataAtual}" locale="pt_BR" style="width: 210px"/>
+
+                    <p:outputLabel value="Horário Previsto:" for="horarioPrevisto"/>
+                    <p:calendar id="horarioPrevisto" value="#{controladorSessao.entidade.horarioPrevisto}" pattern="HH:mm" timeOnly="true" style="width: 210px"/>
+                    
+                    <p:outputLabel value="Status:" for="statusDaSessao"/>
+                    <h:selectOneMenu id="statusDaSessao" value="#{controladorSessao.entidade.statusSessao}" style="width: 190px" required="true" requiredMessage="O Campo Status da Sessão deve ser selecionado">
+
+                        <f:selectItem noSelectionOption="true" />
+                        <f:selectItem itemLabel="Agendada" itemValue="Agendada" />
+                        <f:selectItem itemLabel="Anulada" itemValue="Anulada" />
+                        <f:selectItem itemLabel="Cancelada" itemValue="Cancelada" />
+                        <f:selectItem itemLabel="Deserto" itemValue="Deserto" />
+                        <f:selectItem itemLabel="Encerrada" itemValue="Encerrada" />
+                        <f:selectItem itemLabel="Iniciada" itemValue="Iniciada" />
+                        <f:selectItem itemLabel="Pausada" itemValue="Pausada" />
+                        <f:selectItem itemLabel="Remarcada" itemValue="Remarcada" />
+
+                    </h:selectOneMenu>
+
+                </h:panelGrid>
+
+            </div>
+
+            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
+
+                <p:commandButton  id="bt_Atualizar_Sessao" value="Atualizar" icon="fa fa-refresh" action="#{controladorSessao.editar(entidade)}" 
+                                  update="growSessao" ajax="false" style="width: 125px"/>
+                <p:commandButton  id="bt_Iniciar_Sessao" value="Iniciar" icon="fa fa-youtube-play" update="growSessao" ajax="false"
+                                  style="width: 125px" action="#{controladorSessao.iniciar(entidade)}"/>
+
+            </div>
+
+        </h:form>
+
+    </ui:define> 
+
+</ui:composition>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/TemplateLicitaPaineis.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="pn_info">
+
+        <h:form id="formDtItem">
+
+            <p:dataTable id='dt_itens' var="entidade" value="#{controladorItem.itens}" 
+                         widgetVar="tbl_itens" paginator="true" style="padding:5px" rows="10" rowsPerPageTemplate="5,10"  
+                         emptyMessage="Nenhum Item Cadastrado"  paginatorAlwaysVisible="true">
+
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <p:commandButton value="Novo" style="width: 80px" action="#{controladorItem.limparDados}" update="@form"  icon="fa fa-plus" 
+                                         class="botaoNovo"/>
+                        <p:inputText id="globalFilter" onkeyup="PF('tbl_itens').filter()" style="width:250px" placeholder="Digite sua busca" />
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="Codigo do item" filterBy="#{entidade.id}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.id}" />
+                </p:column>
+
+                <p:column headerText="Nome do item" filterBy="#{entidade.nome}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.nome}" />
+                </p:column>
+
+                <p:column headerText="Unidade" filterBy="#{entidade.unidade}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.unidade}" />
+                </p:column>
+
+                <p:column headerText="Ações" width="50">
+
+                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorItem.preparaEditar}" update="@form"  
+                                     style="font-size: 10px">
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorItem.entidade}"  />
+                        <p:tooltip for="btEditar" value="Editar"/>
+                    </p:commandButton>
+
+                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorItem.deletar(entidade)}" update="@form" 
+                                     style="font-size: 10px">
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorItem.entidade}"  />
+                        <p:tooltip for="btExcluir" value="Excluir"/>
+                        <p:confirm icon="ui-icon-alert" header="Excluir Item" message="Deseja realmente excluir este Item"/>
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="pn_conteudo">
+        <p:growl id="growItem" showDetail="false" life="3000" class="ui-growl" />
+    </ui:define> 
+
+
+</ui:composition>

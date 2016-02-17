@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/TemplateLicitaPaineis.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="pn_info">
+
+        <h:form id="formDtPregao">
+
+            <p:dataTable id='dt_pregoes' var="entidade"  value="#{controladorPregao.pregoes}" 
+                         widgetVar="tbl_pregoes" paginator="true" style="padding:5px" rows="10" rowsPerPageTemplate="5,10"  
+                         emptyMessage="Nenhum pregão cadastrado"  paginatorAlwaysVisible="true" >
+
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <p:commandButton value="Novo" style="width: 80px" action="#{controladorPregao.limparDados}"  icon="fa fa-plus" 
+                                         class="botaoNovo"/>
+                        <p:inputText id="globalFilter" onkeyup="PF('tbl_pregoes').filter()" style="width:250px" placeholder="Digite sua busca" />
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="Número do processo" filterBy="#{entidade.numeroProcesso}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.numeroProcesso}" />
+                </p:column>
+
+                <p:column headerText="Número do pregão" filterBy="#{entidade.numeroPregao}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.numeroPregao}" />
+                </p:column>
+
+                <p:column headerText="Status" filterBy="#{entidade.statusPregao}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.statusPregao}" />
+                </p:column>
+
+                <p:column headerText="Ações" width="75">
+
+                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorPregao.preparaEditar}" update="@form" 
+                                     style="font-size: 10px">
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorPregao.entidade}"  />
+                        <p:tooltip for="btEditar" value="Editar"/>
+                    </p:commandButton>
+
+                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorPregao.deletar(entidade)}" update="@form" 
+                                     style="font-size: 10px">
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorPregao.entidade}"  />
+                        <p:tooltip for="btExcluir" value="Excluir"/>
+                        <p:confirm icon="ui-icon-alert" header="Excluir Pregão" message="Deseja realmente excluir este pregão"/>
+                    </p:commandButton>
+                    
+                    <p:commandButton id="btAdicionaItens" icon="fa fa-shopping-cart" action="#{controladorPregao.preparaAdicionaItens}" 
+                                     update="@form" style="font-size: 10px">
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorPregao.entidade}"  />
+                        <p:tooltip for="btAdicionaItens" value="Adicionar Itens"/>
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="pn_conteudo" >
+
+        <p:growl id="growPregao" showDetail="false" life="3000" class="ui-growl" />
+
+        <h:form id="pregao_form" title="Pregão" style="text-align: center">
+
+            <div style="margin-left: 25%; margin-top: 2%" >
+
+                <h:panelGrid columns="2"  id="panelGridSavePregao" columnClasses="colunaEsquerda,colunaDireita" >
+
+                    <p:outputLabel value="Número do Processo:" for="numeroProcesso" />
+                    <p:inputText id="numeroProcesso" value="#{controladorPregao.entidade.numeroProcesso}" title="Número do Processo" 
+                                 required="true" requiredMessage="O campo Número do Processo é obrigatorio" maxlength="20" style="width: 212px"/>
+
+                    <p:outputLabel value="Número do Pregão:" for="numeroPregao"/>
+                    <p:inputText id="numeroPregao" value="#{controladorPregao.entidade.numeroPregao}" title="Número do Pregão" required="true" 
+                                 requiredMessage="O Campo Número do pregão é obrigatorio" maxlength="20" style="width: 212px" /> 
+
+                    <p:outputLabel value="Status:" for="statusDoPregao" style="text-align:right"/>
+                    <h:selectOneMenu id="statusDoPregao" value="#{controladorPregao.entidade.statusPregao}" style="width: 213px">
+
+                        <f:selectItem itemLabel="Aberto" itemValue="aberto" />
+
+                    </h:selectOneMenu>
+                    
+                    <p:outputLabel value="Instituição Licitadora:" for="instituicaoLicitadora"/>
+                    <h:selectOneMenu id="instituicaoLicitadora" value="#{controladorPregao.entidade.instituicaoLicitadora}" style="width: 213px" required="true" 
+                                     requiredMessage="O campo Instituição Licitadora deve ser selecionado" converter="instituicaoLicitadoraConverter">
+                        
+                        <f:selectItems value="#{controladorLicitador.instituicoes}" var="instituicao" itemLabel="#{instituicao.pessoaJuridica.nomeFantasia}" 
+                                       itemValue="#{controladorLicitador.entidade.id}"/>
+                        
+                    </h:selectOneMenu>
+
+
+                    <p:outputLabel value="Descrição:"  for="descricao" />
+                    <p:inputTextarea id="descricao" value="#{controladorPregao.entidade.descricao}" title="Descrição" placeholder="Descrição" 
+                                     rows="5" cols="30" counter="display" maxlength="255" counterTemplate="{0} caracteres restantes." 
+                                     autoResize="true" style="width:212px" />
+
+                    <p:outputLabel/>
+                    <p:outputLabel/>
+                    <p:outputLabel/>
+                    <p:outputLabel id="display" />
+
+                </h:panelGrid>
+            </div>
+
+            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
+
+                <p:commandButton  id="btSalvarPregao" value="Salvar" icon="fa fa-save" action="#{controladorPregao.criar(entidade)}" update="growPregao" process="@this" ajax="false" />
+
+            </div>
+
+        </h:form>
+
+    </ui:define> 
+
+
+</ui:composition>

@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/TemplateLicitaPaineis.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:define name="pn_info">
+
+        <h:form id="formDtequipe">
+
+            <h1>Membros de Apoio</h1>
+            <br/>
+
+            <p:dataTable id='dt_membroDeApoio' var="entidade" value="#{controladorMembroApoio.membros}" 
+                         widgetVar="tbl_equipe" paginator="true" style="padding:5px" rows="5"
+                         emptyMessage="Nenhum Membro Cadastrado"  paginatorAlwaysVisible="true">
+
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <p:commandButton value="Novo" style="width: 80px" action="#{controladorMembroApoio.limparDados()}" update="@form"  icon="fa fa-user-plus" 
+                                         class="botaoNovo"/>
+                        <p:inputText id="globalFilter" onkeyup="PF('tbl_equipe').filter()" style="width:250px" placeholder="Digite sua busca" />
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="CPF: " filterBy="#{entidade.pessoaFisica.cpf}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.pessoaFisica.cpf}" />
+                </p:column>
+
+                <p:column headerText="Nome: " filterBy="#{entidade.pessoaFisica.nome}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.pessoaFisica.nome}" />
+                </p:column>
+                
+            
+
+            </p:dataTable>
+
+        </h:form>
+
+    </ui:define>
+
+    <ui:define name="pn_conteudo">
+
+        <h:form id="equipe_form" title="Membro Equipe" style="text-align: center"  >
+
+            <p:growl id="growEquipe" showDetail="false" life="3000" class="ui-growl"/>
+
+            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
+
+                <h:panelGrid columns="4" id="panelGridSavePessoaFisica" cellpadding="5" columnClasses="colunaEsquerda,colunaDireita,colunaEsquerda,colunaDireita">
+
+                   
+                    
+                    
+                    
+                    <p:outputLabel value="Nome:" for="nome" />
+                    <p:inputText id="nome" value="#{controladorMembroApoio.entidade.pessoaFisica.nome}" title="Nome"  required="true"  
+                                 requiredMessage="O campo nome é obrigatório" placeholder="Nome" maxlength="80"/>
+
+                    <p:outputLabel value="CPF:" for="cpf" />
+                    <p:inputMask id="cpf" value="#{controladorMembroApoio.entidade.pessoaFisica.cpf}" title="CPF" required="true" requiredMessage="O campo CPF é obrigatorio" 
+                                 mask="999.999.999-99" placeholder="CPF"/>
+
+                    <p:outputLabel value="RG:" for="rg" />
+                    <p:inputText id="rg" value="#{controladorMembroApoio.entidade.pessoaFisica.rg}" title="RG" placeholder="RG" maxlength="30" />
+
+                    <p:outputLabel value="Logradouro:" for="logradouro" />
+                    <p:inputText id="logradouro" value="#{controladorMembroApoio.entidade.pessoaFisica.endereco.logradouro}" title="Logradouro" placeholder="Logradouro" maxlength="60"/>
+
+                    <p:outputLabel value="Numero:" for="numero"/>
+                    <pe:inputNumber id="numero" value="#{controladorMembroApoio.entidade.pessoaFisica.endereco.numero}"  title="Numero" maxValue="9999999" decimalPlaces="0"/>
+
+                    <p:outputLabel value="Cidade:" for="cidade"/>
+                    <p:inputText id="cidade" value="#{controladorMembroApoio.entidade.pessoaFisica.endereco.cidade}"  title="Cidade" placeholder="Cidade" maxlength="60"/>
+
+                    <p:outputLabel value="Estado:" for="estado"/>
+                    <h:selectOneMenu id="estado" value="#{controladorMembroApoio.entidade.pessoaFisica.endereco.estado}"  style="width:188px">
+
+                        <f:selectItem noSelectionOption="true" />
+                        <f:selectItem itemLabel="Acre" itemValue="AC" />
+                        <f:selectItem itemLabel="Alagoas" itemValue="AL" />
+                        <f:selectItem itemLabel="Amapá" itemValue="AP" />
+                        <f:selectItem itemLabel="Amazonas" itemValue="AM" />
+                        <f:selectItem itemLabel="Bahia" itemValue="BA" />
+                        <f:selectItem itemLabel="Ceará" itemValue="CE" />
+                        <f:selectItem itemLabel="Distrito Federal" itemValue="DF" />
+                        <f:selectItem itemLabel="Espírito Santo" itemValue="ES" />
+                        <f:selectItem itemLabel="Goiás" itemValue="GO" />
+                        <f:selectItem itemLabel="Maranhão" itemValue="MA" />
+                        <f:selectItem itemLabel="Mato Grosso" itemValue="MT" />
+                        <f:selectItem itemLabel="Mato Grosso do Sul" itemValue="MS" />
+                        <f:selectItem itemLabel="Minas Gerais" itemValue="MG" />
+                        <f:selectItem itemLabel="Pará" itemValue="PA" />
+                        <f:selectItem itemLabel="Paraíba" itemValue="PB" />
+                        <f:selectItem itemLabel="Paraná" itemValue="PR" />
+                        <f:selectItem itemLabel="Pernambuco" itemValue="PE" />
+                        <f:selectItem itemLabel="Piauí" itemValue="PI" />
+                        <f:selectItem itemLabel="Rio de Janeiro" itemValue="RJ" />
+                        <f:selectItem itemLabel="Rio Grande do Norte" itemValue="RN" />
+                        <f:selectItem itemLabel="Rio Grande do Sul" itemValue="RS" />
+                        <f:selectItem itemLabel="Rondônia" itemValue="RO" />
+                        <f:selectItem itemLabel="Roraima" itemValue="RR" />
+                        <f:selectItem itemLabel="Santa Catarina" itemValue="SC" />
+                        <f:selectItem itemLabel="São Paulo" itemValue="SP" />
+                        <f:selectItem itemLabel="Sergipe" itemValue="SE" />
+                        <f:selectItem itemLabel="Tocantins" itemValue="TO" />
+
+                    </h:selectOneMenu>
+
+                    <p:outputLabel value="Função:" for="funcao"/>
+                    <p:inputText id="funcao" value="#{controladorMembroApoio.entidade.funcao}" placeholder="Função"/>
+
+                    <p:outputLabel value="CEP:" for="cep"/>
+                    <p:inputMask id="cep" value="#{controladorMembroApoio.entidade.pessoaFisica.endereco.cep}"  title="CPF" mask="99.999-999" placeholder="CPF"/>
+
+                    <p:outputLabel value="Telefone:" for="telefone"/>
+                    <p:inputText id="telefone" value="#{controladorMembroApoio.entidade.pessoaFisica.contatoPessoaFisica.telefone}" title="Telefone" placeholder="(DDD) 9999-9999" maxlength="14"/>
+
+                    <p:outputLabel value="Celular:" for="celular"/>
+                    <p:inputText id="celular" value="#{controladorMembroApoio.entidade.pessoaFisica.contatoPessoaFisica.celular}"  title="Celular" placeholder="(DDD) 9999-9999" maxlength="14"/>
+
+                    <p:outputLabel value="E-mail:" for="email"/>
+                    <p:inputText id="email" value="#{controladorMembroApoio.entidade.pessoaFisica.contatoPessoaFisica.email}"  title="E-mail" placeholder="E-mail"/>
+
+                    <p:outputLabel value="Complemento:"  for="complemento"/>
+                    <p:inputTextarea id="complemento" value="#{controladorMembroApoio.entidade.pessoaFisica.endereco.complemento}"  title="Complemento" placeholder="Complemento" 
+                                     rows="3" cols="30" counter="display" maxlength="50" counterTemplate="{0} caracteres restantes." 
+                                     autoResize="true" style="width:190px" />
+
+                    <p:outputLabel/>
+                    <p:outputLabel/>
+                    <p:outputLabel/>
+                    <p:outputLabel id="display" />
+                    <h:inputHidden  id="id" value="#{controladorMembroApoio.entidade.id}" required="true"   
+                                />
+                    
+                    <h:inputHidden id="id_pessoa" value="#{controladorMembroApoio.entidade.pessoaFisica.id}" required="true" 
+                                 />
+
+                </h:panelGrid>
+
+            </div>
+
+            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
+
+                <p:commandButton  id="bt_editar_MembroApoio" value="Atualizar" icon="fa fa-refresh" action="#{controladorMembroApoio.editar(entidade)}" ajax="false"/>
+
+            </div>
+        </h:form>
+
+    </ui:define> 
+
+
+</ui:composition>

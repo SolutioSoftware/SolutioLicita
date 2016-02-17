@@ -1,0 +1,366 @@
+body {
+    background-color: #ffffff;
+    font-size: 75%;
+    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    color: #000000;  
+    margin: 0px;
+}
+
+h1 {
+    font-family: Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    border-bottom: 1px solid #AFAFAF; 
+    font-size:  16px;
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+    color: #036fab;
+}
+
+a:link, a:visited {
+  color: #045491;
+  font-weight : bold;
+  text-decoration: none;
+}
+
+a:link:hover, a:visited:hover  {
+  color: #045491;
+  font-weight : bold;
+  text-decoration : underline;
+}
+
+
+#top {
+    background-color: #2285BB;
+    
+    height: 80px;
+    width: 100%;
+    color: white;
+    position: absolute;
+    margin: 0px 0px 0px 0px;
+}
+
+#bottom {
+    position: fixed;
+    background-color: #036fab;
+    padding: 5px;
+    margin: 10px 0px 0px 0px;
+}
+
+#left {
+    float: left;
+    background-color: #ece3a5;
+    padding: 5px;
+    width: 150px;
+}
+
+#right {
+    float: right;
+    background-color: #ece3a5;
+    padding: 5px;
+    width: 150px;
+}
+
+.center_content {
+    position: relative;
+    padding: 5px;
+}
+
+
+.left_content {
+    background-color: #dddddd;
+    padding: 5px;
+    margin-left: 170px;
+}
+
+.right_content {
+    background-color: #dddddd;
+    padding: 5px;
+    margin: 0px 170px 0px 170px;
+}
+
+.ui-growl{
+    margin-top: 6%;
+}
+
+.botaoNovo  {
+left: -6%;
+}
+
+
+#top a:link, #top a:visited {
+  color: white;
+  font-weight : bold;
+  text-decoration: none;
+}
+
+
+#top a:link:hover, #top a:visited:hover  {
+  color: black;
+  font-weight : bold;
+  text-decoration : underline;
+}
+
+footer {
+
+   width:100%;
+	
+	position:fixed;
+	bottom:0;
+	left:0;
+    background-color: #036fab;
+   
+}
+
+#solutio_logo{
+    width: 15%;
+    height: 4%;
+    position: relative;
+      
+}
+
+#licita_logo{
+    margin-top: 10px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 135px;
+    height: 49px;
+   
+      
+}
+
+.colunaDireita{  
+    text-align: left;  
+}  
+.colunaEsquerda{  
+    text-align: right;    
+} 
+
+.bt_pregoes{
+    background-image: url("../resources/icons/pregao_ic.png");
+    background-position: center;
+    background-color: #2285BB;
+    border-width: 0;
+    border-radius: 0;
+    box-shadow: none;
+    width: 80px;
+    height: 100%; 
+    background-repeat: no-repeat; 
+    min-height: 80px;
+}
+
+.bt_pregoes:hover{
+ 
+    background-color: #036fab;
+ 
+}
+
+.bt_pregoes:active{
+ 
+    background-color: #045491;
+ 
+}
+
+.bt_sessoes{
+    background-image: url("../resources/icons/sessao_ic.png");
+    background-position: center;
+    background-color: #2285BB;
+    border-width: 0;
+    border-radius: 0;
+    box-shadow: none;
+    width: 80px;
+    height: 100%; 
+    background-repeat: no-repeat;
+    min-height: 80px;
+}
+
+.bt_sessoes:hover{
+ 
+    background-color: #036fab;
+ 
+}
+
+.bt_sessoes:active{
+ 
+    background-color: #045491;
+ 
+}
+
+.bt_licitantes{
+    background-image: url("../resources/icons/empresa_ic.png");
+    background-position: center;
+    background-color: #2285BB;
+    border-width: 0;
+    border-radius: 0;
+    box-shadow: none;
+    width: 80px;
+    height: 100%; 
+    background-repeat: no-repeat;
+    min-height: 80px;
+}
+
+.bt_licitantes:hover{
+ 
+    background-color: #036fab;
+ 
+}
+
+.bt_licitantes:active{
+
+    background-color: #045491;
+}
+
+.bt_itens{
+    background-image: url("../resources/icons/item_ic.png");
+    background-position: center;
+    background-color: #2285BB;
+    border-width: 0;
+    border-radius: 0;
+    box-shadow: none;
+    width: 80px;
+    height: 100%; 
+    background-repeat: no-repeat;
+    min-height: 80px;
+}
+
+.bt_itens:hover{
+ 
+    background-color: #036fab;
+ 
+}
+
+.bt_itens:active{
+ 
+    background-color: #045491;
+ 
+}
+
+.bt_equipe{
+    background-image: url("../resources/icons/equipe_ic.png");
+    background-position: center;
+    background-color: #2285BB;
+    border-width: 0;
+    border-radius: 0;
+    box-shadow: none;
+    width: 80px;
+    height: 100%; 
+    background-repeat: no-repeat;
+    min-height: 80px;
+}
+
+.bt_equipe:hover{
+ 
+    background-color: #036fab;
+ 
+}
+
+.bt_equipe:active{
+ 
+    background-color: #045491;
+}
+
+
+.bt_licitadores{
+    background-image: url("../resources/icons/licitador_ic.png");
+    background-position: center;
+    background-color: #2285BB;
+    border-width: 0;
+    border-radius: 0;
+    box-shadow: none;
+    width: 80px;
+    height: 100%; 
+    background-repeat: no-repeat;
+    min-height: 80px;
+}
+
+.bt_licitadores:hover{
+ 
+    background-color: #036fab;
+ 
+}
+
+.bt_licitadores:active{
+ 
+    background-color: #045491;
+}
+
+.bt_ajustes{
+    background-image: url("../resources/icons/config_ic.png");
+    background-position: center;
+    background-color: #2285BB;
+    border-width: 0;
+    border-radius: 0;
+    box-shadow: none;
+    width: 80px;
+    height: 100%; 
+    background-repeat: no-repeat;
+    min-height: 80px;
+}
+
+.bt_ajustes:hover{
+ 
+    background-color: #036fab;
+ 
+}
+
+.bt_ajustes:active{
+ 
+    background-color: #045491;
+ 
+}
+
+
+.bt_sair{
+    
+    color: #ffffff;
+    background: #2285BB;
+    border-width: 0;
+    border-radius: 4px;
+    box-shadow: none;
+    
+    
+}
+
+.bt_sair:hover{
+ 
+    background-color: #036fab;
+ 
+}
+
+.bt_sair:active{
+ 
+    background-color: #045491;
+ 
+}
+
+
+.bt_alerta{
+    
+    background-image: url("../resources/icons/notificacao_ic.png");
+    background-position: center;
+    background-color: #2285BB;
+    border-width: 0;
+    border-radius: 4px;
+    box-shadow: none;
+    width: 24px;
+    height: 24px; 
+    background-repeat: no-repeat
+    
+    
+}
+
+.bt_alerta:hover{
+ 
+    background-color: #036fab;
+ 
+}
+
+.bt_alerta:active{
+ 
+    background-color: #045491;
+ 
+}
+
+.icones:hover{
+    color: #ffffff; text-transform: capitalize;text-decoration: none;
+}

@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/TemplateLicitaPaineis.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="pn_info">
+
+        <h:form id="formInSessao">
+
+            <p:outputLabel value="Empresas Licitantes" style="font-weight:bold" />
+            <p:dataTable id='dt_empresas' var="empresaLicitante" value="#{controladorSessao.empresasLicitantes}" 
+                         widgetVar="tbl_licitantes" paginator="true" style="padding:5px" rows="12" rowsPerPageTemplate="10"  
+                         emptyMessage="Nenhuma Emp. Licitante Cadastrada"  paginatorAlwaysVisible="true" scrollable="false">
+
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <p:inputText id="globalFilter" onkeyup="PF('tbl_licitantes').filter()" style="width:250px" placeholder="Digite sua busca" />
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="CNPJ" filterBy="#{empresaLicitante.pessoaJuridica.cnpj}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{empresaLicitante.pessoaJuridica.cnpj}" />
+                </p:column> 
+
+                <p:column headerText="Nome Fantasia" filterBy="#{empresaLicitante.pessoaJuridica.nomeFantasia}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{empresaLicitante.pessoaJuridica.nomeFantasia}" />
+                </p:column>
+
+
+                <p:column headerText="Adicionar Licitante" width="70">
+
+                    <p:commandButton id="btAdiconarEmpresaLicitante" icon="ui-icon-plus"
+                                     update=":sessaoIn_form"
+                                     style="font-size: 10px"   >
+                        <f:setPropertyActionListener value="#{empresaLicitante}" target="#{controladorSessao.empresaLicitante}"  />
+                        <p:tooltip for="btAdiconarEmpresaLicitante" value="Adicionar"/>
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+
+            <p:outputLabel value="Propostas" style="font-weight:bold" />
+
+            <p:dataTable id='dt_propostas' var="proposta" value="#{controladorSessao.propostas}" 
+                         widgetVar="tbl_propostas" paginator="true" style="padding:5px" rows="5" rowsPerPageTemplate="5"  
+                         emptyMessage="Nenhuma Proposta Salva"  paginatorAlwaysVisible="true" scrollable="false">
+
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <p:inputText id="globalFilter" onkeyup="PF('tbl_propostas').filter()" style="width:250px" placeholder="Digite sua busca" />
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="CNPJ" filterBy="#{proposta.idLicitante.pessoaJuridica.cnpj}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{proposta.idLicitante.pessoaJuridica.cnpj}" />
+                </p:column> 
+
+                <p:column headerText="Nome Fantasia" filterBy="#{proposta.idLicitante.pessoaJuridica.nomeFantasia}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{proposta.idLicitante.pessoaJuridica.nomeFantasia}" />
+                </p:column>
+
+
+                <p:column headerText="Ações" width="70">
+
+                    <p:commandButton id="btRemoverProposta" icon="ui-icon-plus"
+                                     update=":sessaoIn_form"
+                                     style="font-size: 10px"   >
+                        <f:setPropertyActionListener value="" target=""  />
+                        <p:tooltip for="btRemoverProposta" value="Remover"/>
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+
+        </h:form>
+    </ui:define>
+
+
+    <ui:define name="pn_conteudo">
+
+        <h:form id="sessaoIn_form" title="Sessão" style="text-align: center" enctype="multipart/form-data" >
+            <p:growl id="growSessao" showDetail="true" life="3000" class="ui-growl" />
+
+            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
+
+                <h:panelGrid columns="4" id="panelGridAdicionarLicitantes" >
+
+                    <p:outputLabel value="Número do Pregão:" for="numeroPregao" style="font-weight:bold"/>
+                    <p:outputLabel id="numeroPregao" value="#{controladorSessao.entidade.idPregao.numeroPregao}"/>
+
+                    <p:outputLabel value="Número do Processo:" for="numeroProcesso" style="font-weight:bold"/>
+                    <p:outputLabel id="numeroProcesso" value="#{controladorSessao.entidade.idPregao.numeroProcesso}"/> 
+
+                    <p:outputLabel value="Status do Pregão:" for="statusDoPregao" style="font-weight:bold"/>
+                    <p:outputLabel id="statusDoPregao" value="#{controladorSessao.entidade.statusSessao}"/>
+
+                    <p:outputLabel value="Descrição do Pregão:" for="descricaoPregao" style="font-weight:bold"/>
+                    <p:outputLabel id="descricaoPregao" value="#{controladorSessao.entidade.idPregao.descricao}"/>
+
+                    <p:outputLabel></p:outputLabel>
+                    <p:outputLabel></p:outputLabel>
+                    <p:outputLabel></p:outputLabel>
+
+                    <!-- Dados da Empresa Licitante que entregou as propostas -->
+                    <p:outputLabel value="Razão Social: " for="razaoSocial" style="font-weight:bold"/>
+                    <p:outputLabel id="razaoSocial" value="#{controladorSessao.empresaLicitante.pessoaJuridica.razaoSocial}"/>
+
+                    <p:outputLabel value="Nome Fantasia: " for="nomeFantasia" style="font-weight:bold"/>
+                    <p:outputLabel id="nomeFantasia" value="#{controladorSessao.empresaLicitante.pessoaJuridica.nomeFantasia}"/>
+
+                    <p:outputLabel value="CNPJ: " for="cnpjLicitante" style="font-weight:bold"/>
+                    <p:outputLabel id="cnpjLicitante" value="#{controladorSessao.empresaLicitante.pessoaJuridica.cnpj}"/>
+
+
+
+                </h:panelGrid>
+            </div>
+
+            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
+                <p:fileUpload id="file-import-xls" value="#{controladorSessao.arquivoProposta}"
+                              mode="simple"
+                              label="Procurar Arquivo..."
+                              skinSimple="true"
+                              required="true"
+                              />
+
+                <h:commandButton  id="btImportarProposta"  value="Importar Proposta" label="Importa Proposta"
+                                  action="#{controladorSessao.uploadArquivo}" />
+                <p:commandButton  id="btClassificarProposta" value="Classificar Proposta" icon="fa fa-refresh"
+                                  actionListener="#{controladorSessao.classificarPropostas}"/>
+            </div>
+
+
+
+
+
+        </h:form>
+
+    </ui:define> 
+
+
+</ui:composition>

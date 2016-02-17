@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/TemplateLicita.xhtml">
+
+
+    <ui:define name="conteudo_sub_template">
+        
+            <p:layout>
+                <p:layoutUnit id="painel_info"   position="west" resizable="true" minSize="300" size="450">
+                    <ui:insert name="pn_info"></ui:insert>
+                </p:layoutUnit>
+                <p:layoutUnit id="painel_conteudo" position="center">
+                    <ui:insert name="pn_conteudo"></ui:insert>
+                </p:layoutUnit>
+
+            </p:layout>            
+        
+    </ui:define>
+</ui:composition>

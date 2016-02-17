@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/TemplateLicitaPaineis.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="pn_info">
+
+        <h:form id="formDtSessao">
+
+            <p:dataTable id='dt_sessao' var="entidade" value="#{controladorSessao.sessoes}" 
+                         widgetVar="tbl_sessoes" paginator="true" style="padding:5px" rows="10" rowsPerPageTemplate="5,10"  
+                         emptyMessage="Nenhuma sessão cadastrada"  paginatorAlwaysVisible="true">
+
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <p:commandButton value="Novo" style="width: 80px" action="#{controladorSessao.limparDados}" update="@form"  icon="fa fa-plus" 
+                                         class="botaoNovo"/>
+                        <p:inputText id="globalFilter" onkeyup="PF('tbl_sessoes').filter()" style="width:250px" placeholder="Digite sua busca" />
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="Numero do Pregão" filterBy="#{entidade.idPregao.numeroPregao}" filterMatchMode="contains" 
+                          filterStyle="display:none" >
+                    <h:outputText value="#{entidade.idPregao.numeroPregao}" />
+                </p:column>
+
+                <p:column headerText="Codigo da Sessão" filterBy="#{entidade.id}" filterMatchMode="contains" 
+                          filterStyle="display:none" >
+                    <h:outputText value="#{entidade.id}" />
+                </p:column>
+
+                <p:column headerText="Data Previsto" filterBy="#{entidade.dataRealizacao.date} or #{entidade.dataRealizacao.month+1}" filterMatchMode="contains" 
+                          filterStyle="display:none" >
+                    <h:outputText value="#{entidade.dataRealizacao.date}/#{entidade.dataRealizacao.month+1}" />
+                </p:column>
+
+                <p:column headerText="Status da Sessão" filterBy="#{entidade.statusSessao}" filterMatchMode="contains" 
+                          filterStyle="display:none" >
+                    <h:outputText value="#{entidade.statusSessao}" />
+                </p:column>
+
+
+                <p:column headerText="Ações" width="50">
+
+                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorSessao.preparaEditar}" update="@form"  style="font-size: 10px">
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorSessao.entidade}"  />
+                        <p:tooltip for="btEditar" value="Editar"/>
+                    </p:commandButton>
+
+                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorSessao.deletar(entidade)}" update="@form" style="font-size: 10px">
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorSessao.entidade}"  />
+                        <p:tooltip for="btExcluir" value="Excluir"/>
+                        <p:confirm icon="ui-icon-alert" header="Excluir Sessão" message="Deseja realmente excluir esta sessão"/>
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="pn_conteudo">
+        <p:growl id="growSessao" showDetail="false" life="3000" class="ui-growl" />
+    </ui:define> 
+
+
+</ui:composition>

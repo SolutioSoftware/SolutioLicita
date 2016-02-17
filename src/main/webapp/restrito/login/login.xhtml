@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/TemplateAzul.xhtml">
+
+    <ui:define name="corpo">
+        <h:form>
+
+            <p:growl id="growlogin" showDetail="false" life="3000" class="ui-growl" />
+
+            <p:dialog visible="true" closable="false" draggable="false" resizable="false"  hideEffect="explode">
+
+                <h:panelGrid columns="1" cellpadding="1">
+                    <p:outputLabel style="color: #036fab;">Login</p:outputLabel>
+                    <p:inputText id="campo_login" required="true"
+                                 value="#{Login.entidade.usuario}"
+                                 requiredMessage="Por favor insira o Login"
+                                 style="width: 100%; margin-bottom: 10px"></p:inputText>
+
+                    <p:outputLabel style="color: #036fab;">Senha</p:outputLabel>
+                    <p:password id="campo_senha"
+                                value="#{Login.entidade.senha}"
+                                requiredMessage="Por favor insira a Senha"
+                                required="true" style="width: 100%;"/>
+
+                    <p:commandButton value="Entrar" 
+                                     class="bt_sair"
+                                     style="margin-left: 30%; margin-top: 10px" 
+                                     action="#{Login.concerderAcesso}"
+                                     icon="fa fa-sign-in"
+                                     update="growlogin"/>
+
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

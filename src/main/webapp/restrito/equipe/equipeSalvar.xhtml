@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/TemplateLicitaPaineis.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:define name="pn_info">
+
+        <h:form id="formDtequipe">
+
+            <h1>Membros de Apoio</h1>
+            <br/>
+
+            <p:dataTable id='dt_membroDeApoio' var="entidade" value="#{controladorEquipe.membrosDeApoio}" 
+                         widgetVar="tbl_equipe" paginator="true" style="padding:5px" rows="5"
+                         emptyMessage="Nenhum Membro Cadastrado"  paginatorAlwaysVisible="true">
+
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <p:commandButton value="Novo" style="width: 80px" action="#{controladorEquipe.limparDados}" update="@form"  icon="fa fa-user-plus" 
+                                         class="botaoNovo"/>
+                        <p:inputText id="globalFilter" onkeyup="PF('tbl_equipe').filter()" style="width:250px" placeholder="Digite sua busca" />
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="CPF: " filterBy="#{entidade.pessoaFisica.cpf}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.pessoaFisica.cpf}" />
+                </p:column>
+
+                <p:column headerText="Nome: " filterBy="#{entidade.pessoaFisica.nome}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.pessoaFisica.nome}" />
+                </p:column>
+
+                <p:column headerText="Ações" width="50">
+
+                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorEquipe.preparaEditar()}" update="@form"  
+                                     style="font-size: 10px">
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorEquipe.entidade}"  />
+                        <p:tooltip for="btEditar" value="Editar"/>
+                    </p:commandButton>
+
+                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorEquipe.deletar(entidade)}" update="@form" 
+                                     style="font-size: 10px">
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorEquipe.entidade}"  />
+                        <p:tooltip for="btExcluir" value="Excluir"/>
+                        <p:confirm icon="ui-icon-alert" header="Excluir Membro de apoio" message="Deseja realmente excluir este membro de apoio"/>
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+            <br/>
+            <br/>
+            <h1>Pregoeiros</h1>
+            <br/>
+            
+            <p:dataTable id='dt_pregoeiro' var="entidade" value="#{controladorEquipe.pregoeiros}" 
+                         widgetVar="tbl_equipe" paginator="true" style="padding:5px" rows="3"
+                         emptyMessage="Nenhum Membro Cadastrado"  paginatorAlwaysVisible="true">
+
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <p:commandButton value="Novo" style="width: 80px" action="#{controladorEquipe.limparDados}" update="@form"  icon="fa fa-plus" 
+                                         class="botaoNovo"/>
+                        <p:inputText id="globalFilter" onkeyup="PF('tbl_equipe').filter()" style="width:250px" placeholder="Digite sua busca" />
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="CPF: " filterBy="#{entidade.pessoaFisica.cpf}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.pessoaFisica.cpf}" />
+                </p:column>
+
+                <p:column headerText="Nome: " filterBy="#{entidade.pessoaFisica.nome}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.pessoaFisica.nome}" />
+                </p:column>
+
+                <p:column headerText="Ações" width="50">
+
+                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorEquipe.preparaEditar()}" update="@form"  
+                                     style="font-size: 10px">
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorEquipe.entidade}"  />
+                        <p:tooltip for="btEditar" value="Editar"/>
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+            
+            
+        </h:form>
+
+    </ui:define>
+
+    <ui:define name="pn_conteudo">
+
+        <h:form id="equipe_form" title="Membro Equipe" style="text-align: center"  >
+
+            <p:growl id="growEquipe" showDetail="false"  />
+
+            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
+
+                <h:panelGrid columns="4" id="panelGridSavePessoaFisica" cellpadding="5" columnClasses="colunaEsquerda,colunaDireita,colunaEsquerda,colunaDireita">
+
+                    <p:outputLabel value="Tipo Pessoa:" for="tipopessoa" />
+                    <h:selectOneMenu id="tipopessoa" value="#{controladorEquipe.valor}" required="true" requiredMessage="O campo tipo de pessoa é obrigatorio" style="width:188px">
+                        <f:selectItem noSelectionOption="true" />
+                        <f:selectItem itemValue="Pregoeiro" itemLabel="Pregoeiro"/>  
+                        <f:selectItem itemValue="Membro de Apoio" itemLabel="Membro de Apoio"/>  
+                        <p:ajax listener="#{controladorEquipe.tipoPessoaFisica}" process="tipopessoa" event="change" update="panelGridSavePessoaFisica"/>  
+                    </h:selectOneMenu>
+
+                    <p:outputLabel value="Nome:" for="nome" />
+                    <p:inputText id="nome" value="#{controladorEquipe.entidade.nome}" title="Nome"  required="true"  
+                                 requiredMessage="O campo nome é obrigatório" placeholder="Nome" maxlength="80"/>
+
+                    <p:outputLabel value="CPF:" for="cpf" />
+                    <p:inputMask id="cpf" value="#{controladorEquipe.entidade.cpf}" title="CPF" required="true" requiredMessage="O campo CPF é obrigatorio" 
+                                 mask="999.999.999-99" placeholder="CPF"/>
+
+                    <p:outputLabel value="RG:" for="rg" />
+                    <p:inputText id="rg" value="#{controladorEquipe.entidade.rg}" title="RG" placeholder="RG" maxlength="30" />
+
+                    <p:outputLabel value="Logradouro:" for="logradouro" />
+                    <p:inputText id="logradouro" title="Logradouro" placeholder="Logradouro" maxlength="60"/>
+
+                    <p:outputLabel value="Numero:" for="numero"/>
+                    <pe:inputNumber id="numero"  title="Numero" maxValue="9999999" decimalPlaces="0"/>
+
+                    <p:outputLabel value="Cidade:" for="cidade"/>
+                    <p:inputText id="cidade"  title="Cidade" placeholder="Cidade" maxlength="60"/>
+
+                    <p:outputLabel value="Estado:" for="estado"/>
+                    <h:selectOneMenu id="estado"  style="width:188px">
+
+                        <f:selectItem noSelectionOption="true" />
+                        <f:selectItem itemLabel="Acre" itemValue="AC" />
+                        <f:selectItem itemLabel="Alagoas" itemValue="AL" />
+                        <f:selectItem itemLabel="Amapá" itemValue="AP" />
+                        <f:selectItem itemLabel="Amazonas" itemValue="AM" />
+                        <f:selectItem itemLabel="Bahia" itemValue="BA" />
+                        <f:selectItem itemLabel="Ceará" itemValue="CE" />
+                        <f:selectItem itemLabel="Distrito Federal" itemValue="DF" />
+                        <f:selectItem itemLabel="Espírito Santo" itemValue="ES" />
+                        <f:selectItem itemLabel="Goiás" itemValue="GO" />
+                        <f:selectItem itemLabel="Maranhão" itemValue="MA" />
+                        <f:selectItem itemLabel="Mato Grosso" itemValue="MT" />
+                        <f:selectItem itemLabel="Mato Grosso do Sul" itemValue="MS" />
+                        <f:selectItem itemLabel="Minas Gerais" itemValue="MG" />
+                        <f:selectItem itemLabel="Pará" itemValue="PA" />
+                        <f:selectItem itemLabel="Paraíba" itemValue="PB" />
+                        <f:selectItem itemLabel="Paraná" itemValue="PR" />
+                        <f:selectItem itemLabel="Pernambuco" itemValue="PE" />
+                        <f:selectItem itemLabel="Piauí" itemValue="PI" />
+                        <f:selectItem itemLabel="Rio de Janeiro" itemValue="RJ" />
+                        <f:selectItem itemLabel="Rio Grande do Norte" itemValue="RN" />
+                        <f:selectItem itemLabel="Rio Grande do Sul" itemValue="RS" />
+                        <f:selectItem itemLabel="Rondônia" itemValue="RO" />
+                        <f:selectItem itemLabel="Roraima" itemValue="RR" />
+                        <f:selectItem itemLabel="Santa Catarina" itemValue="SC" />
+                        <f:selectItem itemLabel="São Paulo" itemValue="SP" />
+                        <f:selectItem itemLabel="Sergipe" itemValue="SE" />
+                        <f:selectItem itemLabel="Tocantins" itemValue="TO" />
+
+                    </h:selectOneMenu>
+
+                    <p:outputLabel value="CEP:" for="cep"/>
+                    <p:inputMask id="cep"  title="CPF" mask="99.999-999" placeholder="CPF"/>
+
+                    <p:outputLabel value="Login:" for="it_login" rendered="#{controladorEquipe.cargoPregoeiro}"/>
+                    <p:inputText id="it_login" value="#{controladorEquipe.pregoeiro.login.usuario}" rendered="#{controladorEquipe.cargoPregoeiro}" required="true" 
+                                 requiredMessage="O campo login é obrigatório" placeholder="Login"/>
+
+                    <p:outputLabel value="Senha:" for="senha" rendered="#{controladorEquipe.cargoPregoeiro}"/>
+                    <p:password id="senha" value="#{controladorEquipe.pregoeiro.login.senha}" rendered="#{controladorEquipe.cargoPregoeiro}" feedback="true" required="true" 
+                                requiredMessage="O campo senha é obrigatório" placeholder="Senha" strongLabel="Senha Forte" goodLabel="Senha Boa" 
+                                weakLabel="Senha Fraca" promptLabel="Digite Sua Senha"/>
+
+                    <p:outputLabel value="Confirma Senha:" for="confirmarSenha" rendered="#{controladorEquipe.cargoPregoeiro}"/>
+                    <p:password id="confirmarSenha" value="#{controladorEquipe.confirmaSenha}" rendered="#{controladorEquipe.cargoPregoeiro}" feedback="true" required="true" 
+                                requiredMessage="O campo Confirmar Senha é obrigatório" placeholder="Confirmar Senha" strongLabel="Senha Forte" goodLabel="Senha Boa" 
+                                weakLabel="Senha Fraca" promptLabel="Digite Sua Senha"/>
+
+                    <p:outputLabel value="Função:" for="funcao" rendered="#{controladorEquipe.cargoMembrodeApoio}"/>
+                    <p:inputText id="funcao" value="#{controladorEquipe.membroApoio.funcao}" rendered="#{controladorEquipe.cargoMembrodeApoio}" placeholder="Função"/>
+
+                    <p:outputLabel value="Telefone:" for="telefone"/>
+                    <p:inputText id="telefone"  title="Telefone" placeholder="(DDD) 9999-9999" maxlength="14"/>
+
+                    <p:outputLabel value="Celular:" for="celular"/>
+                    <p:inputText id="celular"  title="Celular" placeholder="(DDD) 9999-9999" maxlength="14"/>
+
+                    <p:outputLabel value="E-mail:" for="email"/>
+                    <p:inputText id="email"  title="E-mail" placeholder="E-mail"/>
+
+                    <p:outputLabel value="Complemento:"  for="complemento"/>
+                    <p:inputTextarea id="complemento"  title="Complemento" placeholder="Complemento" 
+                                     rows="3" cols="30" counter="display" maxlength="50" counterTemplate="{0} caracteres restantes." 
+                                     autoResize="true" style="width:190px" />
+
+                    <p:outputLabel/>
+                    <p:outputLabel/>
+                    <p:outputLabel/>
+                    <p:outputLabel id="display" />
+
+                </h:panelGrid>
+
+            </div>
+
+            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
+
+                <p:commandButton  id="bt_salvar_Pessoa" value="Salvar" icon="fa fa-save" action="#{controladorEquipe.criar(entidade)}" update="growEquipe" ajax="false"/>
+
+            </div>
+        </h:form>
+
+    </ui:define> 
+
+
+</ui:composition>
