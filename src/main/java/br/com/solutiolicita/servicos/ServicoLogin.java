@@ -5,6 +5,8 @@ import br.com.solutiolicita.persistencia.DaoGenerico;
 import br.com.solutiolicita.persistencia.DaoIF;
 import br.com.solutiolicita.util.Criptografar;
 import java.util.List;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
 /**
  *
@@ -13,6 +15,11 @@ import java.util.List;
 public class ServicoLogin implements ServicoLoginIF{
     
     private final DaoIF<Login> dao = new DaoGenerico(Login.class);
+    
+    @Inject
+    private EntityManager entityManager;
+    
+    public ServicoLogin(){}
     
     private DaoIF<Login> getDao(){
         return dao;

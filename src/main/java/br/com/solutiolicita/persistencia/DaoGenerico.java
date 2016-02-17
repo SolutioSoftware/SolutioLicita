@@ -2,7 +2,6 @@ package br.com.solutiolicita.persistencia;
 
 import br.com.solutiolicita.excecoes.ExcecoesRunTimeLicita;
 import java.util.List;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -15,7 +14,7 @@ public class DaoGenerico<T> implements DaoIF<T> {
 
     private EntityManager entityManager;
 
-    private Class<T> entidade;
+    private final Class<T> entidade;
 
     public DaoGenerico(Class<T> clazz) {
         this.entidade = clazz;
@@ -29,17 +28,19 @@ public class DaoGenerico<T> implements DaoIF<T> {
 
     @Override
     public boolean remover(T entidade) {
-        return false;
+        entityManager.remove(entidade);
+        return true;
     }
 
     @Override
     public boolean atualizar(T entidade) {
-        return false;
+        entityManager.refresh(entidade);
+        return true;
     }
 
     @Override
     public T buscarPorId(Long id) {
-        return null;
+        return entityManager.find(this.entidade, id);
     }
 
     @Override
