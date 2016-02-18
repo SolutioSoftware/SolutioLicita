@@ -28,6 +28,7 @@ public class DaoGenerico<T> implements DaoIF<T> {
 
     @Override
     public boolean remover(T entidade) {
+        entidade = entityManager.merge(entidade);
         entityManager.remove(entidade);
         return true;
     }

@@ -14,13 +14,13 @@
             <h1>Membros de Apoio</h1>
             <br/>
 
-            <p:dataTable id='dt_membroDeApoio' var="entidade" value="#{controladorMembroApoio.membros}" 
+            <p:dataTable id='dt_membroDeApoio' var="entidade" value="#{controladorEquipe.membrosApoio}" 
                          widgetVar="tbl_membro" paginator="true" style="padding:5px" rows="5"
                          emptyMessage="Nenhum Membro Cadastrado"  paginatorAlwaysVisible="true">
 
                 <f:facet name="header">
                     <p:outputPanel>
-                        <p:commandButton value="Novo" style="width: 80px" action="#{controladorMembroApoio.limparDados()}" update="@form"  icon="fa fa-user-plus" 
+                        <p:button value="Novo" style="width: 80px" outcome="/restrito/equipe/equipeSalvarMembroApoio.xhtml"  icon="fa fa-user-plus" 
                                          class="botaoNovo"/>
                         <p:inputText id="globalFilter" onkeyup="PF('tbl_membro').filter()" style="width:250px" placeholder="Digite sua busca" />
                     </p:outputPanel>
@@ -36,15 +36,15 @@
 
                 <p:column headerText="Ações" width="50">
 
-                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorMembroApoio.preparaEditar()}" update="@form"  
+                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorEquipe.prepararEditarMembroApoio}" update="@form"  
                                      style="font-size: 10px">
-                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorMembroApoio.entidade}"  />
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorEquipe.membroApoio}"  />
                         <p:tooltip for="btEditar" value="Editar"/>
                     </p:commandButton>
 
-                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorMembroApoio.deletar(entidade)}" update="@form" 
+                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorEquipe.removerMembroApoio}" update="@form" 
                                      style="font-size: 10px">
-                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorMembroApoio.entidade}"  />
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorEquipe.membroApoio}"  />
                         <p:tooltip for="btExcluir" value="Excluir"/>
                         <p:confirm icon="ui-icon-alert" header="Excluir Membro de apoio" message="Deseja realmente excluir este membro de apoio"/>
                     </p:commandButton>
@@ -52,44 +52,6 @@
                 </p:column>
 
             </p:dataTable>
-            <br/>
-            <br/>
-            <h1>Pregoeiros</h1>
-            <br/>
-            
-            <p:dataTable id='dt_pregoeiro' var="entidade" value="#{controladorPregoeiro.pregoeiros}" 
-                         widgetVar="tbl_pregoeiro" paginator="true" style="padding:5px" rows="3"
-                         emptyMessage="Nenhum Membro Cadastrado"  paginatorAlwaysVisible="true">
-
-                <f:facet name="header">
-                    <p:outputPanel>
-                        <p:commandButton value="Novo" style="width: 80px" action="#{controladorPregoeiro.limparDados()}" update="@form"  icon="fa fa-plus" 
-                                         class="botaoNovo"/>
-                        <p:inputText id="globalFilter" onkeyup="PF('tbl_pregoeiro').filter()" style="width:250px" placeholder="Digite sua busca" />
-                    </p:outputPanel>
-                </f:facet>
-
-                <p:column headerText="CPF: " filterBy="#{entidade.pessoaFisica.cpf}" filterMatchMode="contains" filterStyle="display:none">
-                    <h:outputText value="#{entidade.pessoaFisica.cpf}" />
-                </p:column>
-
-                <p:column headerText="Nome: " filterBy="#{entidade.pessoaFisica.nome}" filterMatchMode="contains" filterStyle="display:none">
-                    <h:outputText value="#{entidade.pessoaFisica.nome}" />
-                </p:column>
-
-                <p:column headerText="Ações" width="50">
-
-                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorPregoeiro.preparaEditar()}" update="@form"  
-                                     style="font-size: 10px">
-                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorPregoeiro.entidade}"  />
-                        <p:tooltip for="btEditar" value="Editar"/>
-                    </p:commandButton>
-
-                </p:column>
-
-            </p:dataTable>
-            
-            
         </h:form>
 
     </ui:define>

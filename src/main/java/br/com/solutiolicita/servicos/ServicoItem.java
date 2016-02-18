@@ -63,7 +63,6 @@ public class ServicoItem implements ServicoItemIF {
     @Transactional
     public void remover(Item entidade) {
         dao.setEntityManager(entityManager);
-        entidade = entityManager.merge(entidade);
         dao.remover(entidade);
     }
 

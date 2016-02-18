@@ -8,40 +8,6 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:pe="http://primefaces.org/ui/extensions">
 
-    <ui:define name="pn_info">
-
-        <h:form id="formDtequipe">
-
-            
-            <h1>Pregoeiros</h1>
-            <br/>
-            
-            <p:dataTable id='dt_pregoeiro' var="entidade" value="#{controladorPregoeiro.pregoeiros}" 
-                         widgetVar="tbl_equipe" paginator="true" style="padding:5px" rows="3"
-                         emptyMessage="Nenhum Membro Cadastrado"  paginatorAlwaysVisible="true">
-
-                <f:facet name="header">
-                    <p:outputPanel>
-                        <p:commandButton value="Novo" style="width: 80px" action="#{controladorPregoeiro.limparDados}" update="@form"  icon="fa fa-user-plus" 
-                                         class="botaoNovo"/>
-                        <p:inputText id="globalFilter" onkeyup="PF('tbl_equipe').filter()" style="width:250px" placeholder="Digite sua busca" />
-                    </p:outputPanel>
-                </f:facet>
-
-                <p:column headerText="CPF: " filterBy="#{entidade.pessoaFisica.cpf}" filterMatchMode="contains" filterStyle="display:none">
-                    <h:outputText value="#{entidade.pessoaFisica.cpf}" />
-                </p:column>
-
-                <p:column headerText="Nome: " filterBy="#{entidade.pessoaFisica.nome}" filterMatchMode="contains" filterStyle="display:none">
-                    <h:outputText value="#{entidade.pessoaFisica.nome}" />
-                </p:column>
-
-            </p:dataTable>
-            
-        </h:form>
-
-    </ui:define>
-
     <ui:define name="pn_conteudo">
 
         <h:form id="equipe_form" title="Membro Equipe" style="text-align: center"  >
@@ -53,27 +19,27 @@
                 <h:panelGrid columns="4" id="panelGridSavePessoaFisica" cellpadding="5" columnClasses="colunaEsquerda,colunaDireita,colunaEsquerda,colunaDireita">
 
                     <p:outputLabel value="Nome:" for="nome" />
-                    <p:inputText id="nome" value="#{controladorPregoeiro.entidade.pessoaFisica.nome}" title="Nome"  required="true"  
+                    <p:inputText id="nome" value="#{controladorEquipe.pregoeiro.pessoaFisica.nome}" title="Nome"  required="true"  
                                  requiredMessage="O campo nome é obrigatório" placeholder="Nome" maxlength="80"/>
 
                     <p:outputLabel value="CPF:" for="cpf" />
-                    <p:inputMask id="cpf" value="#{controladorPregoeiro.entidade.pessoaFisica.cpf}" title="CPF" required="true" requiredMessage="O campo CPF é obrigatorio" 
+                    <p:inputMask id="cpf" value="#{controladorEquipe.pregoeiro.pessoaFisica.cpf}" title="CPF" required="true" requiredMessage="O campo CPF é obrigatorio" 
                                  mask="999.999.999-99" placeholder="CPF"/>
 
                     <p:outputLabel value="RG:" for="rg" />
-                    <p:inputText id="rg" value="#{controladorPregoeiro.entidade.pessoaFisica.rg}" title="RG" placeholder="RG" maxlength="30" />
+                    <p:inputText id="rg" value="#{controladorEquipe.pregoeiro.pessoaFisica.rg}" title="RG" placeholder="RG" maxlength="30" />
 
                     <p:outputLabel value="Logradouro:" for="logradouro" />
-                    <p:inputText id="logradouro" value="#{controladorPregoeiro.entidade.pessoaFisica.endereco.logradouro}" title="Logradouro" placeholder="Logradouro" maxlength="60"/>
+                    <p:inputText id="logradouro" value="#{controladorEquipe.pregoeiro.pessoaFisica.endereco.logradouro}" title="Logradouro" placeholder="Logradouro" maxlength="60"/>
 
                     <p:outputLabel value="Numero:" for="numero"/>
-                    <pe:inputNumber id="numero" value="#{controladorPregoeiro.entidade.pessoaFisica.endereco.numero}"  title="Numero" maxValue="9999999" decimalPlaces="0"/>
+                    <pe:inputNumber id="numero" value="#{controladorEquipe.pregoeiro.pessoaFisica.endereco.numero}"  title="Numero" maxValue="9999999" decimalPlaces="0"/>
 
                     <p:outputLabel value="Cidade:" for="cidade"/>
-                    <p:inputText id="cidade" value="#{controladorPregoeiro.entidade.pessoaFisica.endereco.cidade}"  title="Cidade" placeholder="Cidade" maxlength="60"/>
+                    <p:inputText id="cidade" value="#{controladorEquipe.pregoeiro.pessoaFisica.endereco.cidade}"  title="Cidade" placeholder="Cidade" maxlength="60"/>
 
                     <p:outputLabel value="Estado:" for="estado"/>
-                    <h:selectOneMenu id="estado" value="#{controladorPregoeiro.entidade.pessoaFisica.endereco.estado}"  style="width:188px">
+                    <h:selectOneMenu id="estado" value="#{controladorEquipe.pregoeiro.pessoaFisica.endereco.estado}"  style="width:188px">
 
                         <f:selectItem noSelectionOption="true" />
                         <f:selectItem itemLabel="Acre" itemValue="AC" />
@@ -107,19 +73,19 @@
                     </h:selectOneMenu>
 
                     <p:outputLabel value="CEP:" for="cep"/>
-                    <p:inputMask id="cep" value="#{controladorPregoeiro.entidade.pessoaFisica.endereco.cep}"  title="CEP" mask="99.999-999" placeholder="CPF"/>
+                    <p:inputMask id="cep" value="#{controladorEquipe.pregoeiro.pessoaFisica.endereco.cep}"  title="CEP" mask="99.999-999" placeholder="CPF"/>
 
                     <p:outputLabel value="Telefone:" for="telefone"/>
-                    <p:inputText id="telefone" value="#{controladorPregoeiro.entidade.pessoaFisica.contatoPessoaFisica.telefone}" title="Telefone" placeholder="(DDD) 9999-9999" maxlength="14"/>
+                    <p:inputText id="telefone" value="#{controladorEquipe.pregoeiro.pessoaFisica.contatoPessoaFisica.telefone}" title="Telefone" placeholder="(DDD) 9999-9999" maxlength="14"/>
 
                     <p:outputLabel value="Celular:" for="celular"/>
-                    <p:inputText id="celular" value="#{controladorPregoeiro.entidade.pessoaFisica.contatoPessoaFisica.celular}"  title="Celular" placeholder="(DDD) 9999-9999" maxlength="14"/>
+                    <p:inputText id="celular" value="#{controladorEquipe.pregoeiro.pessoaFisica.contatoPessoaFisica.celular}"  title="Celular" placeholder="(DDD) 9999-9999" maxlength="14"/>
 
                     <p:outputLabel value="E-mail:" for="email"/>
-                    <p:inputText id="email" value="#{controladorPregoeiro.entidade.pessoaFisica.contatoPessoaFisica.email}"  title="E-mail" placeholder="E-mail"/>
+                    <p:inputText id="email" value="#{controladorEquipe.pregoeiro.pessoaFisica.contatoPessoaFisica.email}"  title="E-mail" placeholder="E-mail"/>
 
                     <p:outputLabel value="Complemento:"  for="complemento"/>
-                    <p:inputTextarea id="complemento" value="#{controladorPregoeiro.entidade.pessoaFisica.endereco.complemento}"  title="Complemento" placeholder="Complemento" 
+                    <p:inputTextarea id="complemento" value="#{controladorEquipe.pregoeiro.pessoaFisica.endereco.complemento}"  title="Complemento" placeholder="Complemento" 
                                      rows="3" cols="30" counter="display" maxlength="50" counterTemplate="{0} caracteres restantes." 
                                      autoResize="true" style="width:190px" />
 
@@ -127,10 +93,8 @@
                     <p:outputLabel/>
                     <p:outputLabel/>
                     <p:outputLabel id="display" />
-                    <h:inputHidden id="id" value="#{controladorPregoeiro.entidade.id}"   required="true" />
-                   
-                    
-                    <h:inputHidden id="id_pessoa" value="#{controladorPregoeiro.entidade.pessoaFisica.id}" required="true"/>
+                    <h:inputHidden id="id" value="#{controladorEquipe.pregoeiro.id}"   required="true" />
+                    <h:inputHidden id="id_pessoa" value="#{controladorEquipe.pregoeiro.pessoaFisica.id}" required="true"/>
 
                 </h:panelGrid>
 
@@ -138,7 +102,7 @@
 
             <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
 
-                <p:commandButton  id="bt_editar_Pregoeiro" value="Atualizar" icon="fa fa-refresh" action="#{controladorPregoeiro.editar(entidade)}" update="growPregoeiro" ajax="false"/>
+                <p:commandButton  id="bt_editar_Pregoeiro" value="Atualizar" icon="fa fa-refresh" action="#{controladorEquipe.editarPregoeiro}" update="growPregoeiro" ajax="false"/>
 
             </div>
         </h:form>

@@ -15,13 +15,13 @@
             <h1>Membros de Apoio</h1>
             <br/>
 
-            <p:dataTable id='dt_membroDeApoio' var="entidade" value="#{controladorMembroApoio.membros}" 
+            <p:dataTable id='dt_membroDeApoio' var="entidade" value="#{controladorEquipe.membrosApoio}" 
                          widgetVar="tbl_equipe" paginator="true" style="padding:5px" rows="5"
                          emptyMessage="Nenhum Membro Cadastrado"  paginatorAlwaysVisible="true">
 
                 <f:facet name="header">
                     <p:outputPanel>
-                        <p:commandButton value="Novo" style="width: 80px" action="#{controladorMembroApoio.limparDados()}" update="@form"  icon="fa fa-user-plus" 
+                        <p:button value="Novo" style="width: 80px" outcome="/restrito/equipe/equipeSalvarMembroApoio.xhtml"  icon="fa fa-user-plus" 
                                          class="botaoNovo"/>
                         <p:inputText id="globalFilter" onkeyup="PF('tbl_equipe').filter()" style="width:250px" placeholder="Digite sua busca" />
                     </p:outputPanel>
@@ -58,27 +58,27 @@
                     
                     
                     <p:outputLabel value="Nome:" for="nome" />
-                    <p:inputText id="nome" value="#{controladorMembroApoio.entidade.pessoaFisica.nome}" title="Nome"  required="true"  
+                    <p:inputText id="nome" value="#{controladorEquipe.membroApoio.pessoaFisica.nome}" title="Nome"  required="true"  
                                  requiredMessage="O campo nome é obrigatório" placeholder="Nome" maxlength="80"/>
 
                     <p:outputLabel value="CPF:" for="cpf" />
-                    <p:inputMask id="cpf" value="#{controladorMembroApoio.entidade.pessoaFisica.cpf}" title="CPF" required="true" requiredMessage="O campo CPF é obrigatorio" 
+                    <p:inputMask id="cpf" value="#{controladorEquipe.membroApoio.pessoaFisica.cpf}" title="CPF" required="true" requiredMessage="O campo CPF é obrigatorio" 
                                  mask="999.999.999-99" placeholder="CPF"/>
 
                     <p:outputLabel value="RG:" for="rg" />
-                    <p:inputText id="rg" value="#{controladorMembroApoio.entidade.pessoaFisica.rg}" title="RG" placeholder="RG" maxlength="30" />
+                    <p:inputText id="rg" value="#{controladorEquipe.membroApoio.pessoaFisica.rg}" title="RG" placeholder="RG" maxlength="30" />
 
                     <p:outputLabel value="Logradouro:" for="logradouro" />
-                    <p:inputText id="logradouro" value="#{controladorMembroApoio.entidade.pessoaFisica.endereco.logradouro}" title="Logradouro" placeholder="Logradouro" maxlength="60"/>
+                    <p:inputText id="logradouro" value="#{controladorEquipe.membroApoio.pessoaFisica.endereco.logradouro}" title="Logradouro" placeholder="Logradouro" maxlength="60"/>
 
                     <p:outputLabel value="Numero:" for="numero"/>
-                    <pe:inputNumber id="numero" value="#{controladorMembroApoio.entidade.pessoaFisica.endereco.numero}"  title="Numero" maxValue="9999999" decimalPlaces="0"/>
+                    <pe:inputNumber id="numero" value="#{controladorEquipe.membroApoio.pessoaFisica.endereco.numero}"  title="Numero" maxValue="9999999" decimalPlaces="0"/>
 
                     <p:outputLabel value="Cidade:" for="cidade"/>
-                    <p:inputText id="cidade" value="#{controladorMembroApoio.entidade.pessoaFisica.endereco.cidade}"  title="Cidade" placeholder="Cidade" maxlength="60"/>
+                    <p:inputText id="cidade" value="#{controladorEquipe.membroApoio.pessoaFisica.endereco.cidade}"  title="Cidade" placeholder="Cidade" maxlength="60"/>
 
                     <p:outputLabel value="Estado:" for="estado"/>
-                    <h:selectOneMenu id="estado" value="#{controladorMembroApoio.entidade.pessoaFisica.endereco.estado}"  style="width:188px">
+                    <h:selectOneMenu id="estado" value="#{controladorEquipe.membroApoio.pessoaFisica.endereco.estado}"  style="width:188px">
 
                         <f:selectItem noSelectionOption="true" />
                         <f:selectItem itemLabel="Acre" itemValue="AC" />
@@ -112,22 +112,22 @@
                     </h:selectOneMenu>
 
                     <p:outputLabel value="Função:" for="funcao"/>
-                    <p:inputText id="funcao" value="#{controladorMembroApoio.entidade.funcao}" placeholder="Função"/>
+                    <p:inputText id="funcao" value="#{controladorEquipe.membroApoio.funcao}" placeholder="Função"/>
 
                     <p:outputLabel value="CEP:" for="cep"/>
-                    <p:inputMask id="cep" value="#{controladorMembroApoio.entidade.pessoaFisica.endereco.cep}"  title="CPF" mask="99.999-999" placeholder="CPF"/>
+                    <p:inputMask id="cep" value="#{controladorEquipe.membroApoio.pessoaFisica.endereco.cep}"  title="CPF" mask="99.999-999" placeholder="CPF"/>
 
                     <p:outputLabel value="Telefone:" for="telefone"/>
-                    <p:inputText id="telefone" value="#{controladorMembroApoio.entidade.pessoaFisica.contatoPessoaFisica.telefone}" title="Telefone" placeholder="(DDD) 9999-9999" maxlength="14"/>
+                    <p:inputText id="telefone" value="#{controladorEquipe.membroApoio.pessoaFisica.contatoPessoaFisica.telefone}" title="Telefone" placeholder="(DDD) 9999-9999" maxlength="14"/>
 
                     <p:outputLabel value="Celular:" for="celular"/>
-                    <p:inputText id="celular" value="#{controladorMembroApoio.entidade.pessoaFisica.contatoPessoaFisica.celular}"  title="Celular" placeholder="(DDD) 9999-9999" maxlength="14"/>
+                    <p:inputText id="celular" value="#{controladorEquipe.membroApoio.pessoaFisica.contatoPessoaFisica.celular}"  title="Celular" placeholder="(DDD) 9999-9999" maxlength="14"/>
 
                     <p:outputLabel value="E-mail:" for="email"/>
-                    <p:inputText id="email" value="#{controladorMembroApoio.entidade.pessoaFisica.contatoPessoaFisica.email}"  title="E-mail" placeholder="E-mail"/>
+                    <p:inputText id="email" value="#{controladorEquipe.membroApoio.pessoaFisica.contatoPessoaFisica.email}"  title="E-mail" placeholder="E-mail"/>
 
                     <p:outputLabel value="Complemento:"  for="complemento"/>
-                    <p:inputTextarea id="complemento" value="#{controladorMembroApoio.entidade.pessoaFisica.endereco.complemento}"  title="Complemento" placeholder="Complemento" 
+                    <p:inputTextarea id="complemento" value="#{controladorEquipe.membroApoio.pessoaFisica.endereco.complemento}"  title="Complemento" placeholder="Complemento" 
                                      rows="3" cols="30" counter="display" maxlength="50" counterTemplate="{0} caracteres restantes." 
                                      autoResize="true" style="width:190px" />
 
@@ -135,10 +135,10 @@
                     <p:outputLabel/>
                     <p:outputLabel/>
                     <p:outputLabel id="display" />
-                    <h:inputHidden  id="id" value="#{controladorMembroApoio.entidade.id}" required="true"   
+                    <h:inputHidden  id="id" value="#{controladorEquipe.membroApoio.id}" required="true"   
                                 />
                     
-                    <h:inputHidden id="id_pessoa" value="#{controladorMembroApoio.entidade.pessoaFisica.id}" required="true" 
+                    <h:inputHidden id="id_pessoa" value="#{controladorEquipe.membroApoio.pessoaFisica.id}" required="true" 
                                  />
 
                 </h:panelGrid>
@@ -147,7 +147,7 @@
 
             <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
 
-                <p:commandButton  id="bt_editar_MembroApoio" value="Atualizar" icon="fa fa-refresh" action="#{controladorMembroApoio.editar(entidade)}" ajax="false"/>
+                <p:commandButton  id="bt_editar_MembroApoio" value="Atualizar" icon="fa fa-refresh" action="#{controladorEquipe.editarMembroApoio}" ajax="false"/>
 
             </div>
         </h:form>
