@@ -21,13 +21,13 @@ import javax.persistence.EntityManager;
 public class ServicoItem implements ServicoItemIF {
 
     private final DaoIF<Item> dao = new DaoGenerico(Item.class);
-    
+
     @Inject
     private EntityManager entityManager;
-    
-    public ServicoItem(){
+
+    public ServicoItem() {
     }
-    
+
     public DaoIF getDao() {
         return dao;
     }
@@ -52,7 +52,6 @@ public class ServicoItem implements ServicoItemIF {
     @Transactional
     public void criar(Item entidade) {
         try {
-            System.out.println("INFO: SERVICOABSTRATO.CLASS: TRANSAÇÃO INICIADA");
             getDao().setEntityManager(entityManager);
             getDao().criar(entidade);
         } catch (ExcecoesRunTimeLicita el) {
@@ -61,12 +60,15 @@ public class ServicoItem implements ServicoItemIF {
     }
 
     @Override
+    @Transactional
     public void remover(Item entidade) {
         dao.setEntityManager(entityManager);
+        entidade = entityManager.merge(entidade);
         dao.remover(entidade);
     }
 
     @Override
+    @Transactional
     public void atualizar(Item entidade) {
         dao.setEntityManager(entityManager);
         dao.atualizar(entidade);

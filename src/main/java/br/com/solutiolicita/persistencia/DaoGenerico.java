@@ -34,7 +34,7 @@ public class DaoGenerico<T> implements DaoIF<T> {
 
     @Override
     public boolean atualizar(T entidade) {
-        entityManager.refresh(entidade);
+        entityManager.merge(entidade);
         return true;
     }
 

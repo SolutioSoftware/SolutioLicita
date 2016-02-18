@@ -17,16 +17,17 @@
 
                 <f:facet name="header">
                     <p:outputPanel>
-                        <p:commandButton value="Novo" style="width: 80px" action="#{controladorItem.limparDados}" update="@form"  
-                                         icon="fa fa-plus" 
-                                         class="botaoNovo"/>
+                        <p:button value="Novo" style="width: 80px" 
+                                  outcome="/restrito/item/itemSalvar.xhtml"
+                                  icon="fa fa-plus" 
+                                  class="botaoNovo"/>
                         <p:inputText id="globalFilter" onkeyup="PF('tbl_itensPregao').filter()" style="width:250px" 
                                      placeholder="Digite sua busca" />
                     </p:outputPanel>
                 </f:facet>
 
 
-               <p:column headerText="Codigo do item" filterBy="#{entidade.id}" filterMatchMode="contains" filterStyle="display:none">
+                <p:column headerText="Codigo do item" filterBy="#{entidade.id}" filterMatchMode="contains" filterStyle="display:none">
                     <h:outputText value="#{entidade.id}" />
                 </p:column>
 
@@ -54,11 +55,11 @@
                 <h:panelGrid columns="2" id="panelGridSavePregao" columnClasses="colunaEsquerda,colunaDireita">
 
                     <p:outputLabel value="Nome:" for="nome"/>
-                    <p:inputText id="nome" value="#{controladorItem.entidade.nome}" title="Nome" 
+                    <p:inputText id="nome" value="#{controladorItem.item.nome}" title="Nome" 
                                  required="true" requiredMessage="O campo nome é obrigatorio" maxlength="30" style="width: 212px"/>
 
                     <p:outputLabel value="Unidade:" for="unidade" style="text-align:right"/>
-                    <h:selectOneMenu id="unidade" value="#{controladorItem.entidade.unidade}" style="width: 213px" 
+                    <h:selectOneMenu id="unidade" value="#{controladorItem.item.unidade}" style="width: 213px" 
                                      required="true" requiredMessage="O campo unidade é obrigatorio">
 
                         <f:selectItem noSelectionOption="true" />
@@ -98,7 +99,7 @@
                     </h:selectOneMenu>
 
                     <p:outputLabel value="Descrição:"  for="descricao" />
-                    <p:inputTextarea id="descricao" value="#{controladorItem.entidade.descricao}" title="Descrição" placeholder="Descrição" 
+                    <p:inputTextarea id="descricao" value="#{controladorItem.item.descricao}" title="Descrição" placeholder="Descrição" 
                                      rows="3" cols="30" counter="display" maxlength="50" counterTemplate="{0} caracteres restantes." 
                                      autoResize="true" style="width:212px" />
 
@@ -112,7 +113,7 @@
 
             <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
 
-                <p:commandButton  id="btAtualizarItem" value="Atualizar" icon="fa fa-refresh" action="#{controladorItem.editar(entidade)}" 
+                <p:commandButton  id="btAtualizarItem" value="Atualizar" icon="fa fa-refresh" action="#{controladorItem.editar}" 
                                   update="pn_info : dt_itens" ajax="false" />
 
             </div>

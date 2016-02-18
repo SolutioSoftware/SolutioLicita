@@ -1,5 +1,6 @@
 package br.com.solutiolicita.controller;
 
+import br.com.solutiolicita.controller.util.JsfUtil;
 import br.com.solutiolicita.modelos.Item;
 import br.com.solutiolicita.servicos.ServicoItemIF;
 import java.util.List;
@@ -26,13 +27,20 @@ public class ControladorItem {
     public void inicializar() {
         item = new Item();
     }
-
-    public void criar() {
-        servicoItem.criar(item);
+    
+    public String prepararEditar(){
+        return "/restrito/item/itemEditar.xhtml";
     }
 
-    public void editar() {
+    public String criar() {
+        servicoItem.criar(item);
+        return "/restrito/item/itemSalvar.xhtml?faces-redirect=true";
+    }
+
+    public String editar() {
         servicoItem.atualizar(item);
+        return "/restrito/item/item.xhtml?faces-redirect=true";
+        
     }
 
     public void remover() {
