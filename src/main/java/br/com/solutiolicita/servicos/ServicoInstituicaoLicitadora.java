@@ -8,6 +8,7 @@ package br.com.solutiolicita.servicos;
 import br.com.solutiolicita.modelos.InstituicaoLicitadora;
 import br.com.solutiolicita.persistencia.DaoGenerico;
 import br.com.solutiolicita.persistencia.DaoIF;
+import br.com.solutiolicita.persistencia.util.Transactional;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -27,18 +28,21 @@ public class ServicoInstituicaoLicitadora implements ServicoInstituicaoLicitador
     }
 
     @Override
+    @Transactional
     public void criar(InstituicaoLicitadora entidade) {
         dao.setEntityManager(entityManager);
         dao.criar(entidade);
     }
 
     @Override
+    @Transactional
     public void remover(InstituicaoLicitadora entidade) {
         dao.setEntityManager(entityManager);
         dao.remover(entidade);
     }
 
     @Override
+    @Transactional
     public void atualizar(InstituicaoLicitadora entidade) {
         dao.setEntityManager(entityManager);
         dao.atualizar(entidade);
@@ -52,7 +56,8 @@ public class ServicoInstituicaoLicitadora implements ServicoInstituicaoLicitador
 
     @Override
     public List<InstituicaoLicitadora> buscarTodos() {
-        return null;
+        dao.setEntityManager(entityManager);
+        return dao.consultar("InstituicaoLicitadora.findAll");
     }
     
 }

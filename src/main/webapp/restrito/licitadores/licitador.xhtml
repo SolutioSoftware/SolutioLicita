@@ -11,13 +11,13 @@
 
         <h:form id="formDtItemPregao">
 
-            <p:dataTable id='dt_licitadores' var="entidade"  value="#{controladorLicitador.instituicoes}" 
+            <p:dataTable id='dt_licitadores' var="entidade"  value="#{controladorLicitador.licitadoras}" 
                          widgetVar="tbl_licitadores" paginator="true" style="padding:5px" rows="10" rowsPerPageTemplate="5,10"  
                          emptyMessage="Nenhum Instituição Cadastrada"  paginatorAlwaysVisible="true">
 
                 <f:facet name="header">
                     <p:outputPanel>
-                        <p:commandButton value="Novo" style="width: 80px" action="#{controladorLicitador.limparDados}" update="@form"  icon="fa fa-plus" 
+                        <p:button value="Novo" style="width: 80px" outcome="/restrito/licitadores/licitadorSalvar.xhtml"  icon="fa fa-plus" 
                                          class="botaoNovo"/>
                         <p:inputText id="globalFilter" onkeyup="PF('tbl_licitadores').filter()" style="width:250px" placeholder="Digite sua busca" />
                     </p:outputPanel>
@@ -32,15 +32,15 @@
 
                 <p:column headerText="Ações" width="50">
 
-                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorLicitador.preparaEditar}" update="@form"  
+                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorLicitador.prepararEditar}" update="@form"  
                                      style="font-size: 10px">
-                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorLicitador.entidade}"  />
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorLicitador.licitadora}"  />
                         <p:tooltip for="btEditar" value="Editar"/>
                     </p:commandButton>
 
-                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorLicitador.deletar(entidade)}" update="@form" 
+                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorLicitador.remover()}" update="@form" 
                                      style="font-size: 10px">
-                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorLicitador.entidade}"  />
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorLicitador.licitadora}"  />
                         <p:tooltip for="btExcluir" value="Excluir"/>
                         <p:confirm icon="ui-icon-alert" header="Excluir Instituição" message="Deseja realmente excluir esta Instituição"/>
                     </p:commandButton>

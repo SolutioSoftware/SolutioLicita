@@ -12,13 +12,13 @@
 
         <h:form id="formDtItemPregao">
 
-            <p:dataTable id='dt_licitadores' var="entidade"  value="#{controladorLicitador.instituicoes}" 
+            <p:dataTable id='dt_licitadores' var="entidade"  value="#{controladorLicitador.licitadoras}" 
                          widgetVar="tbl_licitadores" paginator="true" style="padding:5px" rows="10" rowsPerPageTemplate="5,10"  
                          emptyMessage="Nenhum Instituição Cadastrada"  paginatorAlwaysVisible="true">
 
                 <f:facet name="header">
                     <p:outputPanel>
-                        <p:commandButton value="Novo" style="width: 80px" action="#{controladorLicitador.limparDados}" update="@form"  icon="fa fa-plus" 
+                        <p:button value="Novo" style="width: 80px" outcome="/restrito/licitadores/licitadorSalvar.xhtml" icon="fa fa-plus" 
                                          class="botaoNovo"/>
                         <p:inputText id="globalFilter" onkeyup="PF('tbl_licitadores').filter()" style="width:250px" placeholder="Digite sua busca" />
                     </p:outputPanel>
@@ -47,28 +47,28 @@
                 <h:panelGrid columns="4" id="panelGridSaveLicitador" columnClasses="colunaEsquerda,colunaDireita,colunaEsquerda,colunaDireita">
 
                     <p:outputLabel value="CNPJ:" for="cnpj"/>
-                    <p:inputMask id="cnpj" value="#{controladorLicitador.entidade.pessoaJuridica.cnpj}" title="CNPJ" required="true" requiredMessage="O campo CNPJ é obrigatório" 
+                    <p:inputMask id="cnpj" value="#{controladorLicitador.licitadora.pessoaJuridica.cnpj}" title="CNPJ" required="true" requiredMessage="O campo CNPJ é obrigatório" 
                                  mask="99.999.999/9999-99" placeholder="CNPJ"/>
 
                     <p:outputLabel value="Razão Social:" for="razaoSocial"/>
-                    <p:inputText id="razaoSocial" value="#{controladorLicitador.entidade.pessoaJuridica.razaoSocial}" title="Razão Social" required="true" 
+                    <p:inputText id="razaoSocial" value="#{controladorLicitador.licitadora.pessoaJuridica.razaoSocial}" title="Razão Social" required="true" 
                                  requiredMessage="O campo Razão Social é obrigatorio" placeholder="Razão Social"/>
 
                     <p:outputLabel value="Nome de Fantasia:" for="nomeFantasia"/>
-                    <p:inputText id="nomeFantasia" value="#{controladorLicitador.entidade.pessoaJuridica.nomeFantasia}" title="Nome de Fantasia" required="true" 
+                    <p:inputText id="nomeFantasia" value="#{controladorLicitador.licitadora.pessoaJuridica.nomeFantasia}" title="Nome de Fantasia" required="true" 
                                  requiredMessage="O campo nome de fantasia é obrigatorio" placeholder="Nome de Fantasia"/>
 
                     <p:outputLabel value="Logradouro:" for="logradouro" />
-                    <p:inputText id="logradouro" value="#{controladorLicitador.entidade.pessoaJuridica.endereco.logradouro}" title="Logradouro" placeholder="Logradouro" maxlength="60"/>
+                    <p:inputText id="logradouro" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.logradouro}" title="Logradouro" placeholder="Logradouro" maxlength="60"/>
 
                     <p:outputLabel value="Cidade:" for="cidade"/>
-                    <p:inputText id="cidade" value="#{controladorLicitador.entidade.pessoaJuridica.endereco.cidade}" title="Cidade" placeholder="Cidade" maxlength="60" required="true" requiredMessage="O campo cidade é obrigatório"/>
+                    <p:inputText id="cidade" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.cidade}" title="Cidade" placeholder="Cidade" maxlength="60" required="true" requiredMessage="O campo cidade é obrigatório"/>
 
                     <p:outputLabel value="Numero:" for="numero"/>
-                    <pe:inputNumber id="numero" value="#{controladorLicitador.entidade.pessoaJuridica.endereco.numero}" title="Numero" maxValue="9999999" decimalPlaces="0"/>
+                    <pe:inputNumber id="numero" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.numero}" title="Numero" maxValue="9999999" decimalPlaces="0"/>
 
                     <p:outputLabel value="Estado:" for="estado"/>
-                    <h:selectOneMenu id="estado" value="#{controladorLicitador.entidade.pessoaJuridica.endereco.estado}" required="true" requiredMessage="O campo estado é obrigatório" style="width:188px">
+                    <h:selectOneMenu id="estado" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.estado}" required="true" requiredMessage="O campo estado é obrigatório" style="width:188px">
 
                         <f:selectItem noSelectionOption="true" />
                         <f:selectItem itemLabel="Acre" itemValue="AC" />
@@ -102,21 +102,21 @@
                     </h:selectOneMenu>
 
                     <p:outputLabel value="CEP:" for="cep"/>
-                    <p:inputMask id="cep" value="#{controladorLicitador.entidade.pessoaJuridica.endereco.cep}" title="CEP" mask="99.999-999" placeholder="CEP"/>
+                    <p:inputMask id="cep" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.cep}" title="CEP" mask="99.999-999" placeholder="CEP"/>
 
                     <p:outputLabel value="Telefone:" for="telefone"/>
-                    <p:inputMask id="telefone" value="#{controladorLicitador.entidade.pessoaJuridica.contatoPessoaJuridica.telefone}" title="Telefone" mask="(99)9999-9999" placeholder="Telefone" maxlength="14"/>
+                    <p:inputMask id="telefone" value="#{controladorLicitador.licitadora.pessoaJuridica.contatoPessoaJuridica.telefone}" title="Telefone" mask="(99)9999-9999" placeholder="Telefone" maxlength="14"/>
 
                     <p:outputLabel value="Celular:" for="celular"/>
-                    <p:inputMask id="celular" value="#{controladorLicitador.entidade.pessoaJuridica.contatoPessoaJuridica.celular}" title="Celular" mask="(99)99999-9999" placeholder="Celular" maxlength="14"/>
+                    <p:inputMask id="celular" value="#{controladorLicitador.licitadora.pessoaJuridica.contatoPessoaJuridica.celular}" title="Celular" mask="(99)99999-9999" placeholder="Celular" maxlength="14"/>
 
                     <p:outputLabel value="E-mail:" for="email"/>
-                    <p:inputText id="email" styleClass="lower" value="#{controladorLicitador.entidade.pessoaJuridica.contatoPessoaJuridica.email}" size="25" validatorMessage="E-mail incorreto" title="E-mail" placeholder="E-mail">
+                    <p:inputText id="email" styleClass="lower" value="#{controladorLicitador.licitadora.pessoaJuridica.contatoPessoaJuridica.email}" size="25" validatorMessage="E-mail incorreto" title="E-mail" placeholder="E-mail">
                         <f:validateRegex pattern="^$|^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})$"/>
                     </p:inputText>
 
                     <p:outputLabel value="Complemento:"  for="complemento"/>
-                    <p:inputTextarea id="complemento" value="#{controladorLicitador.entidade.pessoaJuridica.endereco.complemento}" title="Complemento" placeholder="Complemento" 
+                    <p:inputTextarea id="complemento" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.complemento}" title="Complemento" placeholder="Complemento" 
                                      rows="3" cols="30" counter="display" maxlength="50" counterTemplate="{0} caracteres restantes." 
                                      autoResize="true" style="width:190px"/>
 
@@ -125,15 +125,15 @@
                     <p:outputLabel/>
                     <p:outputLabel id="display" />
                     
-                    <h:inputHidden  id="id_falso_licitador" value="#{controladorLicitador.entidade.id}" required="true"/>
-                    <h:inputHidden  id="id_falso_juridica" value="#{controladorLicitador.entidade.pessoaJuridica.id}" required="true"/>
+                    <h:inputHidden  id="id_falso_licitador" value="#{controladorLicitador.licitadora.id}" required="true"/>
+                    <h:inputHidden  id="id_falso_juridica" value="#{controladorLicitador.licitadora.pessoaJuridica.id}" required="true"/>
 
                 </h:panelGrid>
             </div>
 
             <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
 
-                <p:commandButton  id="btAtualizarLicitador" value="Atualizar" icon="fa fa-refresh" action="#{controladorLicitador.editar(entidade)}" update="@form" ajax="false"/>
+                <p:commandButton  id="btAtualizarLicitador" value="Atualizar" icon="fa fa-refresh" action="#{controladorLicitador.editar}" update="@form" ajax="false"/>
 
             </div>
 
