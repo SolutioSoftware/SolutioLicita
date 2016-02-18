@@ -5,7 +5,6 @@ import br.com.solutiolicita.modelos.Proposta;
 import br.com.solutiolicita.modelos.Sessao;
 import br.com.solutiolicita.persistencia.DaoGenerico;
 import br.com.solutiolicita.persistencia.DaoIF;
-import br.com.solutiolicita.persistencia.util.Transactional;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -51,21 +50,18 @@ public class ServicoSessao implements ServicoSessaoIF{
     }
 
     @Override
-    @Transactional
     public void criar(Sessao entidade) {
         dao.setEntityManager(entityManager);
         dao.criar(entidade);
     }
 
     @Override
-    @Transactional
     public void remover(Sessao entidade) {
         dao.setEntityManager(entityManager);
         dao.remover(entidade);
     }
 
     @Override
-    @Transactional
     public void atualizar(Sessao entidade) {
         dao.setEntityManager(entityManager);
         dao.atualizar(entidade);

@@ -60,14 +60,12 @@ public class ServicoItem implements ServicoItemIF {
     }
 
     @Override
-    @Transactional
     public void remover(Item entidade) {
         dao.setEntityManager(entityManager);
         dao.remover(entidade);
     }
 
     @Override
-    @Transactional
     public void atualizar(Item entidade) {
         dao.setEntityManager(entityManager);
         dao.atualizar(entidade);

@@ -2,32 +2,35 @@ package br.com.solutiolicita.controller;
 
 import br.com.solutiolicita.modelos.Login;
 import br.com.solutiolicita.servicos.ServicoLoginIF;
-import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Model;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  *
  * @author Matheus Oliveira
  */
+@Model
+public class ControladorLogin{
 
-@Named
-@SessionScoped
-public class ControladorLogin implements Serializable{
-    
     private Login login;
-    
+
     @Inject
     private ServicoLoginIF servicoLogin;
-    
-    public ControladorLogin(){
+
+    public ControladorLogin() {
     }
-    
+
     @PostConstruct
-    public void init(){
+    public void init() {
         login = new Login();
     }
-    
+
+    public String acessarSistema() {
+        if (servicoLogin.verificarDados(login.getUsuario(), login.getSenha())) {
+            return "/restrito/index.xhtml?faces-redirect=true";
+        }
+        return "/restrito/login/login.xhtml";
+    }
+
 }
