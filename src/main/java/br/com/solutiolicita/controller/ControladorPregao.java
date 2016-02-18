@@ -25,4 +25,13 @@ public class ControladorPregao {
     public void init(){
         pregao = new Pregao();
     }
+
+    public Pregao getPregao() {
+        return pregao;
+    }
+
+    public void setPregao(Pregao pregao) {
+        this.pregao = pregao;
+    }
+    
 }

@@ -2,6 +2,7 @@ package br.com.solutiolicita.controller;
 
 import br.com.solutiolicita.modelos.Item;
 import br.com.solutiolicita.servicos.ServicoItemIF;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
@@ -37,6 +38,10 @@ public class ControladorItem {
     public void remover() {
         servicoItem.remover(item);
     }
+    
+    public List<Item> getItens(){
+        return servicoItem.buscarTodos();
+    }
 
     public Item getItem() {
         return item;
@@ -45,5 +50,5 @@ public class ControladorItem {
     public void setItem(Item item) {
         this.item = item;
     }
-
+    
 }

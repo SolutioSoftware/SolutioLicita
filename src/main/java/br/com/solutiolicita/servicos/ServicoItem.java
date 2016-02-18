@@ -40,7 +40,8 @@ public class ServicoItem implements ServicoItemIF {
 
     @Override
     public List<Item> buscarTodos() {
-        return null;
+        dao.setEntityManager(entityManager);
+        return dao.consultar("Item.findAll");
     }
 
     protected EntityManager getEntityManager() {

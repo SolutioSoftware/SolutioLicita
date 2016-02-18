@@ -26,4 +26,12 @@ public class ControladorLicitante {
         licitante = new EmpresaLicitante();
     }
 
+    public EmpresaLicitante getLicitante() {
+        return licitante;
+    }
+
+    public void setLicitante(EmpresaLicitante licitante) {
+        this.licitante = licitante;
+    }
+    
 }

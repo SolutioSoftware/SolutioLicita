@@ -25,4 +25,13 @@ public class ControladorMembroApoio {
     public void init(){
         membroApoio = new MembroApoio();
     }
+
+    public MembroApoio getMembroApoio() {
+        return membroApoio;
+    }
+
+    public void setMembroApoio(MembroApoio membroApoio) {
+        this.membroApoio = membroApoio;
+    }
+    
 }

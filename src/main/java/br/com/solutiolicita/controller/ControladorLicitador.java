@@ -15,7 +15,7 @@ import javax.inject.Inject;
 public class ControladorLicitador {
     
     private InstituicaoLicitadora licitadora;
-    
+
     @Inject
     private ServicoInstituicaoLicitadoraIF servicoLicitadora;
     
@@ -27,5 +27,12 @@ public class ControladorLicitador {
         licitadora = new InstituicaoLicitadora();
     }
     
+      public InstituicaoLicitadora getLicitadora() {
+        return licitadora;
+    }
+
+    public void setLicitadora(InstituicaoLicitadora licitadora) {
+        this.licitadora = licitadora;
+    }
     
 }

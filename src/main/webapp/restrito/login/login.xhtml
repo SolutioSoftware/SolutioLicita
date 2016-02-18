@@ -16,20 +16,20 @@
                 <h:panelGrid columns="1" cellpadding="1">
                     <p:outputLabel style="color: #036fab;">Login</p:outputLabel>
                     <p:inputText id="campo_login" required="true"
-                                 value="#{Login.entidade.usuario}"
+                                 value="#{controladorLogin.login.usuario}"
                                  requiredMessage="Por favor insira o Login"
                                  style="width: 100%; margin-bottom: 10px"></p:inputText>
 
                     <p:outputLabel style="color: #036fab;">Senha</p:outputLabel>
                     <p:password id="campo_senha"
-                                value="#{Login.entidade.senha}"
+                                value="#{controladorLogin.login.senha}"
                                 requiredMessage="Por favor insira a Senha"
                                 required="true" style="width: 100%;"/>
 
                     <p:commandButton value="Entrar" 
                                      class="bt_sair"
                                      style="margin-left: 30%; margin-top: 10px" 
-                                     action="#{Login.concerderAcesso}"
+                                     action="#{controladorLogin.acessarSistema}"
                                      icon="fa fa-sign-in"
                                      update="growlogin"/>
 

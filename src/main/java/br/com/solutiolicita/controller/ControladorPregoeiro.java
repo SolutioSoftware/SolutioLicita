@@ -25,4 +25,13 @@ public class ControladorPregoeiro {
     public void init(){
         pregoeiro = new Pregoeiro();
     }
+
+    public Pregoeiro getPregoeiro() {
+        return pregoeiro;
+    }
+
+    public void setPregoeiro(Pregoeiro pregoeiro) {
+        this.pregoeiro = pregoeiro;
+    }
+    
 }

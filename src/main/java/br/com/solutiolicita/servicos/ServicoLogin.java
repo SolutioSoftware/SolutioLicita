@@ -3,6 +3,7 @@ package br.com.solutiolicita.servicos;
 import br.com.solutiolicita.modelos.Login;
 import br.com.solutiolicita.persistencia.DaoGenerico;
 import br.com.solutiolicita.persistencia.DaoIF;
+import br.com.solutiolicita.persistencia.util.Transactional;
 import br.com.solutiolicita.util.Criptografar;
 import java.util.List;
 import javax.inject.Inject;
@@ -32,6 +33,7 @@ public class ServicoLogin implements ServicoLoginIF{
             senhaCript = Criptografar.getInstance().criptografar(senha);
             String[] parametros = {"usuario", "senha"};
             Object[] valores = {usuario, senhaCript};
+            dao.setEntityManager(entityManager);
             List<Login> list = getDao().consultar("Login.buscaPorLogin", parametros, valores);
             return !list.isEmpty();
         } else {

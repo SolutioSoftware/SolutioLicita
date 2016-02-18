@@ -25,4 +25,13 @@ public class ControladorSessao {
     public void init(){
         sessao = new Sessao();
     }
+
+    public Sessao getSessao() {
+        return sessao;
+    }
+
+    public void setSessao(Sessao sessao) {
+        this.sessao = sessao;
+    }
+    
 }

@@ -1,5 +1,6 @@
 package br.com.solutiolicita.controller;
 
+import br.com.solutiolicita.controller.util.JsfUtil;
 import br.com.solutiolicita.modelos.Login;
 import br.com.solutiolicita.servicos.ServicoLoginIF;
 import javax.annotation.PostConstruct;
@@ -30,7 +31,16 @@ public class ControladorLogin{
         if (servicoLogin.verificarDados(login.getUsuario(), login.getSenha())) {
             return "/restrito/index.xhtml?faces-redirect=true";
         }
+        JsfUtil.addErrorMessage("Usuário ou Senha Estão Incorretos!");
         return "/restrito/login/login.xhtml";
+    }
+    
+    public Login getLogin(){
+        return login;
+    }
+    
+    public void setLogin(Login login){
+        this.login = login;
     }
 
 }

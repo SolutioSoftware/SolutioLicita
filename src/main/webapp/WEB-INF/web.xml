@@ -21,7 +21,7 @@
     </servlet-mapping>
     
     <welcome-file-list>
-        <welcome-file>restrito/item/itemSalvar.xhtml</welcome-file>
+        <welcome-file>restrito/login/login.xhtml</welcome-file>
     </welcome-file-list>
     
     <session-config>
