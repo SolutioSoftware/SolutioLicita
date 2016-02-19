@@ -61,24 +61,27 @@
                 <h:panelGrid columns="4" id="panelGridAdicionarItens">
 
                     <p:outputLabel value="Número do Processo:" for="numeroProcesso" style="font-weight:bold"/>
-                    <p:outputLabel id="numeroProcesso" value="#{controladorPregao.entidade.numeroProcesso}"/>
+                    <p:outputLabel id="numeroProcesso" value="#{controladorPregao.pregao.numeroProcesso}"/>
 
                     <p:outputLabel value="Número do Pregão:" for="numeroPregao" style="font-weight:bold"/>
-                    <p:outputLabel id="numeroPregao" value="#{controladorPregao.entidade.numeroPregao}"/> 
+                    <p:outputLabel id="numeroPregao" value="#{controladorPregao.pregao.numeroPregao}"/> 
 
                     <p:outputLabel value="Status do Pregão:" for="statusDoPregao" style="font-weight:bold"/>
-                    <p:outputLabel id="statusDoPregao" value="#{controladorPregao.entidade.statusPregao}"/>
+                    <p:outputLabel id="statusDoPregao" value="#{controladorPregao.pregao.statusPregao}"/>
 
                     <p:outputLabel value="Instituição Licitadora:" for="instituicaoLicitadora" style="font-weight:bold"/>
-                    <p:outputLabel id="instituicaoLicitadora" value="#{controladorPregao.entidade.instituicaoLicitadora.pessoaJuridica.nomeFantasia}"/>
+                    <p:outputLabel id="instituicaoLicitadora" value="#{controladorPregao.pregao.instituicaoLicitadora.pessoaJuridica.nomeFantasia}"/>
+                    
+                    <h:inputHidden id="id_falso_pregao" value="#{controladorPregao.pregao}" required="true"/>
 
                 </h:panelGrid>
             </div>
 
             <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
 
-                <p:commandButton  id="btAtualizarPregao" value="Atualizar" icon="fa fa-refresh" action="#{controladorPregao.editar(entidade)}" 
+                <p:commandButton  id="btAtualizarPregao" value="Atualizar" icon="fa fa-refresh" action="#{controladorPregao.editar}" 
                                   update=":pn_info : dt_pregoes" ajax="false" />
+                
 
             </div>
 
@@ -135,7 +138,7 @@
                 </p:dataTable>
                 
                 <p:commandButton value="Export Excel" ajax="false" icon="fa fa-file-excel-o">
-                    <p:dataExporter type="xls" target="dt_itensPregao" fileName="Itens Pregao nº:#{controladorPregao.entidade.numeroPregao}" postProcessor="#{controladorPregao.editandoXlsParaExportar}" />
+                    <p:dataExporter type="xls" target="dt_itensPregao" fileName="Itens Pregao nº:#{controladorPregao.pregao.numeroPregao}" postProcessor="#{controladorPregao.editandoXlsParaExportar}" />
                 </p:commandButton>
                 
             </h:form>

@@ -17,8 +17,10 @@
 
                 <f:facet name="header">
                     <p:outputPanel>
-                        <p:commandButton value="Novo" style="width: 80px" action="#{controladorPregao.limparDados}"  icon="fa fa-plus" 
-                                         class="botaoNovo"/>
+                        <p:button value="Novo" style="width: 80px" 
+                                  outcome="/restrito/pregao/pregaoSalvar.xhtml"
+                                  icon="fa fa-plus" 
+                                  class="botaoNovo"/>
                         <p:inputText id="globalFilter" onkeyup="PF('tbl_pregoes').filter()" style="width:250px" placeholder="Digite sua busca" />
                     </p:outputPanel>
                 </f:facet>
@@ -52,16 +54,16 @@
                 <h:panelGrid columns="2" id="panelGridEditPregao" columnClasses="colunaEsquerda,colunaDireita">
 
                     <p:outputLabel value="Número do Processo:" for="numeroProcesso"/>
-                    <p:inputText id="numeroProcesso" value="#{controladorPregao.entidade.numeroProcesso}" title="Número do Processo" 
+                    <p:inputText id="numeroProcesso" value="#{controladorPregao.pregao.numeroProcesso}" title="Número do Processo" 
                                  required="true"
                                  requiredMessage="O campo Número do Processo é obrigatorio" maxlength="20" style="width: 212px"/>
 
                     <p:outputLabel value="Número do Pregão:" for="numeroPregao"/>
-                    <p:inputText id="numeroPregao" value="#{controladorPregao.entidade.numeroPregao}" title="Número do Pregão" required="true" 
+                    <p:inputText id="numeroPregao" value="#{controladorPregao.pregao.numeroPregao}" title="Número do Pregão" required="true" 
                                  requiredMessage="O Campo Número do pregão é obrigatorio" maxlength="20" style="width: 212px" /> 
 
                     <p:outputLabel value="Status:" for="statusDoPregao"/>
-                    <h:selectOneMenu id="statusDoPregao" value="#{controladorPregao.entidade.statusPregao}" style="width: 213px">
+                    <h:selectOneMenu id="statusDoPregao" value="#{controladorPregao.pregao.statusPregao}" style="width: 213px">
 
                         <f:selectItem noSelectionOption="true" />
                         <f:selectItem itemLabel="Aberto" itemValue="aberto" />
@@ -73,24 +75,25 @@
                         <f:selectItem itemLabel="Fracassado" itemValue="fracassad" />
 
                     </h:selectOneMenu>
-                    
+
                     <p:outputLabel value="Instituição Licitadora:" for="instituicaoLicitadora"/>
-                    <h:selectOneMenu id="instituicaoLicitadora" value="#{controladorPregao.entidade.instituicaoLicitadora}" style="width: 213px" required="true" 
+                    <h:selectOneMenu id="instituicaoLicitadora" value="#{controladorPregao.pregao.instituicaoLicitadora}" style="width: 213px" required="true" 
                                      requiredMessage="O campo Instituição Licitadora deve ser selecionado" converter="instituicaoLicitadoraConverter">
-                        
-                        <f:selectItems value="#{controladorLicitador.instituicoes}" var="instituicao" itemLabel="#{instituicao.pessoaJuridica.nomeFantasia}" 
-                                       itemValue="#{controladorLicitador.entidade.id}"/>
-                        
+
+                        <f:selectItems value="#{controladorLicitador.licitadoras}" var="instituicao" itemLabel="#{instituicao.pessoaJuridica.nomeFantasia}" 
+                                       itemValue="#{controladorLicitador.licitadora.id}"/>
+
                     </h:selectOneMenu>
 
                     <p:outputLabel value="Descrição:"  for="descricao"/>
-                    <p:inputTextarea id="descricao" value="#{controladorPregao.entidade.descricao}" title="Descrição" placeholder="Descrição" 
+                    <p:inputTextarea id="descricao" value="#{controladorPregao.pregao.descricao}" title="Descrição" placeholder="Descrição" 
                                      rows="5" cols="30" counter="display" maxlength="255" counterTemplate="{0} caracteres restantes." 
                                      autoResize="true" style="width:212px" />
 
                     <p:outputLabel/>
                     <p:outputLabel/>
                     <p:outputLabel/>
+                    <h:inputHidden id="id_falso_item" value="#{controladorPregao.pregao.id}" required="true"/>
                     <p:outputLabel id="display" />
 
                 </h:panelGrid>
@@ -98,7 +101,7 @@
 
             <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
 
-                <p:commandButton  id="btAtualizarPregao" value="Atualizar" icon="fa fa-refresh" action="#{controladorPregao.editar(entidade)}" 
+                <p:commandButton  id="btAtualizarPregao" value="Atualizar" icon="fa fa-refresh" action="#{controladorPregao.editar}" 
                                   update="pn_info : dt_pregoes" ajax="false" />
 
             </div>
