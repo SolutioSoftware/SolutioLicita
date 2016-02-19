@@ -1,18 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.solutiolicita.servicos;
 
 import br.com.solutiolicita.excecoes.ExcecoesRunTimeLicita;
 import br.com.solutiolicita.modelos.Item;
-import br.com.solutiolicita.persistencia.DaoGenerico;
 import br.com.solutiolicita.persistencia.DaoIF;
 import br.com.solutiolicita.persistencia.util.Transactional;
 import java.util.List;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 /**
  *
@@ -20,10 +13,8 @@ import javax.persistence.EntityManager;
  */
 public class ServicoItem implements ServicoItemIF {
 
-    private final DaoIF<Item> dao = new DaoGenerico(Item.class);
-
     @Inject
-    private EntityManager entityManager;
+    private DaoIF<Item> dao;
 
     public ServicoItem() {
     }
@@ -34,25 +25,18 @@ public class ServicoItem implements ServicoItemIF {
 
     @Override
     public Item buscarPorId(Long id) {
-        dao.setEntityManager(entityManager);
         return dao.buscarPorId(id);
     }
 
     @Override
     public List<Item> buscarTodos() {
-        dao.setEntityManager(entityManager);
         return dao.consultar("Item.findAll");
-    }
-
-    protected EntityManager getEntityManager() {
-        return this.entityManager;
     }
 
     @Override
     @Transactional
     public void criar(Item entidade) {
         try {
-            getDao().setEntityManager(entityManager);
             getDao().criar(entidade);
         } catch (ExcecoesRunTimeLicita el) {
             System.out.println(el.getMessage());
@@ -62,14 +46,12 @@ public class ServicoItem implements ServicoItemIF {
     @Override
     @Transactional
     public void remover(Item entidade) {
-        dao.setEntityManager(entityManager);
         dao.remover(entidade);
     }
 
     @Override
     @Transactional
     public void atualizar(Item entidade) {
-        dao.setEntityManager(entityManager);
         dao.atualizar(entidade);
     }
 

@@ -17,18 +17,17 @@ import javax.persistence.Persistence;
  *
  * @author Matheus Oliveira
  */
-@ApplicationScoped
 public class EntityManagerProducer {
 
-    private EntityManagerFactory entityManagerFactory;
-
-    public EntityManagerProducer() {
-        this.entityManagerFactory = Persistence.createEntityManagerFactory("solutio_licita");
+    @Produces
+    @ApplicationScoped
+    public EntityManagerFactory createEntityManagerFactory() {
+        return Persistence.createEntityManagerFactory("solutio_licita");
     }
 
     @Produces
     @RequestScoped
-    public EntityManager create() {
+    public EntityManager create(EntityManagerFactory entityManagerFactory) {
         return entityManagerFactory.createEntityManager();
     }
 
@@ -36,4 +35,7 @@ public class EntityManagerProducer {
         entityManager.close();
     }
 
+    public void close(@Disposes EntityManagerFactory entityManagerFactory) {
+        entityManagerFactory.close();
+    }
 }

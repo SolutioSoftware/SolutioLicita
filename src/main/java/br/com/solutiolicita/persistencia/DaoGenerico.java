@@ -2,6 +2,7 @@ package br.com.solutiolicita.persistencia;
 
 import br.com.solutiolicita.excecoes.ExcecoesRunTimeLicita;
 import java.util.List;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -12,6 +13,7 @@ import javax.persistence.Query;
  */
 public class DaoGenerico<T> implements DaoIF<T> {
 
+    @Inject
     private EntityManager entityManager;
 
     private final Class<T> entidade;
