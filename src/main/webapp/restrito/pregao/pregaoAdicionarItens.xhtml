@@ -36,10 +36,10 @@
 
                 <p:column headerText="Adicionar Item" width="70">
 
-                    <p:commandButton id="btAdiconarItemPregao" icon="ui-icon-plus" action="#{controladorPregao.adicionarItem}" 
+                    <p:commandButton id="btAdiconarItemPregao" icon="ui-icon-plus" action="#{controladorAdicionarItens.adicionarItem}" 
                                      update=":pregao_form:formDtItemPregao:dt_itensPregao"
                                      style="font-size: 10px" >
-                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorPregao.item}"  />
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorAdicionarItens.item}"  />
                         <p:tooltip for="btAdiconarItemPregao" value="Adicionar"/>
                     </p:commandButton>
 
@@ -61,18 +61,18 @@
                 <h:panelGrid columns="4" id="panelGridAdicionarItens">
 
                     <p:outputLabel value="Número do Processo:" for="numeroProcesso" style="font-weight:bold"/>
-                    <p:outputLabel id="numeroProcesso" value="#{controladorPregao.pregao.numeroProcesso}"/>
+                    <p:outputLabel id="numeroProcesso" value="#{controladorAdicionarItens.pregao.numeroProcesso}"/>
 
                     <p:outputLabel value="Número do Pregão:" for="numeroPregao" style="font-weight:bold"/>
-                    <p:outputLabel id="numeroPregao" value="#{controladorPregao.pregao.numeroPregao}"/> 
+                    <p:outputLabel id="numeroPregao" value="#{controladorAdicionarItens.pregao.numeroPregao}"/> 
 
                     <p:outputLabel value="Status do Pregão:" for="statusDoPregao" style="font-weight:bold"/>
-                    <p:outputLabel id="statusDoPregao" value="#{controladorPregao.pregao.statusPregao}"/>
+                    <p:outputLabel id="statusDoPregao" value="#{controladorAdicionarItens.pregao.statusPregao}"/>
 
                     <p:outputLabel value="Instituição Licitadora:" for="instituicaoLicitadora" style="font-weight:bold"/>
-                    <p:outputLabel id="instituicaoLicitadora" value="#{controladorPregao.pregao.instituicaoLicitadora.pessoaJuridica.nomeFantasia}"/>
-                    
-                    <h:inputHidden id="id_falso_pregao" value="#{controladorPregao.pregao}" required="true"/>
+                    <p:outputLabel id="instituicaoLicitadora" value="#{controladorAdicionarItens.pregao.instituicaoLicitadora.pessoaJuridica.nomeFantasia}"/>
+
+                    <h:inputHidden id="id_falso_pregao" value="#{controladorAdicionarItens.pregao}" required="true"/>
 
                 </h:panelGrid>
             </div>
@@ -81,13 +81,13 @@
 
                 <p:commandButton  id="btAtualizarPregao" value="Atualizar" icon="fa fa-refresh" action="#{controladorPregao.editar}" 
                                   update=":pn_info : dt_pregoes" ajax="false" />
-                
+
 
             </div>
 
             <h:form id="formDtItemPregao" prependId="false">
 
-                <p:dataTable id='dt_itensPregao' var="entidade" value="#{controladorPregao.itensPregao}" 
+                <p:dataTable id='dt_itensPregao' var="entidade" value="#{controladorAdicionarItens.itensPregao}" 
                              widgetVar="tbl_itensPregao" paginator="true" style="padding:5px" rows="8" rowsPerPageTemplate="5,10,30,50,100"  
                              emptyMessage="Nenhum Item de Pregao Adicionado"  paginatorAlwaysVisible="true" editable="true" editMode="cell">
 
@@ -123,24 +123,24 @@
                             <f:facet name="input"><pe:inputNumber value="#{entidade.valorReferencia}" symbol="R$ " style="width:96%"/></f:facet>
                         </p:cellEditor>
                     </p:column>
-                    
-                    <p:column headerText="Excluir" width="50" exportable="false">
 
-                        <p:commandButton id="btExcluirItemPregao" icon="ui-icon-trash" action="#{controladorPregao.removerItem}" 
-                                     update=":pregao_form:formDtItemPregao:dt_itensPregao"
-                                     style="font-size: 10px" >
-                            <f:setPropertyActionListener value="#{entidade}" target="#{controladorPregao.itemPregao}"  />
-                        <p:tooltip for="btExcluirItemPregao" value="Excluir"/>
-                    </p:commandButton>
+                    <p:column headerText="Excluir" width="50" >
 
-                </p:column>
+                        <p:commandButton id="btExcluirItemPregao" icon="ui-icon-trash" action="#{controladorAdicionarItens.removerItem}" 
+                                         update=":pregao_form:formDtItemPregao:dt_itensPregao"
+                                         style="font-size: 10px" >
+                            <f:setPropertyActionListener value="#{entidade}" target="#{controladorAdicionarItens.itemPregao}"  />
+                            <p:tooltip for="btExcluirItemPregao" value="Excluir"/>
+                        </p:commandButton>
+
+                    </p:column>
 
                 </p:dataTable>
-                
+
                 <p:commandButton value="Export Excel" ajax="false" icon="fa fa-file-excel-o">
-                    <p:dataExporter type="xls" target="dt_itensPregao" fileName="Itens Pregao nº:#{controladorPregao.pregao.numeroPregao}" postProcessor="#{controladorPregao.editandoXlsParaExportar}" />
+                    <p:dataExporter type="xls" target="dt_itensPregao" fileName="Itens Pregao nº:#{controladorAdicionarItens.pregao.numeroPregao}" postProcessor="#{controladorAdicionarItens.editandoXlsParaExportar}" />
                 </p:commandButton>
-                
+
             </h:form>
 
         </h:form>

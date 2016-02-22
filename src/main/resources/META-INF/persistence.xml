@@ -2,7 +2,25 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="solutio_licita" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>br.br.com.solutiolicita.modelos.Item</class>
+    <class>br.solutiolicita.modelos.ContaBancaria</class>
+    <class>br.solutiolicita.modelos.ContatoPessoaFisica</class>
+    <class>br.solutiolicita.modelos.ContatoPessoaJuridica</class>
+    <class>br.solutiolicita.modelos.EmpresaLicitante</class>
+    <class>br.solutiolicita.modelos.InstituicaoLicitadora</class>
+    <class>br.solutiolicita.modelos.ItemPregao</class>
+    <class>br.solutiolicita.modelos.Lance</class>
+    <class>br.solutiolicita.modelos.Login</class>
+    <class>br.solutiolicita.modelos.MembroApoio</class>
+    <class>br.solutiolicita.modelos.PessoaFisica</class>
+    <class>br.solutiolicita.modelos.PessoaJuridica</class>
+    <class>br.solutiolicita.modelos.Pregao</class>
+    <class>br.solutiolicita.modelos.Pregoeiro</class>
+    <class>br.solutiolicita.modelos.Proposta</class>
+    <class>br.solutiolicita.modelos.RepresentanteLegal</class>
+    <class>br.solutiolicita.modelos.Sessao</class>
+    <class>br.solutiolicita.modelos.StatusItemPregao</class>
+    <class>br.solutiolicita.modelos.StatusPregao</class>
+    <class>br.solutiolicita.modelos.StatusSessao</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/solutio"/>

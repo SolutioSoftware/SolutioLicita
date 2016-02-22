@@ -17,7 +17,7 @@
 
                 <f:facet name="header">
                     <p:outputPanel>
-                        <p:commandButton value="Novo" style="width: 80px" action="#{controladorSessao.limparDados}" update="@form"  icon="fa fa-plus" 
+                        <p:button value="Novo" style="width: 80px" outcome="/restrito/sessao/sessaoSalvar.xhtml"  icon="fa fa-plus" 
                                          class="botaoNovo"/>
                         <p:inputText id="globalFilter" onkeyup="PF('tbl_sessoes').filter()" style="width:250px" placeholder="Digite sua busca" />
                     </p:outputPanel>
@@ -59,22 +59,22 @@
                 <h:panelGrid columns="2" id="panelGridSaveSessao" columnClasses="colunaEsquerda,colunaDireita"  >
 
                     <p:outputLabel value="Numero do Pregão:" for="numeroDoPregao"/>
-                    <h:selectOneMenu id="numeroDoPregao" value="#{controladorSessao.entidade.idPregao}" style="width: 190px" required="true" 
+                    <h:selectOneMenu id="numeroDoPregao" value="#{controladorSessao.sessao.idPregao}" style="width: 190px" required="true" 
                                      requiredMessage="O campo Numero de Pregão deve ser selecionado" converter="pregaoConverter">
                         
                         <f:selectItems value="#{controladorPregao.pregoes}" var="pregao" itemLabel="#{pregao.numeroPregao}" 
-                                       itemValue="#{controladorPregao.entidade.id}"/>
+                                       itemValue="#{controladorPregao.pregao.id}"/>
                         
                     </h:selectOneMenu>
                     
                     <p:outputLabel value="Data Prevista:" for="dataPrevista"/>
-                    <p:calendar id="dataPrevista" value="#{controladorSessao.entidade.dataRealizacao}" mindate="#{controladorSessao.dataAtual}" locale="pt_BR" style="width: 210px"/>
+                    <p:calendar id="dataPrevista" value="#{controladorSessao.sessao.dataRealizacao}" mindate="#{controladorSessao.dataAtual}" locale="pt_BR" style="width: 210px"/>
 
                     <p:outputLabel value="Horário Previsto:" for="horarioPrevisto"/>
-                    <p:calendar id="horarioPrevisto" value="#{controladorSessao.entidade.horarioPrevisto}" pattern="HH:mm" timeOnly="true" style="width: 210px"/>
+                    <p:calendar id="horarioPrevisto" value="#{controladorSessao.sessao.horarioPrevisto}" pattern="HH:mm" timeOnly="true" style="width: 210px"/>
                     
                     <p:outputLabel value="Status:" for="statusDaSessao"/>
-                    <h:selectOneMenu id="statusDaSessao" value="#{controladorSessao.entidade.statusSessao}" style="width: 190px" required="true" requiredMessage="O Campo Status da Sessão deve ser selecionado">
+                    <h:selectOneMenu id="statusDaSessao" value="#{controladorSessao.sessao.statusSessao}" style="width: 190px" required="true" requiredMessage="O Campo Status da Sessão deve ser selecionado">
 
                         <f:selectItem noSelectionOption="true" />
                         <f:selectItem itemLabel="Agendada" itemValue="Agendada" />
@@ -87,6 +87,7 @@
                         <f:selectItem itemLabel="Remarcada" itemValue="Remarcada" />
 
                     </h:selectOneMenu>
+                    <h:inputHidden id="id_falso_sessao" value="#{controladorSessao.sessao.id}" required="true" />
 
                 </h:panelGrid>
 
@@ -94,10 +95,10 @@
 
             <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
 
-                <p:commandButton  id="bt_Atualizar_Sessao" value="Atualizar" icon="fa fa-refresh" action="#{controladorSessao.editar(entidade)}" 
+                <p:commandButton  id="bt_Atualizar_Sessao" value="Atualizar" icon="fa fa-refresh" action="#{controladorSessao.atualizar}" 
                                   update="growSessao" ajax="false" style="width: 125px"/>
-                <p:commandButton  id="bt_Iniciar_Sessao" value="Iniciar" icon="fa fa-youtube-play" update="growSessao" ajax="false"
-                                  style="width: 125px" action="#{controladorSessao.iniciar(entidade)}"/>
+<!--                <p:commandButton  id="bt_Iniciar_Sessao" value="Iniciar" icon="fa fa-youtube-play" update="growSessao" ajax="false"
+                                  style="width: 125px" action="{controladorSessao.iniciar(entidade)}"/>-->
 
             </div>
 

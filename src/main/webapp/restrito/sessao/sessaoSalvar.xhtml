@@ -17,7 +17,7 @@
 
                 <f:facet name="header">
                     <p:outputPanel>
-                        <p:commandButton value="Novo" style="width: 80px" action="#{controladorSessao.limparDados}" update="@form"  icon="fa fa-plus" 
+                        <p:button value="Novo" style="width: 80px"   icon="fa fa-plus" outcome="/restrito/sessao/sessaoSalvar.xhtml"
                                          class="botaoNovo"/>
                         <p:inputText id="globalFilter" onkeyup="PF('tbl_sessoes').filter()" style="width:250px" placeholder="Digite sua busca" />
                     </p:outputPanel>
@@ -46,13 +46,13 @@
 
                 <p:column headerText="Ações" width="50">
 
-                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorSessao.preparaEditar}" update="@form"  style="font-size: 10px">
-                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorSessao.entidade}"  />
+                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorSessao.prepararEditar}" update="@form"  style="font-size: 10px">
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorSessao.sessao}"  />
                         <p:tooltip for="btEditar" value="Editar"/>
                     </p:commandButton>
 
-                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorSessao.deletar(entidade)}" update="@form" style="font-size: 10px">
-                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorSessao.entidade}"  />
+                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorSessao.remover}" update="@form" style="font-size: 10px">
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorSessao.sessao}"  />
                         <p:tooltip for="btExcluir" value="Excluir"/>
                         <p:confirm icon="ui-icon-alert" header="Excluir Sessão" message="Deseja realmente excluir esta sessão"/>
                     </p:commandButton>
@@ -75,23 +75,23 @@
                 <h:panelGrid columns="2" id="panelGridSaveSessao" columnClasses="colunaEsquerda,colunaDireita"  >
 
                     <p:outputLabel value="Numero do Pregão:" for="numeroDoPregao"/>
-                    <h:selectOneMenu id="numeroDoPregao" value="#{controladorSessao.entidade.idPregao}" style="width: 190px" required="true" 
+                    <h:selectOneMenu id="numeroDoPregao" value="#{controladorSessao.sessao.idPregao}" style="width: 190px" required="true" 
                                      requiredMessage="O campo Numero de Pregão deve ser selecionado" converter="pregaoConverter">
                         
                         <f:selectItems value="#{controladorPregao.pregoes}" var="pregao" itemLabel="#{pregao.numeroPregao}" 
-                                       itemValue="#{controladorPregao.entidade.id}"/>
+                                       itemValue="#{controladorPregao.pregao.id}"/>
                         
                     </h:selectOneMenu>
                     
                     <p:outputLabel value="Data Prevista:" for="dataPrevista"/>
-                    <p:calendar id="dataPrevista" value="#{controladorSessao.entidade.dataRealizacao}" mindate="#{controladorSessao.dataAtual}" locale="pt_BR" style="width: 210px"/>
+                    <p:calendar id="dataPrevista" value="#{controladorSessao.sessao.dataRealizacao}" mindate="#{controladorSessao.dataAtual}" locale="pt_BR" style="width: 210px"/>
 
                     <p:outputLabel value="Horário Previsto:" for="horarioPrevisto"/>
-                    <p:calendar id="horarioPrevisto" value="#{controladorSessao.entidade.horarioPrevisto}" pattern="HH:mm" timeOnly="true" 
+                    <p:calendar id="horarioPrevisto" value="#{controladorSessao.sessao.horarioPrevisto}" pattern="HH:mm" timeOnly="true" 
                                 style="width: 210px" title="Hora" />
                     
                     <p:outputLabel value="Status:" for="statusDaSessao"/>
-                    <h:selectOneMenu id="statusDaSessao" value="#{controladorSessao.entidade.statusSessao}" style="width: 190px" required="true" requiredMessage="O Campo Status da Sessão deve ser selecionado">
+                    <h:selectOneMenu id="statusDaSessao" value="#{controladorSessao.sessao.statusSessao}" style="width: 190px" required="true" requiredMessage="O Campo Status da Sessão deve ser selecionado">
 
                         <f:selectItem noSelectionOption="true" />
                         <f:selectItem itemLabel="Agendada" itemValue="Agendada" />
@@ -111,11 +111,11 @@
 
             <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
 
-                <p:commandButton  id="bt_Salvar_Sessao" value="Salvar" icon="fa fa-save" action="#{controladorSessao.criar(entidade)}" 
+                <p:commandButton  id="bt_Salvar_Sessao" value="Salvar" icon="fa fa-save" action="#{controladorSessao.criar}" 
                                   update="growSessao" ajax="false" style="width: 125px"/>
                 
-                <p:commandButton  id="bt_Iniciar_Sessao" value="Iniciar" icon="fa fa-youtube-play" update="growSessao" ajax="false" style="width: 125px"
-                                  action="#{controladorSessao.iniciar(entidade)}"/>
+<!--                <p:commandButton  id="bt_Iniciar_Sessao" value="Iniciar" icon="fa fa-youtube-play" update="growSessao" ajax="false" style="width: 125px"
+                                  action="{controladorSessao.iniciar(entidade)}"/>-->
 
             </div>
 

@@ -54,7 +54,7 @@
 
                     <p:commandButton id="btAdicionaItens" icon="fa fa-shopping-cart" action="#{controladorPregao.prepararAdicionarItens}" 
                                      update="@form" style="font-size: 10px">
-                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorPregao.pregao}"  />
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorAdicionarItens.pregao}"  />
                         <p:tooltip for="btAdicionaItens" value="Adicionar Itens"/>
                     </p:commandButton>
 

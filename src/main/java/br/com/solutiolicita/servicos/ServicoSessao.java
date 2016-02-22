@@ -4,6 +4,7 @@ import br.com.solutiolicita.modelos.EmpresaLicitante;
 import br.com.solutiolicita.modelos.Proposta;
 import br.com.solutiolicita.modelos.Sessao;
 import br.com.solutiolicita.persistencia.DaoIF;
+import br.com.solutiolicita.persistencia.util.Transactional;
 import java.util.List;
 import javax.inject.Inject;
 import org.primefaces.model.UploadedFile;
@@ -45,16 +46,19 @@ public class ServicoSessao implements ServicoSessaoIF{
     }
 
     @Override
+    @Transactional
     public void criar(Sessao entidade) {
         dao.criar(entidade);
     }
 
     @Override
+    @Transactional
     public void remover(Sessao entidade) {
         dao.remover(entidade);
     }
 
     @Override
+    @Transactional
     public void atualizar(Sessao entidade) {
         dao.atualizar(entidade);
     }
@@ -66,7 +70,8 @@ public class ServicoSessao implements ServicoSessaoIF{
 
     @Override
     public List<Sessao> buscarTodos() {
-        return null;
+        List sessoes = dao.consultar("Sessao.findAll");
+        return sessoes;
     }
     
 }
