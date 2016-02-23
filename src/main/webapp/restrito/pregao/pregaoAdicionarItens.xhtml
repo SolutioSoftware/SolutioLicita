@@ -74,14 +74,12 @@
                     <p:outputLabel value="Instituição Licitadora:" for="instituicaoLicitadora" style="font-weight:bold"/>
                     <p:outputLabel id="instituicaoLicitadora" value="#{controladorAdicionarItens.pregao.instituicaoLicitadora.pessoaJuridica.nomeFantasia}"/>
 
-                    <h:inputHidden id="id_falso_pregao" value="#{controladorAdicionarItens.pregao}" required="true"/>
-
                 </h:panelGrid>
             </div>
 
             <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
 
-                <p:commandButton  id="btAtualizarPregao" value="Atualizar" icon="fa fa-refresh" action="#{controladorPregao.editar}" 
+                <p:commandButton  id="btAtualizarPregao" value="Atualizar" icon="fa fa-refresh" action="#{controladorAdicionarItens.atualizar()}" 
                                   update=":pn_info : dt_pregoes" ajax="false" />
 
 

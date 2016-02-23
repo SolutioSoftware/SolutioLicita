@@ -8,12 +8,14 @@ package br.com.solutiolicita.controller;
 import br.com.solutiolicita.modelos.Item;
 import br.com.solutiolicita.modelos.ItemPregao;
 import br.com.solutiolicita.modelos.Pregao;
+import br.com.solutiolicita.servicos.ServicoPregaoIF;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -36,6 +38,9 @@ public class ControladorAdicionarItens implements Serializable {
     private Item item;
     private ItemPregao itemPregao;
     private ArrayList<ItemPregao> itensPregao;
+    
+    @Inject
+    private transient ServicoPregaoIF servicoPregao;
 
     public ControladorAdicionarItens() {
     }
@@ -71,8 +76,12 @@ public class ControladorAdicionarItens implements Serializable {
 
     public void removerItem() {
         Logger.getGlobal().log(Level.INFO, "Removendo itemPregao {0}", itemPregao);
-        System.out.println("Removendo itemPregao: " + itemPregao);
         itensPregao.remove(itemPregao);
+    }
+    
+    public String atualizar(){
+        servicoPregao.atualizar(pregao);
+        return "/restrito/pregao/pregao.xhtml";
     }
 
     public Pregao getPregao() {
@@ -108,6 +117,7 @@ public class ControladorAdicionarItens implements Serializable {
     }
 
     public void editandoXlsParaExportar(Object document) {
+        Logger.getGlobal().log(Level.INFO, "Iniciando export .XLS {0}", getPregao());
         HSSFWorkbook wb = (HSSFWorkbook) document;
         HSSFSheet planilha = wb.getSheetAt(0);
 
