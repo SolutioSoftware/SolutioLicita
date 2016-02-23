@@ -46,7 +46,7 @@
                         <p:tooltip for="btEditar" value="Editar"/>
                     </p:commandButton>
 
-                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorPregao.remover}" update="@form" style="font-size: 10px">
+                    <p:commandButton id="btExcluir" icon="ui-icon-trash" action="#{controladorPregao.remover}" update="@form" style="font-size: 10px">
                         <f:setPropertyActionListener value="#{entidade}" target="#{controladorPregao.pregao}"  />
                         <p:tooltip for="btExcluir" value="Excluir"/>
                         <p:confirm icon="ui-icon-alert" header="Excluir Pregão" message="Deseja realmente excluir este pregão"/>

@@ -30,37 +30,50 @@ import org.apache.poi.ss.util.CellRangeAddress;
  */
 @Named
 @SessionScoped
-public class ControladorAdicionarItens implements Serializable{
-    
+public class ControladorAdicionarItens implements Serializable {
+
     private Pregao pregao;
     private Item item;
     private ItemPregao itemPregao;
     private ArrayList<ItemPregao> itensPregao;
-    
-    public ControladorAdicionarItens(){
+
+    public ControladorAdicionarItens() {
     }
-    
+
     @PostConstruct
-    public void inicializar(){
+    public void inicializar() {
         pregao = new Pregao();
         item = new Item();
         itensPregao = new ArrayList<>();
         itemPregao = new ItemPregao();
     }
-    
-    public void adicionarItem(){
-        itemPregao = new ItemPregao();
-        itemPregao.setItem(item);
-        itemPregao.setPregao(pregao);
-        itensPregao.add(itemPregao);
+
+    public void adicionarItem() {
+        if (!verificarItensPregao(item)) {
+            itemPregao.setItem(item);
+            itemPregao.setPregao(pregao);
+            itensPregao.add(itemPregao);
+            itemPregao = new ItemPregao();
+        } else {
+            itemPregao = new ItemPregao();
+        }
+        Logger.getGlobal().log(Level.INFO, "Adicionando itemPregao {0}", itemPregao);
     }
-    
-    public void removerItem(){
+
+    private boolean verificarItensPregao(Item item) {
+        for (ItemPregao itemP : itensPregao) {
+            if (itemP.getItem().equals(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removerItem() {
         Logger.getGlobal().log(Level.INFO, "Removendo itemPregao {0}", itemPregao);
         System.out.println("Removendo itemPregao: " + itemPregao);
         itensPregao.remove(itemPregao);
     }
-    
 
     public Pregao getPregao() {
         return pregao;
@@ -93,7 +106,7 @@ public class ControladorAdicionarItens implements Serializable{
     public void setItensPregao(ArrayList<ItemPregao> itensPregao) {
         this.itensPregao = itensPregao;
     }
-    
+
     public void editandoXlsParaExportar(Object document) {
         HSSFWorkbook wb = (HSSFWorkbook) document;
         HSSFSheet planilha = wb.getSheetAt(0);
@@ -147,16 +160,12 @@ public class ControladorAdicionarItens implements Serializable{
             cell.setCellStyle(cellStyle);
         }
 
-        
         CellStyle unlockedCellStyle = wb.createCellStyle();
         unlockedCellStyle.setLocked(false);
-        
+
         HSSFCell celula2 = linha3.getCell(2);
         celula2.setCellStyle(unlockedCellStyle);
-        
+
     }
-    
-    
-    
-    
+
 }
