@@ -2,12 +2,12 @@ package br.com.solutiolicita.servicos;
 
 import br.com.solutiolicita.modelos.ItemPregao;
 import br.com.solutiolicita.modelos.Pregao;
-import java.util.Set;
+import java.util.List;
 
 /**
  *
  * @author ricardocaldeira
  */
 public interface ServicoPregaoIF extends ServicoIF<Pregao> {
-    public Set<ItemPregao> buscarItensPregoes(Pregao pregao);
+    public List<ItemPregao> buscarItensPregoes(Pregao pregao);
 }

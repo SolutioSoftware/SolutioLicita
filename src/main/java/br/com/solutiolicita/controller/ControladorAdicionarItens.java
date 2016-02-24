@@ -11,6 +11,9 @@ import br.com.solutiolicita.modelos.Pregao;
 import br.com.solutiolicita.servicos.ServicoPregaoIF;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -37,7 +40,8 @@ public class ControladorAdicionarItens implements Serializable {
     private Pregao pregao;
     private Item item;
     private ItemPregao itemPregao;
-    private ArrayList<ItemPregao> itensPregao;
+    private List<ItemPregao> itensPregao;
+    private Pregao pregaoAnt;
     
     @Inject
     private transient ServicoPregaoIF servicoPregao;
@@ -49,8 +53,8 @@ public class ControladorAdicionarItens implements Serializable {
     public void inicializar() {
         pregao = new Pregao();
         item = new Item();
-        itensPregao = new ArrayList<>();
         itemPregao = new ItemPregao();
+        itensPregao = new ArrayList<>();
     }
 
     public void adicionarItem() {
@@ -78,9 +82,12 @@ public class ControladorAdicionarItens implements Serializable {
         Logger.getGlobal().log(Level.INFO, "Removendo itemPregao {0}", itemPregao);
         itensPregao.remove(itemPregao);
     }
-    
-    public String atualizar(){
+
+    public String atualizar() {
+        Set<ItemPregao> itens = new HashSet<>(itensPregao);
+        pregao.setItensPregoes(itens);
         servicoPregao.atualizar(pregao);
+        limparDados();
         return "/restrito/pregao/pregao.xhtml";
     }
 
@@ -108,14 +115,54 @@ public class ControladorAdicionarItens implements Serializable {
         this.itemPregao = itemPregao;
     }
 
-    public ArrayList<ItemPregao> getItensPregao() {
-        return itensPregao;
+    /**
+     * Retorna a lista de ItemPregao que será exibida na view
+     * 1 if - Se o pregaoAnt (Pregao Anterior) estiver sendo null,
+     * isto implica dizer que o bean foi instanciado pela sua primeira vez
+     * e deve realizar a consulta ao banco para retornar a lista de ItemPregao
+     * do Pregao que é posto como parâmetro
+     * 
+     * 2 if- Ele verificar se o pregaoAnt é igual ao Atual, para, que possa manter
+     * a mesma lista de ItemPregao e ocorra sua atualização e adição de novos valores
+     * 
+     * 3 if- Caso o pregaoAnt seja diferente do atual, isto implica dizer que uma
+     * nova consulta ao banco deve ser realizada, para que possa exibir os valores
+     * correto da lista de ItemPregao do Pregao.
+     * @return itensPregao
+     */
+    public List<ItemPregao> getItensPregao() {
+        if(pregaoAnt == null){
+            pregaoAnt = pregao;
+            itensPregao = servicoPregao.buscarItensPregoes(pregao);
+            return itensPregao;
+        }else if (pregaoAnt.equals(pregao)){
+            return itensPregao;
+        }else{
+            itensPregao = servicoPregao.buscarItensPregoes(pregao);
+            pregaoAnt = pregao;
+            return itensPregao;
+        }
+        
     }
 
     public void setItensPregao(ArrayList<ItemPregao> itensPregao) {
         this.itensPregao = itensPregao;
     }
 
+    private void limparDados() {
+        pregao = new Pregao();
+        item = new Item();
+        itemPregao = new ItemPregao();
+        itensPregao = new ArrayList<>();
+    }
+
+    /**
+     * Método responsável por gerar a planilha que será exportada para que haja
+     * o preenchimento da mesma, e então, volte ao sistema para que ocorra a
+     * carga dos valores para que seja possível sua utilização
+     *
+     * @param document
+     */
     public void editandoXlsParaExportar(Object document) {
         Logger.getGlobal().log(Level.INFO, "Iniciando export .XLS {0}", getPregao());
         HSSFWorkbook wb = (HSSFWorkbook) document;
