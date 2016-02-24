@@ -14,22 +14,22 @@ import javax.inject.Inject;
  *
  * @author Matheus Oliveira
  */
-public class ServicoPregao implements ServicoPregaoIF{
-    
+public class ServicoPregao implements ServicoPregaoIF {
+
     @Inject
     private DaoIF<Pregao> dao;
-    
+
     @Inject
     private DaoIF<ItemPregao> daoItemPregao;
-    
-    public ServicoPregao(){
+
+    public ServicoPregao() {
     }
 
     @Override
     public List<ItemPregao> buscarItensPregoes(Pregao pregao) {
         String[] param = {"idPregao"};
         Object[] valores = {pregao};
-        return daoItemPregao.consultar("ItemPregao.findByPregao", param , valores);
+        return daoItemPregao.consultar("ItemPregao.findByPregao", param, valores);
     }
 
     @Override
@@ -41,7 +41,14 @@ public class ServicoPregao implements ServicoPregaoIF{
     @Override
     @Transactional
     public void remover(Pregao entidade) {
-        dao.remover(entidade);
+        List<ItemPregao> itens = buscarItensPregoes(entidade);
+        if (!itens.isEmpty()) {
+            for (ItemPregao item : itens) {
+                daoItemPregao.remover(item);
+            }
+        } else {
+            dao.remover(entidade);
+        }
     }
 
     @Override
@@ -59,5 +66,5 @@ public class ServicoPregao implements ServicoPregaoIF{
     public List<Pregao> buscarTodos() {
         return dao.consultar("Pregao.findAll");
     }
-    
+
 }

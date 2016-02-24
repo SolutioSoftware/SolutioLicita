@@ -16,4 +16,10 @@ public class DaoItemPregao extends DaoGenerico<ItemPregao>{
     public DaoItemPregao(){
         super(ItemPregao.class);
     }
+    
+    @Override
+    public boolean remover(ItemPregao itemPregao){
+        getEntityManager().remove(itemPregao);
+        return true;
+    }
 }

@@ -154,6 +154,7 @@ public class ControladorAdicionarItens implements Serializable {
         item = new Item();
         itemPregao = new ItemPregao();
         itensPregao = new ArrayList<>();
+        pregaoAnt = null;
     }
 
     /**
