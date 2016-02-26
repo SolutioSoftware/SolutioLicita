@@ -14,35 +14,44 @@ import javax.inject.Inject;
  */
 @Model
 public class ControladorSessao {
-    
+
     private Sessao sessao;
-    
+
     @Inject
     private ServicoSessaoIF servicoSessao;
-    
-    public ControladorSessao(){
+
+    public ControladorSessao() {
     }
-    
+
     @PostConstruct
-    public void init(){
+    public void init() {
         sessao = new Sessao();
     }
-    
-    public String criar(){
+
+    public String criar() {
         servicoSessao.criar(sessao);
         return "/restrito/sessao/sessao.xhtml";
     }
-    
-    public String prepararEditar(){
+
+    public String prepararEditar() {
         return "/restrito/sessao/sessaoEditar.xhtml";
     }
-    
-    public String atualizar(){
+
+    public String atualizar() {
         servicoSessao.atualizar(sessao);
         return "/restrito/sessao/sessao.xhtml?faces-redirect=true";
     }
-    
-    public void remover(){
+
+    public String iniciar() {
+        if (sessao.getId() == null) {
+            servicoSessao.criar(sessao);
+        }else{
+            servicoSessao.atualizar(sessao);
+        }
+        return "sessaoIniciar.xhtml";
+    }
+
+    public void remover() {
         servicoSessao.remover(sessao);
     }
 
@@ -53,13 +62,13 @@ public class ControladorSessao {
     public void setSessao(Sessao sessao) {
         this.sessao = sessao;
     }
-    
-    public List<Sessao> getSessoes(){
+
+    public List<Sessao> getSessoes() {
         return servicoSessao.buscarTodos();
     }
-    
-    public Date getDataAtual(){
+
+    public Date getDataAtual() {
         return new Date();
     }
-    
+
 }

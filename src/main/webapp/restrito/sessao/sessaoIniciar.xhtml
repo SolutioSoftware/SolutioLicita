@@ -12,7 +12,7 @@
         <h:form id="formInSessao">
 
             <p:outputLabel value="Empresas Licitantes" style="font-weight:bold" />
-            <p:dataTable id='dt_empresas' var="empresaLicitante" value="#{controladorSessao.empresasLicitantes}" 
+            <p:dataTable id='dt_empresas' var="empresaLicitante" value="#{controladorLicitante.licitantes}" 
                          widgetVar="tbl_licitantes" paginator="true" style="padding:5px" rows="12" rowsPerPageTemplate="10"  
                          emptyMessage="Nenhuma Emp. Licitante Cadastrada"  paginatorAlwaysVisible="true" scrollable="false">
 
@@ -46,7 +46,7 @@
 
             <p:outputLabel value="Propostas" style="font-weight:bold" />
 
-            <p:dataTable id='dt_propostas' var="proposta" value="#{controladorSessao.propostas}" 
+<!--            <p:dataTable id='dt_propostas' var="proposta" value="{controladorSessao.propostas}" 
                          widgetVar="tbl_propostas" paginator="true" style="padding:5px" rows="5" rowsPerPageTemplate="5"  
                          emptyMessage="Nenhuma Proposta Salva"  paginatorAlwaysVisible="true" scrollable="false">
 
@@ -56,12 +56,12 @@
                     </p:outputPanel>
                 </f:facet>
 
-                <p:column headerText="CNPJ" filterBy="#{proposta.idLicitante.pessoaJuridica.cnpj}" filterMatchMode="contains" filterStyle="display:none">
-                    <h:outputText value="#{proposta.idLicitante.pessoaJuridica.cnpj}" />
+                <p:column headerText="CNPJ" filterBy="{proposta.idLicitante.pessoaJuridica.cnpj}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="{proposta.idLicitante.pessoaJuridica.cnpj}" />
                 </p:column> 
 
-                <p:column headerText="Nome Fantasia" filterBy="#{proposta.idLicitante.pessoaJuridica.nomeFantasia}" filterMatchMode="contains" filterStyle="display:none">
-                    <h:outputText value="#{proposta.idLicitante.pessoaJuridica.nomeFantasia}" />
+                <p:column headerText="Nome Fantasia" filterBy="{proposta.idLicitante.pessoaJuridica.nomeFantasia}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="{proposta.idLicitante.pessoaJuridica.nomeFantasia}" />
                 </p:column>
 
 
@@ -76,7 +76,7 @@
 
                 </p:column>
 
-            </p:dataTable>
+            </p:dataTable>-->
 
         </h:form>
     </ui:define>

@@ -7,7 +7,7 @@
                 template="/WEB-INF/template/TemplateLicitaPaineis.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:pe="http://primefaces.org/ui/extensions">
-    
+
     <f:metadata>
         <f:viewParam name ="pregaoId" value="#{controladorAdicionarItens.pregao}"
                      converter="#{pregaoConverter}"/>
@@ -40,10 +40,8 @@
                 </p:column>
 
                 <p:column headerText="Adicionar Item" width="70">
-                    
-                    <!---->
-                    
-                    <p:commandButton id="btAdiconarItemPregao" icon="ui-icon-plus" action="#{controladorAdicionarItens.adicionarItem}" 
+
+                    <p:commandButton id="btAdiconarItemPregao" icon="ui-icon-plus" action="#{controladorAdicionarItens.adicionarItem()}" 
                                      update=":pregao_form:formDtItemPregao:dt_itensPregao"
                                      style="font-size: 10px" >
                         <f:setPropertyActionListener value="#{entidade}" target="#{controladorAdicionarItens.item}"  />
@@ -86,8 +84,6 @@
 
                 <p:commandButton  id="btAtualizarPregao" value="Atualizar" icon="fa fa-refresh" action="#{controladorAdicionarItens.atualizar()}" 
                                   update=":pn_info : dt_pregoes" ajax="false" />
-
-
             </div>
 
             <h:form id="formDtItemPregao" prependId="false">
@@ -131,7 +127,7 @@
 
                     <p:column headerText="Excluir" width="50" >
 
-                        <p:commandButton id="btExcluirItemPregao" icon="ui-icon-trash" action="#{controladorAdicionarItens.removerItem}" 
+                        <p:commandButton id="btExcluirItemPregao" icon="ui-icon-trash" action="#{controladorAdicionarItens.removerItem()}" 
                                          update=":pregao_form:formDtItemPregao:dt_itensPregao"
                                          style="font-size: 10px" >
                             <f:setPropertyActionListener value="#{entidade}" target="#{controladorAdicionarItens.itemPregao}"  />

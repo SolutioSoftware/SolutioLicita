@@ -14,7 +14,6 @@ import javax.inject.Named;
  *
  * @author ricardocaldeira
  */
-//@FacesConverter("pregaoConverter")
 @Named
 public class PregaoConverter implements Converter,Serializable{
     
@@ -23,12 +22,6 @@ public class PregaoConverter implements Converter,Serializable{
     
     @Override
     public Object getAsObject(FacesContext ctx, UIComponent component, String value) {
-        /**
-        if (value != null) {
-            return this.getAttributesFrom(component).get(value);
-        }
-        return null;
-        **/
         
         if (value == null || value.trim().isEmpty()) {
             return null;
@@ -42,24 +35,6 @@ public class PregaoConverter implements Converter,Serializable{
     @Override
     public String getAsString(FacesContext ctx, UIComponent component, Object value) {
 
-        /**
-        if (value != null
-                && !"".equals(value)) {
-
-            Pregao entity = (Pregao) value;
-
-            // adiciona item como atributo do componente
-            this.addAttribute(component, entity);
-            
-            Long codigo = entity.getId();
-            if (codigo != null) {
-                return String.valueOf(codigo);
-            }
-        }
-
-        return (String) value;
-        **/
-        
         if (value == null) {
             return null;
         }

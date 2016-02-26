@@ -18,7 +18,7 @@
                 <f:facet name="header">
                     <p:outputPanel>
                         <p:button value="Novo" style="width: 80px"   icon="fa fa-plus" outcome="/restrito/sessao/sessaoSalvar.xhtml"
-                                         class="botaoNovo"/>
+                                  class="botaoNovo"/>
                         <p:inputText id="globalFilter" onkeyup="PF('tbl_sessoes').filter()" style="width:250px" placeholder="Digite sua busca" />
                     </p:outputPanel>
                 </f:facet>
@@ -65,7 +65,7 @@
     </ui:define>
 
     <ui:define name="pn_conteudo">
-        
+
         <p:growl id="growSessao" showDetail="false" life="3000" class="ui-growl" />
 
         <h:form id="sessao_form" title="Sessão" style="text-align: center"  >
@@ -76,20 +76,20 @@
 
                     <p:outputLabel value="Numero do Pregão:" for="numeroDoPregao"/>
                     <h:selectOneMenu id="numeroDoPregao" value="#{controladorSessao.sessao.idPregao}" style="width: 190px" required="true" 
-                                     requiredMessage="O campo Numero de Pregão deve ser selecionado" converter="pregaoConverter">
-                        
+                                     requiredMessage="O campo Numero de Pregão deve ser selecionado" converter="#{pregaoConverter}">
+
                         <f:selectItems value="#{controladorPregao.pregoes}" var="pregao" itemLabel="#{pregao.numeroPregao}" 
                                        itemValue="#{controladorPregao.pregao.id}"/>
-                        
+
                     </h:selectOneMenu>
-                    
+
                     <p:outputLabel value="Data Prevista:" for="dataPrevista"/>
                     <p:calendar id="dataPrevista" value="#{controladorSessao.sessao.dataRealizacao}" mindate="#{controladorSessao.dataAtual}" locale="pt_BR" style="width: 210px"/>
 
                     <p:outputLabel value="Horário Previsto:" for="horarioPrevisto"/>
                     <p:calendar id="horarioPrevisto" value="#{controladorSessao.sessao.horarioPrevisto}" pattern="HH:mm" timeOnly="true" 
                                 style="width: 210px" title="Hora" />
-                    
+
                     <p:outputLabel value="Status:" for="statusDaSessao"/>
                     <h:selectOneMenu id="statusDaSessao" value="#{controladorSessao.sessao.statusSessao}" style="width: 190px" required="true" requiredMessage="O Campo Status da Sessão deve ser selecionado">
 
@@ -113,9 +113,9 @@
 
                 <p:commandButton  id="bt_Salvar_Sessao" value="Salvar" icon="fa fa-save" action="#{controladorSessao.criar}" 
                                   update="growSessao" ajax="false" style="width: 125px"/>
-                
-<!--                <p:commandButton  id="bt_Iniciar_Sessao" value="Iniciar" icon="fa fa-youtube-play" update="growSessao" ajax="false" style="width: 125px"
-                                  action="{controladorSessao.iniciar(entidade)}"/>-->
+
+                <p:commandButton  id="bt_Iniciar_Sessao" value="Iniciar" icon="fa fa-youtube-play" update="growSessao" ajax="false" style="width: 125px"
+                                  action="#{controladorSessao.iniciar()}"/>-
 
             </div>
 
