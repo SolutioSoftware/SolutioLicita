@@ -52,12 +52,12 @@
                         <p:confirm icon="ui-icon-alert" header="Excluir Pregão" message="Deseja realmente excluir este pregão"/>
                     </p:commandButton>
 
-                    <p:commandButton id="btAdicionaItens" icon="fa fa-shopping-cart" action="#{controladorPregao.prepararAdicionarItens}" 
-                                     update="@form" style="font-size: 10px">
-                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorAdicionarItens.pregao}"  />
+                    <p:button id="btAdicionaItens" icon="fa fa-shopping-cart" outcome="pregaoAdicionarItens.xhtml?faces-redirect=true" 
+                                      style="font-size: 10px">
+                        <f:param name="pregaoId" value="#{entidade.id}"/>
                         <p:tooltip for="btAdicionaItens" value="Adicionar Itens"/>
-                    </p:commandButton>
-
+                    </p:button>
+                    
                 </p:column>
 
             </p:dataTable>

@@ -10,14 +10,10 @@ import br.com.solutiolicita.modelos.ItemPregao;
 import br.com.solutiolicita.modelos.Pregao;
 import br.com.solutiolicita.servicos.ServicoPregaoIF;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -34,14 +30,12 @@ import org.apache.poi.ss.util.CellRangeAddress;
  * @author Matheus Oliveira
  */
 @Named
-@SessionScoped
+@ViewScoped
 public class ControladorAdicionarItens implements Serializable {
 
     private Pregao pregao;
     private Item item;
     private ItemPregao itemPregao;
-    private List<ItemPregao> itensPregao;
-    private Pregao pregaoAnt;
     
     @Inject
     private transient ServicoPregaoIF servicoPregao;
@@ -51,17 +45,15 @@ public class ControladorAdicionarItens implements Serializable {
 
     @PostConstruct
     public void inicializar() {
-        pregao = new Pregao();
         item = new Item();
         itemPregao = new ItemPregao();
-        itensPregao = new ArrayList<>();
     }
 
     public void adicionarItem() {
         if (!verificarItensPregao(item)) {
             itemPregao.setItem(item);
             itemPregao.setPregao(pregao);
-            itensPregao.add(itemPregao);
+            pregao.getItensPregoes().add(itemPregao);
             itemPregao = new ItemPregao();
         } else {
             itemPregao = new ItemPregao();
@@ -70,7 +62,7 @@ public class ControladorAdicionarItens implements Serializable {
     }
 
     private boolean verificarItensPregao(Item item) {
-        for (ItemPregao itemP : itensPregao) {
+        for (ItemPregao itemP : pregao.getItensPregoes()) {
             if (itemP.getItem().equals(item)) {
                 return true;
             }
@@ -80,14 +72,11 @@ public class ControladorAdicionarItens implements Serializable {
 
     public void removerItem() {
         Logger.getGlobal().log(Level.INFO, "Removendo itemPregao {0}", itemPregao);
-        itensPregao.remove(itemPregao);
+        pregao.getItensPregoes().remove(itemPregao);
     }
 
     public String atualizar() {
-        Set<ItemPregao> itens = new HashSet<>(itensPregao);
-        pregao.setItensPregoes(itens);
         servicoPregao.atualizar(pregao);
-        limparDados();
         return "/restrito/pregao/pregao.xhtml";
     }
 
@@ -113,48 +102,6 @@ public class ControladorAdicionarItens implements Serializable {
 
     public void setItemPregao(ItemPregao itemPregao) {
         this.itemPregao = itemPregao;
-    }
-
-    /**
-     * Retorna a lista de ItemPregao que será exibida na view
-     * 1 if - Se o pregaoAnt (Pregao Anterior) estiver sendo null,
-     * isto implica dizer que o bean foi instanciado pela sua primeira vez
-     * e deve realizar a consulta ao banco para retornar a lista de ItemPregao
-     * do Pregao que é posto como parâmetro
-     * 
-     * 2 if- Ele verificar se o pregaoAnt é igual ao Atual, para, que possa manter
-     * a mesma lista de ItemPregao e ocorra sua atualização e adição de novos valores
-     * 
-     * 3 if- Caso o pregaoAnt seja diferente do atual, isto implica dizer que uma
-     * nova consulta ao banco deve ser realizada, para que possa exibir os valores
-     * correto da lista de ItemPregao do Pregao.
-     * @return itensPregao
-     */
-    public List<ItemPregao> getItensPregao() {
-        if(pregaoAnt == null){
-            pregaoAnt = pregao;
-            itensPregao = servicoPregao.buscarItensPregoes(pregao);
-            return itensPregao;
-        }else if (pregaoAnt.equals(pregao)){
-            return itensPregao;
-        }else{
-            itensPregao = servicoPregao.buscarItensPregoes(pregao);
-            pregaoAnt = pregao;
-            return itensPregao;
-        }
-        
-    }
-
-    public void setItensPregao(ArrayList<ItemPregao> itensPregao) {
-        this.itensPregao = itensPregao;
-    }
-
-    private void limparDados() {
-        pregao = new Pregao();
-        item = new Item();
-        itemPregao = new ItemPregao();
-        itensPregao = new ArrayList<>();
-        pregaoAnt = null;
     }
 
     /**

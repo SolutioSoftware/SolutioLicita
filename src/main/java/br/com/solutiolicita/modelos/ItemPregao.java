@@ -53,7 +53,7 @@ public class ItemPregao implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne (optional = false, cascade = CascadeType.ALL)
+    @ManyToOne (optional = false)
     @JoinColumn(name = "id_pregao", referencedColumnName = "id")
     private Pregao pregao;
 

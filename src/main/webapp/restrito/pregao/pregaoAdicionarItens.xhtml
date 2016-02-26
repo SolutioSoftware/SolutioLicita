@@ -7,6 +7,11 @@
                 template="/WEB-INF/template/TemplateLicitaPaineis.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:pe="http://primefaces.org/ui/extensions">
+    
+    <f:metadata>
+        <f:viewParam name ="pregaoId" value="#{controladorAdicionarItens.pregao}"
+                     converter="#{pregaoConverter}"/>
+    </f:metadata>
 
     <ui:define id="define_info" name="pn_info" >
 
@@ -87,7 +92,7 @@
 
             <h:form id="formDtItemPregao" prependId="false">
 
-                <p:dataTable id='dt_itensPregao' var="entidade" value="#{controladorAdicionarItens.itensPregao}" 
+                <p:dataTable id='dt_itensPregao' var="entidade" value="#{controladorAdicionarItens.pregao.itensPregoes}" 
                              widgetVar="tbl_itensPregao" paginator="true" style="padding:5px" rows="8" rowsPerPageTemplate="5,10,30,50,100"  
                              emptyMessage="Nenhum Item de Pregao Adicionado"  paginatorAlwaysVisible="true" editable="true" editMode="cell">
 

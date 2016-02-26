@@ -60,7 +60,7 @@
 
                     <p:outputLabel value="Numero do Pregão:" for="numeroDoPregao"/>
                     <h:selectOneMenu id="numeroDoPregao" value="#{controladorSessao.sessao.idPregao}" style="width: 190px" required="true" 
-                                     requiredMessage="O campo Numero de Pregão deve ser selecionado" converter="pregaoConverter">
+                                     requiredMessage="O campo Numero de Pregão deve ser selecionado" converter="#{pregaoConverter}">
                         
                         <f:selectItems value="#{controladorPregao.pregoes}" var="pregao" itemLabel="#{pregao.numeroPregao}" 
                                        itemValue="#{controladorPregao.pregao.id}"/>
