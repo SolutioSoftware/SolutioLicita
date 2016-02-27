@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 /**
@@ -24,7 +25,7 @@ public class ControladorSessao {
     }
 
     @PostConstruct
-    public void init() {
+    public void iniciar() {
         sessao = new Sessao();
     }
 
@@ -42,12 +43,13 @@ public class ControladorSessao {
         return "/restrito/sessao/sessao.xhtml?faces-redirect=true";
     }
 
-    public String iniciar() {
+    public String iniciarSessao() {
         if (sessao.getId() == null) {
             servicoSessao.criar(sessao);
         }else{
             servicoSessao.atualizar(sessao);
         }
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sessao", sessao);
         return "sessaoIniciar.xhtml";
     }
 
