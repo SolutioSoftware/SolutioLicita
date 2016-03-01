@@ -1,46 +1,65 @@
 package br.com.solutiolicita.controller;
 
+import br.com.solutiolicita.controller.util.JsfUtil;
+import br.com.solutiolicita.excecoes.ExcecoesLicita;
 import br.com.solutiolicita.modelos.EmpresaLicitante;
 import br.com.solutiolicita.modelos.Pregao;
 import br.com.solutiolicita.modelos.Sessao;
 import br.com.solutiolicita.servicos.ServicoSessaoIF;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-
 
 /**
  *
  * @author Matheus Oliveira
  */
-
 @Named
 @ViewScoped
-public class ControladorSessaoIniciar implements Serializable{
-    
+public class ControladorSessaoIniciar implements Serializable {
+
     private UploadedFile planilhaImport;
     private Sessao sessao;
     private EmpresaLicitante empresaLicitante;
     private Pregao pregao;
-    
+
     @Inject
     private transient ServicoSessaoIF servicoSessao;
-    
-    public ControladorSessaoIniciar(){
+
+    public ControladorSessaoIniciar() {
     }
-    
+
     @PostConstruct
-    public void iniciar(){
+    public void iniciar() {
         pregao = new Pregao();
         sessao = (Sessao) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sessao");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("sessao");
     }
+
+    public void validarArquivoXLS(FileUploadEvent file) {
+        try {
+            planilhaImport = file.getFile();
+            servicoSessao.validarArquivoXLS(planilhaImport);
+        } catch (ExcecoesLicita el) {
+            JsfUtil.addErrorMessage(el.getMessage());
+            Logger.getGlobal().log(Level.WARNING, el.getMessage());
+        }
+    }
+
+    public void classificarPropostas() {
+
+    }
     
-    
+    public void removerArquivo(){
+        planilhaImport = null;
+    }
 
     public UploadedFile getPlanilhaImport() {
         return planilhaImport;
@@ -81,7 +100,5 @@ public class ControladorSessaoIniciar implements Serializable{
     public void setServicoSessao(ServicoSessaoIF servicoSessao) {
         this.servicoSessao = servicoSessao;
     }
-    
-    
-    
+
 }

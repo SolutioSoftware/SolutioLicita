@@ -85,7 +85,7 @@
     <ui:define name="pn_conteudo">
 
         <h:form id="sessaoIn_form" title="Sessão" style="text-align: center" enctype="multipart/form-data" >
-            <p:growl id="growSessao" showDetail="true" life="3000" class="ui-growl" />
+            <p:growl id="growSessao" autoUpdate="true" showDetail="true" life="3000" class="ui-growl" />
 
             <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
 
@@ -123,26 +123,28 @@
             </div>
 
             <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
-                <p:fileUpload id="file-import-xls" value="#{controladorSessaoIniciar.planilhaImport}"
-                              mode="simple"
+                <p:outputLabel value="Nome do Arquivo: " style="font-weight: bold; font-size: medium" />
+                <p:outputLabel id="id_nome_arquivo" value="#{controladorSessaoIniciar.planilhaImport.fileName}  " />
+                <p:commandButton id="bt_remover_arquivo" 
+                                 action="#{controladorSessaoIniciar.removerArquivo()}"
+                                 update="sessaoIn_form" 
+                                 icon="ui-icon-closethick"
+                                 />
+                <p:fileUpload id="file-import-xls"
+                              fileUploadListener="#{controladorSessaoIniciar.validarArquivoXLS}"
                               label="Procurar Arquivo..."
-                              skinSimple="true"
+                              class="fileUploadPlanilha"
+                              allowTypes="/(\.|\/)(xls|xlsx)$/"
+                              invalidFileMessage="Arquivo do Tipo Inválido."
+                              auto="true"
+                              fileLimit="1"
                               required="true"
-                              />
-
-                <!--                <h:commandButton  id="btImportarProposta"  value="Importar Proposta" label="Importa Proposta"
-                                                  action="{controladorSessao.uploadArquivo}" />
-                                <p:commandButton  id="btClassificarProposta" value="Classificar Proposta" icon="fa fa-refresh"
-                                                  actionListener="{controladorSessao.classificarPropostas}"/>-->
+                              update="id_nome_arquivo"/>
+                
+                <p:commandButton  id="btClassificarProposta" value="Classificar Proposta" icon="fa fa-refresh"
+                                  actionListener="#{controladorSessaoIniciar.classificarPropostas()}"/>
             </div>
-
-
-
-
-
         </h:form>
-
     </ui:define> 
-
 
 </ui:composition>

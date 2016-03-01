@@ -1,5 +1,6 @@
 package br.com.solutiolicita.servicos;
 
+import br.com.solutiolicita.excecoes.ExcecoesLicita;
 import br.com.solutiolicita.modelos.EmpresaLicitante;
 import br.com.solutiolicita.modelos.Proposta;
 import br.com.solutiolicita.modelos.Sessao;
@@ -25,5 +26,7 @@ public interface ServicoSessaoIF extends ServicoIF<Sessao> {
     public boolean salvarPropostas(Sessao entidade, EmpresaLicitante empresaLicitante);
     
     public void buscarPropostas(Sessao sessao ,List<EmpresaLicitante> empresaLicitantes);
+
+    public void validarArquivoXLS(UploadedFile planilhaImport) throws ExcecoesLicita;
     
 }
