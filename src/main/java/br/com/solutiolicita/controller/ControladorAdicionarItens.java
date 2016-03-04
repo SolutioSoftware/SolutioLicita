@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.solutiolicita.controller;
 
 import br.com.solutiolicita.modelos.Item;
@@ -12,18 +7,9 @@ import br.com.solutiolicita.servicos.ServicoPregaoIF;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.util.CellRangeAddress;
 
 /**
  *
@@ -36,9 +22,9 @@ public class ControladorAdicionarItens implements Serializable {
     private Pregao pregao;
     private Item item;
     private ItemPregao itemPregao;
-    
+
     @Inject
-    private transient ServicoPregaoIF servicoPregao;
+    private ServicoPregaoIF servicoPregao;
 
     public ControladorAdicionarItens() {
         itemPregao = new ItemPregao();

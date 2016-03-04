@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -31,7 +32,7 @@ public class ControladorSessaoIniciar implements Serializable {
     private Pregao pregao;
 
     @Inject
-    private transient ServicoSessaoIF servicoSessao;
+    private ServicoSessaoIF servicoSessao;
 
     public ControladorSessaoIniciar() {
     }
@@ -47,9 +48,17 @@ public class ControladorSessaoIniciar implements Serializable {
         try {
             planilhaImport = file.getFile();
             servicoSessao.validarArquivoXLS(planilhaImport);
+            JsfUtil.addSuccessMessage("Planilha está CORRETA!");
         } catch (ExcecoesLicita el) {
+            planilhaImport = null;
+            RequestContext.getCurrentInstance().update("sessaoIn_form:file-import-xls");
             JsfUtil.addErrorMessage(el.getMessage());
             Logger.getGlobal().log(Level.WARNING, el.getMessage());
+        }catch (Exception e){
+            planilhaImport = null;
+            RequestContext.getCurrentInstance().update("sessaoIn_form:file-import-xls");
+            JsfUtil.addErrorMessage("ERROR 04 - A Planilha inserida possui alguma IRREGULARIDADE!");
+            Logger.getGlobal().log(Level.WARNING, "ERROR 04 - A Planilha inserida possui alguma IRREGULARIDADE!");
         }
     }
 

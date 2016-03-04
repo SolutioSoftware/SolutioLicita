@@ -1,12 +1,13 @@
 package br.com.solutiolicita.servicos;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author Matheus Oliveira
  */
-public interface ServicoIF<T>{
+public interface ServicoIF<T> extends Serializable{
     
     public void criar(T entidade);
     

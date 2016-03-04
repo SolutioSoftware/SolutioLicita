@@ -35,6 +35,10 @@ public class ControladorLogin{
         return "/restrito/login/login.xhtml";
     }
     
+    public String logout(){
+        return "/restrito/login/login.xhtml?faces-redirect=true";
+    }
+    
     public Login getLogin(){
         return login;
     }

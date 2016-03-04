@@ -102,7 +102,7 @@
                         <h:outputText value="#{entidade.item.id}" />
                     </p:column>
 
-                    <p:column headerText="Nome do item" filterBy="#{entidade.item.nome}" filterMatchMode="contains" filterStyle="display:none">
+                    <p:column headerText="Nome do Item" filterBy="#{entidade.item.nome}" filterMatchMode="contains" filterStyle="display:none">
                         <h:outputText value="#{entidade.item.nome}" />
                     </p:column>
 
@@ -118,14 +118,14 @@
                         </p:cellEditor>
                     </p:column>
 
-                    <p:column headerText="Valor de Referencia" filterBy="#{entidade.valorReferencia}" filterMatchMode="contains" filterStyle="display:none">
+                    <p:column headerText="Valor de Referência" filterBy="#{entidade.valorReferencia}" filterMatchMode="contains" filterStyle="display:none">
                         <p:cellEditor>
                             <f:facet name="output"><h:outputText value="#{entidade.valorReferencia}" /></f:facet>
                             <f:facet name="input"><pe:inputNumber value="#{entidade.valorReferencia}" symbol="R$ " style="width:96%"/></f:facet>
                         </p:cellEditor>
                     </p:column>
 
-                    <p:column headerText="Excluir" width="50" >
+                    <p:column headerText="Excluir" width="50" exportable="false" >
 
                         <p:commandButton id="btExcluirItemPregao" icon="ui-icon-trash" action="#{controladorAdicionarItens.removerItem()}" 
                                          update=":pregao_form:formDtItemPregao:dt_itensPregao"

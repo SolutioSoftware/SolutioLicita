@@ -37,7 +37,6 @@
                     </div>
 
                     <div id="div_notificacoes" class="ui-grid-col-3" style="margin-left: 12%;margin-top: 10px;">
-                        <h:outputText value="#{Login.entidade.usuario}" style="margin-left: 25%" />
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-3" style="margin-top: 5px;"></div>
                             <div class="ui-grid-col-2" style="margin-top: 5px;">
@@ -46,7 +45,7 @@
                             <h:form>
                                 <div class="ui-grid-col-3" style="margin-top: 5px;">
                                     <p:commandButton value="Sair" id="bot_sair" class="bt_sair"
-                                                     action="#{Login.efetuarLogout}" />
+                                                     action="#{controladorLogin.logout()}" />
                                 </div>
                             </h:form>
                         </div>
