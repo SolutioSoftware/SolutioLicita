@@ -48,11 +48,11 @@ public class Proposta implements Serializable{
     private Boolean classificada;
     
     @JoinColumn(name = "id_licitante", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private EmpresaLicitante idLicitante;
     
     @JoinColumn(name = "id_item_pregao", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private ItemPregao idItemPregao;
     
     @JoinColumn(name = "id_sessao", referencedColumnName = "id")

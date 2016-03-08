@@ -65,7 +65,6 @@ public class ServicoSessao implements ServicoSessaoIF {
                     itemPregao = procurarItemPregao(linha, pregao);
 
                     propostas.add(montarProposta(linha, itemPregao, sessao, licitante));
-                    Logger.getGlobal().log(Level.INFO, propostas.toString());
 
                 }
                 return propostas;
@@ -117,6 +116,7 @@ public class ServicoSessao implements ServicoSessaoIF {
     @Override
     public void salvarPropostar(List<Proposta> propostas){
         for (Proposta proposta : propostas) {
+            Logger.getGlobal().log(Level.INFO, "Valor a ser salvo: " ,proposta);
             daoPropostas.criar(proposta);
         }
     }
@@ -161,6 +161,7 @@ public class ServicoSessao implements ServicoSessaoIF {
      * @throws ExcecoesLicita
      */
     @Override
+    @Transactional
     public void validarArquivoXLS(UploadedFile planilhaImport, Pregao pregao, Sessao sessao, EmpresaLicitante licitante) throws ExcecoesLicita {
         if (planilhaImport == null) {
             throw new ExcecoesLicita("ERROR 01 - Nenhum Arquivo Localizado.");
@@ -168,7 +169,9 @@ public class ServicoSessao implements ServicoSessaoIF {
             throw new ExcecoesLicita("ERROR 02 - Este Arquivo não é do tipo .XLS.");
         } else {
             converterArquivoXLStoHSSF(planilhaImport);
-            importarValoresPlanilha(planilhaImport, pregao, sessao, licitante);
+            List<Proposta> propostas;
+            propostas = importarValoresPlanilha(planilhaImport, pregao, sessao, licitante);
+            salvarPropostar(propostas);
         }
 
     }
