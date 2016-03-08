@@ -20,6 +20,6 @@ public interface ServicoSessaoIF extends ServicoIF<Sessao> {
     
     public void buscarPropostas(Sessao sessao ,List<EmpresaLicitante> empresaLicitantes);
 
-    public void validarArquivoXLS(UploadedFile planilhaImport, Pregao pregao, Sessao sessao, EmpresaLicitante licitante) throws ExcecoesLicita;
+    public List<Proposta> validarArquivoXLS(UploadedFile planilhaImport, Pregao pregao, Sessao sessao, EmpresaLicitante licitante) throws ExcecoesLicita;
     
 }

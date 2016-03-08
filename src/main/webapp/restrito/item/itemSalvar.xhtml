@@ -12,7 +12,7 @@
         <h:form id="formDtItemPregao">
 
             <p:dataTable id='dt_itens' var="entidade" value="#{controladorItem.itens}" 
-                         widgetVar="tbl_itens" paginator="true" style="padding:5px" rows="13" rowsPerPageTemplate="5,10,15,20,30,50"  
+                         widgetVar="tbl_itens" paginator="true" style="padding:5px" rows="10" rowsPerPageTemplate="5,10,15,20,30,50"  
                          emptyMessage="Nenhum Item Cadastrado"  paginatorAlwaysVisible="true">
 
                 <f:facet name="header">
@@ -35,7 +35,7 @@
 
                 <p:column headerText="Ações" width="50">
 
-                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorItem.prepararEditar}" update="@form"  
+                   <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorItem.prepararEditar}" update="@form"  
                                      style="font-size: 10px">
                         <f:setPropertyActionListener value="#{entidade}" target="#{controladorItem.item}"  />
                         <p:tooltip for="btEditar" value="Editar"/>

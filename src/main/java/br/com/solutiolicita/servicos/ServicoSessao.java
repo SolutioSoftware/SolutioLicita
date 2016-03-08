@@ -35,7 +35,7 @@ public class ServicoSessao implements ServicoSessaoIF {
 
     @Inject
     private DaoIF<ItemPregao> daoItemPregao;
-    
+
     @Inject
     private DaoIF<Item> daoItem;
 
@@ -46,7 +46,6 @@ public class ServicoSessao implements ServicoSessaoIF {
     public void buscarPropostas(Sessao sessao, List<EmpresaLicitante> empresaLicitantes) {
     }
 
-    
     //Metodos para montar a lista de propostas para que sejam salvas de uma única vez
     @Override
     public List<Proposta> importarValoresPlanilha(UploadedFile file, Pregao pregao, Sessao sessao, EmpresaLicitante licitante) throws ExcecoesLicita {
@@ -106,22 +105,19 @@ public class ServicoSessao implements ServicoSessaoIF {
         }
         return itemPregao;
     }
-    
-    
+
     /**
-     * 
-     * @param propostas 
+     *
+     * @param propostas
      */
     @Transactional
     @Override
-    public void salvarPropostar(List<Proposta> propostas){
+    public void salvarPropostar(List<Proposta> propostas) {
         for (Proposta proposta : propostas) {
-            Logger.getGlobal().log(Level.INFO, "Valor a ser salvo: " ,proposta);
+            Logger.getGlobal().log(Level.INFO, "Valor a ser salvo: ", proposta);
             daoPropostas.criar(proposta);
         }
     }
-    
-    
 
     @Override
     @Transactional
@@ -158,20 +154,25 @@ public class ServicoSessao implements ServicoSessaoIF {
      * corretamente aos dados da pregão e não foi alterada.
      *
      * @param planilhaImport
+     * @param pregao
+     * @param sessao
+     * @param licitante
+     * @return propostas
      * @throws ExcecoesLicita
      */
     @Override
-    @Transactional
-    public void validarArquivoXLS(UploadedFile planilhaImport, Pregao pregao, Sessao sessao, EmpresaLicitante licitante) throws ExcecoesLicita {
+    public List<Proposta> validarArquivoXLS(UploadedFile planilhaImport, Pregao pregao, Sessao sessao, EmpresaLicitante licitante) throws ExcecoesLicita {
+        List<Proposta> propostas;
         if (planilhaImport == null) {
             throw new ExcecoesLicita("ERROR 01 - Nenhum Arquivo Localizado.");
         } else if (!planilhaImport.getFileName().contains(".xls")) {
             throw new ExcecoesLicita("ERROR 02 - Este Arquivo não é do tipo .XLS.");
+        } else if (licitante == null) {
+            throw new ExcecoesLicita("ERROR 07 - Por Favor! Selecione a Empresa Licitante.");
         } else {
             converterArquivoXLStoHSSF(planilhaImport);
-            List<Proposta> propostas;
             propostas = importarValoresPlanilha(planilhaImport, pregao, sessao, licitante);
-            salvarPropostar(propostas);
+            return propostas;
         }
 
     }

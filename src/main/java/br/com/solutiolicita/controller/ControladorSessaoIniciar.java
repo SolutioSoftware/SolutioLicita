@@ -47,7 +47,9 @@ public class ControladorSessaoIniciar implements Serializable {
     public void validarArquivoXLS(FileUploadEvent file) {
         try {
             planilhaImport = file.getFile();
-            servicoSessao.validarArquivoXLS(planilhaImport, sessao.getIdPregao(), sessao, empresaLicitante);
+            List<Proposta> propostas;
+            propostas = servicoSessao.validarArquivoXLS(planilhaImport, sessao.getIdPregao(), sessao, empresaLicitante);
+            servicoSessao.salvarPropostar(propostas);
             JsfUtil.addSuccessMessage("Planilha está CORRETA!");
         } catch (ExcecoesLicita el) {
             planilhaImport = null;
@@ -59,15 +61,6 @@ public class ControladorSessaoIniciar implements Serializable {
             RequestContext.getCurrentInstance().update("sessaoIn_form:file-import-xls");
             JsfUtil.addErrorMessage("ERROR 04 - A Planilha inserida possui alguma IRREGULARIDADE!");
             Logger.getGlobal().log(Level.WARNING, "ERROR 04 - A Planilha inserida possui alguma IRREGULARIDADE!");
-        }
-    }
-
-    public void importarPropostas() {
-        try {
-            List<Proposta> propostas = servicoSessao.importarValoresPlanilha(planilhaImport, sessao.getIdPregao(), sessao, empresaLicitante);
-            servicoSessao.salvarPropostar(propostas);
-        } catch (ExcecoesLicita ex) {
-            Logger.getLogger(ControladorSessaoIniciar.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

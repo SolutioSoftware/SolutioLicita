@@ -17,6 +17,9 @@
 
                 <f:facet name="header">
                     <p:outputPanel>
+                        <p:button value="Novo" style="width: 80px" outcome="/restrito/licitantes/licitanteSalvar.xhtml"  
+                                  icon="fa fa-plus" 
+                                  class="botaoNovo"/>
                         <p:inputText id="globalFilter" onkeyup="PF('tbl_empresas').filter()" style="width:250px" 
                                      placeholder="Digite sua busca" />
                     </p:outputPanel>
@@ -204,7 +207,7 @@
                         <p:inputText id="email" title="E-mail" placeholder="E-mail" value="#{controladorLicitante.licitante.pessoaJuridica.contatoPessoaJuridica.email}"
                                      maxlength="50" style="width:260px"
                                      validatorMessage="E-mail incorreto">
-                        <f:validateRegex pattern="^$|^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})$"/>
+                            <f:validateRegex pattern="^$|^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})$"/>
                         </p:inputText>
 
                         <p:outputLabel value="Telefone:" for="telefone" />

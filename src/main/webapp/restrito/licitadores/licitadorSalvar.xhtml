@@ -12,41 +12,39 @@
 
         <h:form id="formDtLicitador">
 
-            <p:dataTable id='dt_itens' var="entidade" value="#{controladorItem.itens}" 
-                         widgetVar="tbl_itens" paginator="true" style="padding:5px" rows="10" rowsPerPageTemplate="5,10"  
-                         emptyMessage="Nenhum Item Cadastrado"  paginatorAlwaysVisible="true">
+            <p:dataTable id='dt_licitadores' var="entidade"  value="#{controladorLicitador.licitadoras}" 
+                         widgetVar="tbl_licitadores" paginator="true" style="padding:5px" rows="10" rowsPerPageTemplate="5,10"  
+                         emptyMessage="Nenhum Instituição Cadastrada"  paginatorAlwaysVisible="true">
 
                 <f:facet name="header">
                     <p:outputPanel>
-                        <p:inputText id="globalFilter" onkeyup="PF('tbl_itens').filter()" style="width:250px" placeholder="Digite sua busca" />
+                        <p:button value="Novo" style="width: 80px" outcome="/restrito/licitadores/licitadorSalvar.xhtml"  icon="fa fa-plus" 
+                                  class="botaoNovo"/>
+                        <p:inputText id="globalFilter" onkeyup="PF('tbl_licitadores').filter()" style="width:250px" placeholder="Digite sua busca" />
                     </p:outputPanel>
                 </f:facet>
 
-                <p:column headerText="Codigo do item" filterBy="#{entidade.id}" filterMatchMode="contains" filterStyle="display:none">
-                    <h:outputText value="#{entidade.id}" />
+                <p:column headerText="CNPJ" filterBy="#{entidade.pessoaJuridica.cnpj}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.pessoaJuridica.cnpj}" />
                 </p:column>
 
-                <p:column headerText="Nome do item" filterBy="#{entidade.nome}" filterMatchMode="contains" filterStyle="display:none">
-                    <h:outputText value="#{entidade.nome}" />
-                </p:column>
-
-                <p:column headerText="Unidade" filterBy="#{entidade.unidade}" filterMatchMode="contains" filterStyle="display:none">
-                    <h:outputText value="#{entidade.unidade}" />
+                <p:column headerText="Nome de Fantasia" filterBy="#{entidade.pessoaJuridica.nomeFantasia}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.pessoaJuridica.nomeFantasia}" />
                 </p:column>
 
                 <p:column headerText="Ações" width="50">
 
-                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorItem.prepararEditar}" update="@form"  
+                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorLicitador.prepararEditar}" update="@form"  
                                      style="font-size: 10px">
-                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorItem.item}"  />
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorLicitador.licitadora}"  />
                         <p:tooltip for="btEditar" value="Editar"/>
                     </p:commandButton>
 
-                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorItem.remover}" update="@form" 
+                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorLicitador.remover}" update="@form" 
                                      style="font-size: 10px">
-                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorItem.item}"  />
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorLicitador.licitadora}"  />
                         <p:tooltip for="btExcluir" value="Excluir"/>
-                        <p:confirm icon="ui-icon-alert" header="Excluir Item" message="Deseja realmente excluir este Item"/>
+                        <p:confirm icon="ui-icon-alert" header="Excluir Instituição" message="Deseja realmente excluir esta Instituição"/>
                     </p:commandButton>
 
                 </p:column>
