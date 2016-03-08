@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="/WEB-INF/template/TemplateLicitaLance.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:define name="pn_conteudo">
+
+        <h:form id="fasesDeLances" style="text-align: center">
+            
+            <div align="right">
+                <h:panelGrid columns="1">
+                    <p:commandButton id="btIPausarSessao" icon="ui-icon-close"  value="Pausar Sessão" label="Pausar Sessão"
+                                     style="height: 15px; width: 200px; margin-bottom: 0px; font-size: 8px; background: #036fab; color: #ffffff">
+                        <p:tooltip for="btIPausarSessao" value="Pausar Sessão"/>
+                        <p:confirm icon="ui-icon-alert" header="Pausar Sessão" message="Deseja realmente pausar esta sessão"/>
+                    </p:commandButton>
+
+                    <p:commandButton id="btIEncerrarSessao" icon="ui-icon-gavel"  value="Encerrar Sessão" label="Encerrar Sessão"
+                                     style="height: 15px; width: 200px; margin-bottom: 0px; font-size: 8px; background: #036fab; color: #ffffff">
+                        <p:tooltip for="btIEncerrarSessao" value="Encerrar Sessão"/>
+                        <p:confirm icon="ui-icon-alert" header="Encerrar Sessão" message="Deseja realmente encerrar esta sessão"/>
+                    </p:commandButton>
+                </h:panelGrid>
+            </div>
+
+            <p:growl id="growFasesDeLances" showDetail="true" life="3000" class="ui-growl" />
+
+            <p:outputLabel value="Item 103: Caneta Preta" style="font-size: 36px; color: #036fab; font-weight: bold"  />
+            <br/>
+            <p:outputLabel value="Melhor Proposta: R$ 0,60 por papelaria papel bom LTDA" style="font-weight:bold; font-size: 18px;"/>
+            <br/>
+            <p:outputLabel value="Quantidade: 500 und" style="font-weight:bold; font-size: 18px;"/>
+            <br/>
+            <br/>
+            <p:outputLabel value="Lance atual: R$ 0,52" style="font-size: 30px; color: #036fab; font-weight: bold"/>
+            <br/>
+            <p:outputLabel value="Ofertante: Papelaria Soares" style="font-size: 18px; color: #036fab; font-weight: bold"/>
+            <br/>
+
+            <p:dataTable id='dt_faseDeLances' var="lances" value="" 
+                         paginator="true" style="padding:5px" rows="5" rowsPerPageTemplate="5"  
+                         emptyMessage="Nenhum Lance Registrado"  paginatorAlwaysVisible="true" scrollable="false">
+
+
+                <p:column headerText="Valor" filterBy="" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="" />
+                </p:column> 
+
+                <p:column headerText="Ofertante" filterBy="" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="" />
+                </p:column> 
+
+                <p:column headerText="Horário" filterBy="" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="" />
+                </p:column> 
+
+            </p:dataTable>
+
+        </h:form>
+
+    </ui:define> 
+
+</ui:composition>

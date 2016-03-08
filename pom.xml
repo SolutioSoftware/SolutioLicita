@@ -76,6 +76,13 @@
             <scope>test</scope>
         </dependency>
         
+        <!-- Temas do Primefaces -->
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>all-themes</artifactId>
+            <version>1.0.10</version>
+        </dependency>
+        
         <!--DBUNIT -->
         <dependency>
             <groupId>org.dbunit</groupId>
@@ -91,12 +98,7 @@
         </dependency>
 
         
-        <!-- Temas do Primefaces -->
-        <dependency>
-            <groupId>org.primefaces.themes</groupId>
-            <artifactId>all-themes</artifactId>
-            <version>1.0.10</version>
-        </dependency>
+        
         
         
         <!-- Drive JDBC 4 do PostgreSQL 9.4 -->

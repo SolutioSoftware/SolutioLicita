@@ -365,11 +365,13 @@ footer {
     color: #ffffff; text-transform: capitalize;text-decoration: none;
 }
 
-.fileUploadPlanilha{
-    width: 240px;
-    position: relative;
-    margin-left: 35%;
-    margin-top: 2%;
-    margin-right: 40%;
-    margin-bottom: 2%;
+.labelfaselance{
+    
+    font-size: 36px;
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+    color: #036fab;
+    
 }
+

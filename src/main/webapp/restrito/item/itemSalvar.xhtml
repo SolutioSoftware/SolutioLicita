@@ -9,45 +9,41 @@
 
     <ui:define name="pn_info">
 
-<!--        <h:form id="formDtItemPregao">
+        <h:form id="formDtItemPregao">
 
-            <p:dataTable id='dt_itens' var="entidade" value="" 
-                         widgetVar="tbl_itens" paginator="true" style="padding:5px" rows="10" rowsPerPageTemplate="5,10"  
+            <p:dataTable id='dt_itens' var="entidade" value="#{controladorItem.itens}" 
+                         widgetVar="tbl_itens" paginator="true" style="padding:5px" rows="13" rowsPerPageTemplate="5,10,15,20,30,50"  
                          emptyMessage="Nenhum Item Cadastrado"  paginatorAlwaysVisible="true">
 
                 <f:facet name="header">
                     <p:outputPanel>
-                        <p:commandButton value="Novo" style="width: 80px" action="" update="@form"  icon="fa fa-plus" 
-                                         class="botaoNovo"/>
                         <p:inputText id="globalFilter" onkeyup="PF('tbl_itens').filter()" style="width:250px" placeholder="Digite sua busca" />
                     </p:outputPanel>
                 </f:facet>
 
-
-                <p:column headerText="Codigo do item" filterBy="" filterMatchMode="contains" filterStyle="display:none">
-                    <h:outputText value="" />
+                <p:column headerText="Codigo do item" filterBy="#{entidade.id}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.id}" />
                 </p:column>
 
-                <p:column headerText="Nome do item" filterBy="" filterMatchMode="contains" filterStyle="display:none">
-                    <h:outputText value="" />
+                <p:column headerText="Nome do item" filterBy="#{entidade.nome}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.nome}" />
                 </p:column>
 
-                <p:column headerText="Unidade" filterBy="" filterMatchMode="contains" filterStyle="display:none">
-                    <h:outputText value="" />
+                <p:column headerText="Unidade" filterBy="#{entidade.unidade}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.unidade}" />
                 </p:column>
-
 
                 <p:column headerText="Ações" width="50">
 
-                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="" update="@form"  
+                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorItem.prepararEditar}" update="@form"  
                                      style="font-size: 10px">
-                        <f:setPropertyActionListener value="" target=""  />
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorItem.item}"  />
                         <p:tooltip for="btEditar" value="Editar"/>
                     </p:commandButton>
 
-                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="" update="@form" 
+                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorItem.remover}" update="@form" 
                                      style="font-size: 10px">
-                        <f:setPropertyActionListener value="" target=""  />
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorItem.item}"  />
                         <p:tooltip for="btExcluir" value="Excluir"/>
                         <p:confirm icon="ui-icon-alert" header="Excluir Item" message="Deseja realmente excluir este Item"/>
                     </p:commandButton>
@@ -55,7 +51,8 @@
                 </p:column>
 
             </p:dataTable>
-        </h:form>-->
+            
+        </h:form>
     </ui:define> 
 
     <ui:define name="pn_conteudo">

@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet library="css" name="default.css"/>
+            <title>Licita</title>
+        </f:facet>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+
+            <div id="topo_conteudo" class="ui-grid ui-grid-responsive">
+                <div class="ui-grid-row">
+                    <div id="div_logo" class="ui-grid-col-3" align="center" style="margin-top: 30px">
+                        <p:clock pattern="HH:mm:ss"/>
+                    </div>
+
+                    <div id="div_menu" class="ui-grid-col-8" style="margin-left: 8%;" align="center">
+
+                        <p:graphicImage id="licita_logo" library="images" name="licita_logo.png"/>
+
+                    </div>
+
+                    <div id="div_notificacoes" class="ui-grid-col-3" style="margin-left: 1%;margin-top: 1px;">
+
+                        <h:outputLabel value="Pregoeiro: Ricardo Caldeira" style="font-size: 8px;"/><br/>
+                        <h:outputLabel value="Pregao n 123" style="font-size: 8px;"/><br/>
+                        <h:outputLabel value="Sessao n 321" style="font-size: 8px;"/><br/>
+                        <h:outputLabel value="inicio: 31/02/2099 as 14:00" style="font-size: 8px;"/>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="div_linha_top" style="background: #036fab;width: 100%;height: 84px;position: static"></div>
+
+
+
+
+
+        <div id="content" class="center_content">
+
+
+            <p:layout style="height: 85%; max-height: 85%">
+                <p:layoutUnit id="sub_template" position="center">
+                    <ui:insert name="conteudo_sub_template"></ui:insert>
+                </p:layoutUnit>
+
+            </p:layout>
+        </div>
+
+        <h:form>
+            <p:confirmDialog global="true">
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" 
+                                 icon="fa fa-close" style="width: 210px"/>
+
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" 
+                                 icon="fa fa-check-square-o" style="width: 210px"/>
+            </p:confirmDialog>
+        </h:form>
+
+
+        <!--
+                <footer>
+                    <div id="footer" style="position: relative; left: 43%;right: 50%;padding: 5px;">
+        
+        
+                        <p:graphicImage id="solutio_logo" library="images" name="solutio_software.png"/></div>
+        
+        
+        
+                </footer>
+        -->
+
+    </h:body>
+
+</html>

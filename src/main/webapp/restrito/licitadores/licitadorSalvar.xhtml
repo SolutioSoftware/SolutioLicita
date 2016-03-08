@@ -10,45 +10,49 @@
 
     <ui:define name="pn_info">
 
-       <h:form id="formDtLicitador">
+        <h:form id="formDtLicitador">
 
-           <p:dataTable id='dt_licitadores' var="entidade"  value="#{controladorLicitador.licitadoras}" 
-                         widgetVar="tbl_licitadores" paginator="true" style="padding:5px" rows="10" rowsPerPageTemplate="5,10"  
-                         emptyMessage="Nenhum Instituição Cadastrada"  paginatorAlwaysVisible="true">
+            <p:dataTable id='dt_itens' var="entidade" value="#{controladorItem.itens}" 
+                         widgetVar="tbl_itens" paginator="true" style="padding:5px" rows="10" rowsPerPageTemplate="5,10"  
+                         emptyMessage="Nenhum Item Cadastrado"  paginatorAlwaysVisible="true">
 
                 <f:facet name="header">
                     <p:outputPanel>
-                        <p:button value="Novo" style="width: 80px" outcome="/restrito/licitadores/licitadorSalvar.xhtml"  icon="fa fa-plus" 
-                                         class="botaoNovo"/>
-                        <p:inputText id="globalFilter" onkeyup="PF('tbl_licitadores').filter()" style="width:250px" placeholder="Digite sua busca" />
+                        <p:inputText id="globalFilter" onkeyup="PF('tbl_itens').filter()" style="width:250px" placeholder="Digite sua busca" />
                     </p:outputPanel>
                 </f:facet>
 
-                <p:column headerText="CNPJ" filterBy="#{entidade.pessoaJuridica.cnpj}" filterMatchMode="contains" filterStyle="display:none">
-                    <h:outputText value="#{entidade.pessoaJuridica.cnpj}" />
+                <p:column headerText="Codigo do item" filterBy="#{entidade.id}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.id}" />
                 </p:column>
-                <p:column headerText="Nome de Fantasia" filterBy="#{entidade.pessoaJuridica.nomeFantasia}" filterMatchMode="contains" filterStyle="display:none">
-                    <h:outputText value="#{entidade.pessoaJuridica.nomeFantasia}" />
+
+                <p:column headerText="Nome do item" filterBy="#{entidade.nome}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.nome}" />
+                </p:column>
+
+                <p:column headerText="Unidade" filterBy="#{entidade.unidade}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.unidade}" />
                 </p:column>
 
                 <p:column headerText="Ações" width="50">
 
-                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorLicitador.prepararEditar}" update="@form"  
+                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorItem.prepararEditar}" update="@form"  
                                      style="font-size: 10px">
-                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorLicitador.licitadora}"  />
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorItem.item}"  />
                         <p:tooltip for="btEditar" value="Editar"/>
                     </p:commandButton>
 
-                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorLicitador.remover}" update="@form" 
+                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorItem.remover}" update="@form" 
                                      style="font-size: 10px">
-                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorLicitador.licitadora}"  />
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorItem.item}"  />
                         <p:tooltip for="btExcluir" value="Excluir"/>
-                        <p:confirm icon="ui-icon-alert" header="Excluir Instituição" message="Deseja realmente excluir esta Instituição"/>
+                        <p:confirm icon="ui-icon-alert" header="Excluir Item" message="Deseja realmente excluir este Item"/>
                     </p:commandButton>
 
                 </p:column>
 
             </p:dataTable>
+
         </h:form>
 
     </ui:define>
@@ -70,12 +74,12 @@
                     <p:outputLabel value="Razão Social:" for="razaoSocial"/>
                     <p:inputText id="razaoSocial" value="#{controladorLicitador.licitadora.pessoaJuridica.razaoSocial}" title="Razão Social" required="true" 
                                  requiredMessage="O campo Razão Social é obrigatorio" placeholder="Razão Social"/>
-                    
+
                     <p:outputLabel value="Nome de Fantasia:" for="nomeFantasia"/>
                     <p:inputText id="nomeFantasia" value="#{controladorLicitador.licitadora.pessoaJuridica.nomeFantasia}" title="Nome de Fantasia" required="true" 
                                  requiredMessage="O campo nome de fantasia é obrigatorio" placeholder="Nome de Fantasia"/>
 
-                   
+
                     <p:outputLabel value="Logradouro:" for="logradouro" />
                     <p:inputText id="logradouro" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.logradouro}" title="Logradouro" placeholder="Logradouro" maxlength="60"/>
 
@@ -136,7 +140,7 @@
                                  size="25" validatorMessage="E-mail incorreto" title="E-mail" placeholder="E-mail">
                         <f:validateRegex pattern="^$|^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})$"/>
                     </p:inputText>
-                        
+
 
                     <p:outputLabel value="Complemento:"  for="complemento"/>
                     <p:inputTextarea id="complemento" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.complemento}" title="Complemento" placeholder="Complemento" 
