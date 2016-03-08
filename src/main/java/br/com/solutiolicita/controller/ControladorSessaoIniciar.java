@@ -4,9 +4,11 @@ import br.com.solutiolicita.controller.util.JsfUtil;
 import br.com.solutiolicita.excecoes.ExcecoesLicita;
 import br.com.solutiolicita.modelos.EmpresaLicitante;
 import br.com.solutiolicita.modelos.Pregao;
+import br.com.solutiolicita.modelos.Proposta;
 import br.com.solutiolicita.modelos.Sessao;
 import br.com.solutiolicita.servicos.ServicoSessaoIF;
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -29,8 +31,7 @@ public class ControladorSessaoIniciar implements Serializable {
     private UploadedFile planilhaImport;
     private Sessao sessao;
     private EmpresaLicitante empresaLicitante;
-    private Pregao pregao;
-
+    
     @Inject
     private ServicoSessaoIF servicoSessao;
 
@@ -39,7 +40,6 @@ public class ControladorSessaoIniciar implements Serializable {
 
     @PostConstruct
     public void iniciar() {
-        pregao = new Pregao();
         sessao = (Sessao) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sessao");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("sessao");
     }
@@ -47,14 +47,14 @@ public class ControladorSessaoIniciar implements Serializable {
     public void validarArquivoXLS(FileUploadEvent file) {
         try {
             planilhaImport = file.getFile();
-            servicoSessao.validarArquivoXLS(planilhaImport);
+            servicoSessao.validarArquivoXLS(planilhaImport, sessao.getIdPregao(), sessao, empresaLicitante);
             JsfUtil.addSuccessMessage("Planilha está CORRETA!");
         } catch (ExcecoesLicita el) {
             planilhaImport = null;
             RequestContext.getCurrentInstance().update("sessaoIn_form:file-import-xls");
             JsfUtil.addErrorMessage(el.getMessage());
             Logger.getGlobal().log(Level.WARNING, el.getMessage());
-        }catch (Exception e){
+        } catch (Exception e) {
             planilhaImport = null;
             RequestContext.getCurrentInstance().update("sessaoIn_form:file-import-xls");
             JsfUtil.addErrorMessage("ERROR 04 - A Planilha inserida possui alguma IRREGULARIDADE!");
@@ -62,11 +62,16 @@ public class ControladorSessaoIniciar implements Serializable {
         }
     }
 
-    public void classificarPropostas() {
-
+    public void importarPropostas() {
+        try {
+            List<Proposta> propostas = servicoSessao.importarValoresPlanilha(planilhaImport, sessao.getIdPregao(), sessao, empresaLicitante);
+            servicoSessao.salvarPropostar(propostas);
+        } catch (ExcecoesLicita ex) {
+            Logger.getLogger(ControladorSessaoIniciar.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    public void removerArquivo(){
+
+    public void removerArquivo() {
         planilhaImport = null;
     }
 
@@ -92,14 +97,6 @@ public class ControladorSessaoIniciar implements Serializable {
 
     public void setEmpresaLicitante(EmpresaLicitante empresaLicitante) {
         this.empresaLicitante = empresaLicitante;
-    }
-
-    public Pregao getPregao() {
-        return pregao;
-    }
-
-    public void setPregao(Pregao pregao) {
-        this.pregao = pregao;
     }
 
     public ServicoSessaoIF getServicoSessao() {

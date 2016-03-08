@@ -2,10 +2,16 @@ package br.com.solutiolicita.servicos;
 
 import br.com.solutiolicita.excecoes.ExcecoesLicita;
 import br.com.solutiolicita.modelos.EmpresaLicitante;
+import br.com.solutiolicita.modelos.Item;
+import br.com.solutiolicita.modelos.ItemPregao;
+import br.com.solutiolicita.modelos.Pregao;
 import br.com.solutiolicita.modelos.Proposta;
 import br.com.solutiolicita.modelos.Sessao;
 import br.com.solutiolicita.persistencia.DaoIF;
 import br.com.solutiolicita.persistencia.util.Transactional;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,32 +30,98 @@ public class ServicoSessao implements ServicoSessaoIF {
     @Inject
     private DaoIF<Sessao> dao;
 
+    @Inject
+    private DaoIF<Proposta> daoPropostas;
+
+    @Inject
+    private DaoIF<ItemPregao> daoItemPregao;
+    
+    @Inject
+    private DaoIF<Item> daoItem;
+
     public ServicoSessao() {
-    }
-
-    @Override
-    public List<EmpresaLicitante> getEmpresasLicitantes() {
-        return null;
-    }
-
-    @Override
-    public List<Proposta> getPropostas(Sessao sessao) {
-        return null;
-    }
-
-    @Override
-    public boolean filtraPlanilha(UploadedFile uploadArquivo) {
-        return true;
-    }
-
-    @Override
-    public boolean salvarPropostas(Sessao entidade, EmpresaLicitante empresaLicitante) {
-        return true;
     }
 
     @Override
     public void buscarPropostas(Sessao sessao, List<EmpresaLicitante> empresaLicitantes) {
     }
+
+    
+    //Metodos para montar a lista de propostas para que sejam salvas de uma única vez
+    @Override
+    public List<Proposta> importarValoresPlanilha(UploadedFile file, Pregao pregao, Sessao sessao, EmpresaLicitante licitante) throws ExcecoesLicita {
+        List<Proposta> propostas = new ArrayList<>();
+        if (file != null) {
+            try {
+                HSSFWorkbook wb = new HSSFWorkbook(file.getInputstream());
+                HSSFSheet planilha = wb.getSheetAt(wb.getActiveSheetIndex());
+                //indValores indica a primeira linha onde os valores estao contidos
+                int indValores = 6;
+                int indFinalValores = planilha.getLastRowNum();
+                for (int i = indValores; i <= indFinalValores; i++) {
+                    HSSFRow linha = planilha.getRow(i);
+
+                    ItemPregao itemPregao;
+                    itemPregao = procurarItemPregao(linha, pregao);
+
+                    propostas.add(montarProposta(linha, itemPregao, sessao, licitante));
+                    Logger.getGlobal().log(Level.INFO, propostas.toString());
+
+                }
+                return propostas;
+
+            } catch (IOException ex) {
+                Logger.getLogger(ServicoSessao.class.getName()).log(Level.SEVERE, "Erro ao carregar Propostas", ex);
+            }
+        }
+        return propostas;
+    }
+
+    private Proposta montarProposta(HSSFRow linha, ItemPregao itemPregao, Sessao sessao, EmpresaLicitante licitante) {
+        int indValorRef = 5;
+        BigDecimal valorProposta;
+        valorProposta = BigDecimal.valueOf(linha.getCell(indValorRef).getNumericCellValue());
+        Proposta proposta = new Proposta();
+        proposta.setIdItemPregao(itemPregao);
+        proposta.setIdSessao(sessao);
+        proposta.setIdLicitante(licitante);
+        proposta.setValorUnitario(valorProposta);
+        return proposta;
+    }
+
+    private ItemPregao procurarItemPregao(HSSFRow linha, Pregao pregao) throws NumberFormatException, ExcecoesLicita {
+        Long idItem = Long.parseLong(linha.getCell(0).getStringCellValue());
+        Item item = daoItem.buscarPorId(idItem);
+        //Passar os objetos e não os valores do ID
+        String[] parametros = {"idPregao", "idItem"};
+        Object[] valores = {pregao, item};
+        ItemPregao itemPregao = null;
+        List<ItemPregao> itensPregao;
+        itensPregao = daoItemPregao.consultar("ItemPregao.findByPregaoAndItem", parametros, valores);
+        if (itensPregao.size() > 1) {
+            throw new ExcecoesLicita("ERROR 05 - Existe Item Repetido!");
+        } else if (itensPregao.size() < 1) {
+            throw new ExcecoesLicita("ERROR 06 - Não foi possível Localizar nenhum Item com este código!");
+        } else {
+            itemPregao = itensPregao.get(0);
+        }
+        return itemPregao;
+    }
+    
+    
+    /**
+     * 
+     * @param propostas 
+     */
+    @Transactional
+    @Override
+    public void salvarPropostar(List<Proposta> propostas){
+        for (Proposta proposta : propostas) {
+            daoPropostas.criar(proposta);
+        }
+    }
+    
+    
 
     @Override
     @Transactional
@@ -89,13 +161,14 @@ public class ServicoSessao implements ServicoSessaoIF {
      * @throws ExcecoesLicita
      */
     @Override
-    public void validarArquivoXLS(UploadedFile planilhaImport) throws ExcecoesLicita {
+    public void validarArquivoXLS(UploadedFile planilhaImport, Pregao pregao, Sessao sessao, EmpresaLicitante licitante) throws ExcecoesLicita {
         if (planilhaImport == null) {
             throw new ExcecoesLicita("ERROR 01 - Nenhum Arquivo Localizado.");
         } else if (!planilhaImport.getFileName().contains(".xls")) {
             throw new ExcecoesLicita("ERROR 02 - Este Arquivo não é do tipo .XLS.");
         } else {
             converterArquivoXLStoHSSF(planilhaImport);
+            importarValoresPlanilha(planilhaImport, pregao, sessao, licitante);
         }
 
     }
@@ -163,12 +236,11 @@ public class ServicoSessao implements ServicoSessaoIF {
 
         for (int i = 0; i < quantAtt; i++) {
             Logger.getGlobal().log(Level.INFO, linha.getCell(i).getStringCellValue());
-            
+
             if (!linha.getCell(i).getStringCellValue().contains(atributos[i])) {
                 throw new ExcecoesLicita("ERROR 04 - A Planilha inserida possui alguma IRREGULARIDADE!");
             }
         }
-
+        //<<Fim - (MVP)>>
     }
-    //<<Fim - (MVP)>>
 }
