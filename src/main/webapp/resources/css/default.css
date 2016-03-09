@@ -18,6 +18,9 @@ h1 {
 
 table{
     font-size: 90%;
+    font-weight: bold;
+    font-family: Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    color: #036fab;
 }
 
 
@@ -418,4 +421,23 @@ footer {
 
 #fasesDeLances{
     background: transparent!important;
+}
+
+/*Adaptacao a modelo de alta*/
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+    border-radius: 0;
+}
+
+.ui-datatable{
+    background: #2285BB;
+
+}
+.ui-datatable-header{
+    background: #2285BB;
+    border: 0px;
+}
+
+.ui-paginator{
+    border: 0px;
+    background: #2285BB;
 }

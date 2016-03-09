@@ -1,5 +1,6 @@
 package br.com.solutiolicita.servicos;
 
+import br.com.solutiolicita.excecoes.ExcecoesLicita;
 import br.com.solutiolicita.excecoes.ExcecoesRunTimeLicita;
 import br.com.solutiolicita.modelos.Item;
 import br.com.solutiolicita.persistencia.DaoIF;
@@ -53,6 +54,15 @@ public class ServicoItem implements ServicoItemIF {
     @Transactional
     public void atualizar(Item entidade) {
         dao.atualizar(entidade);
+    }
+    
+    @Override
+    public void validarItem(Item item) throws ExcecoesLicita{
+        if(item.getNome() == null){
+            throw new ExcecoesLicita("ERROR 09 - Item Possui valores vazios");
+        } else if(item.getUnidade() == null){
+            throw new ExcecoesLicita("ERROR 09 - Item Possui valores vazios");
+        }
     }
 
 }

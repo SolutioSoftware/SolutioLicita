@@ -5,14 +5,19 @@
  */
 package br.com.solutiolicita.controller;
 
+import br.com.solutiolicita.controller.util.JsfUtil;
+import br.com.solutiolicita.excecoes.ExcecoesLicita;
 import br.com.solutiolicita.modelos.MembroApoio;
 import br.com.solutiolicita.modelos.Pregoeiro;
 import br.com.solutiolicita.servicos.ServicoMembroApoioIF;
 import br.com.solutiolicita.servicos.ServicoPregoeiroIF;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
+import javax.persistence.RollbackException;
 
 /**
  *
@@ -38,23 +43,55 @@ public class ControladorEquipe {
     }
 
     //Métodos para o Membro de Apoio
-    
-    public String prepararEditarMembroApoio(){
+    public String prepararEditarMembroApoio() {
         return "/restrito/equipe/equipeEditarMembroApoio.xhtml";
     }
-    
+
     public String criarMembroApoio() {
-        servicoMembroApoio.criar(membroApoio);
-        return "/restrito/equipe/equipe.xhtml";
+        try {
+            servicoMembroApoio.validarMembroApoio(membroApoio);
+            servicoMembroApoio.criar(membroApoio);
+            JsfUtil.addSuccessMessage("Salvo com Sucesso!");
+            return "/restrito/equipe/equipe.xhtml";
+        } catch (ExcecoesLicita el) {
+            JsfUtil.addErrorMessage(el.getMessage());
+            Logger.getGlobal().log(Level.WARNING, el.getMessage());
+        } catch (RollbackException re) {
+            JsfUtil.addErrorMessage("CPF já existe!");
+            Logger.getGlobal().log(Level.WARNING, re.getMessage());
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Erro Inesperado ocorreu!");
+            Logger.getGlobal().log(Level.WARNING, e.getMessage());
+        }
+        return null;
     }
 
     public String editarMembroApoio() {
-        servicoMembroApoio.atualizar(membroApoio);
-        return "/restrito/equipe/equipe.xhtml?faces-redirect=true";
+        try {
+            servicoMembroApoio.validarMembroApoio(membroApoio);
+            servicoMembroApoio.atualizar(membroApoio);
+            JsfUtil.addSuccessMessage("Atualizado com Sucesso!");
+            return "/restrito/equipe/equipe.xhtml";
+        } catch (ExcecoesLicita el) {
+            JsfUtil.addErrorMessage(el.getMessage());
+            Logger.getGlobal().log(Level.WARNING, el.getMessage());
+        } catch (RollbackException re) {
+            JsfUtil.addErrorMessage("CPF já existe!");
+            Logger.getGlobal().log(Level.WARNING, re.getMessage());
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Erro Inesperado ocorreu!");
+            Logger.getGlobal().log(Level.WARNING, e.getMessage());
+        }
+        return null;
     }
 
     public void removerMembroApoio() {
-        servicoMembroApoio.remover(membroApoio);
+        try {
+            servicoMembroApoio.remover(membroApoio);
+        } catch(Exception e){
+            JsfUtil.addErrorMessage("Erro Inesperado ocorreu!");
+            Logger.getGlobal().log(Level.WARNING, e.getMessage());
+        }
     }
 
     public List<MembroApoio> getMembrosApoio() {
@@ -66,16 +103,15 @@ public class ControladorEquipe {
         servicoPregoeiro.criar(pregoeiro);
         return "/restrito/equipe/equipe.xhtml";
     }
-    
-    public String editarPregoeiro(){
+
+    public String editarPregoeiro() {
         servicoPregoeiro.atualizar(pregoeiro);
         return "/restrito/equipe/equipe.xhtml?faces-redirect=true";
     }
-    
-    public void removerPregoeiro(){
+
+    public void removerPregoeiro() {
         servicoPregoeiro.remover(pregoeiro);
     }
-    
 
     public MembroApoio getMembroApoio() {
         return membroApoio;

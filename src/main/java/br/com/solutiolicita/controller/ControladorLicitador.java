@@ -1,11 +1,16 @@
 package br.com.solutiolicita.controller;
 
+import br.com.solutiolicita.controller.util.JsfUtil;
+import br.com.solutiolicita.excecoes.ExcecoesLicita;
 import br.com.solutiolicita.modelos.InstituicaoLicitadora;
 import br.com.solutiolicita.servicos.ServicoInstituicaoLicitadoraIF;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
+import javax.persistence.RollbackException;
 
 /**
  *
@@ -28,13 +33,37 @@ public class ControladorLicitador {
     }
 
     public String criar() {
-        servicoLicitadora.criar(licitadora);
-        return "/restrito/licitadores/licitador.xhtml?faces-redirect=true";
+        try {
+            servicoLicitadora.validarLicitador(licitadora);
+            servicoLicitadora.criar(licitadora);
+            return "/restrito/licitadores/licitador.xhtml";
+        } catch (ExcecoesLicita el) {
+            JsfUtil.addErrorMessage(el.getMessage());
+        } catch (RollbackException re) {
+            JsfUtil.addErrorMessage("CPF já existe!");
+            Logger.getGlobal().log(Level.WARNING, re.getMessage());
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Ocorreu um erro inesperado!");
+            Logger.getGlobal().log(Level.SEVERE, e.getMessage());
+        }
+        return null;
     }
 
     public String editar() {
-        servicoLicitadora.atualizar(licitadora);
-        return "/restrito/licitadores/licitador.xhtml?faces-redirect=true";
+        try {
+            servicoLicitadora.validarLicitador(licitadora);
+            servicoLicitadora.atualizar(licitadora);
+            return "/restrito/licitadores/licitador.xhtml";
+        } catch (ExcecoesLicita el) {
+            JsfUtil.addErrorMessage(el.getMessage());
+        } catch (RollbackException e) {
+            JsfUtil.addErrorMessage("CNPJ já existe!");
+            Logger.getGlobal().log(Level.WARNING, "Usuário tentou utilizar um CNPJ já existente.");
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Ocorreu um erro inesperado.");
+            Logger.getGlobal().log(Level.SEVERE, e.getMessage());
+        }
+        return null;
     }
 
     public String prepararEditar() {

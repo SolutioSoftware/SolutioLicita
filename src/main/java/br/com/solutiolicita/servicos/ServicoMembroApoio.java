@@ -1,5 +1,6 @@
 package br.com.solutiolicita.servicos;
 
+import br.com.solutiolicita.excecoes.ExcecoesLicita;
 import br.com.solutiolicita.modelos.MembroApoio;
 import br.com.solutiolicita.persistencia.DaoIF;
 import br.com.solutiolicita.persistencia.util.Transactional;
@@ -44,6 +45,15 @@ public class ServicoMembroApoio implements ServicoMembroApoioIF{
     @Override
     public List<MembroApoio> buscarTodos() {
         return dao.consultar("MembroApoio.findAll");
+    }
+    
+    @Override
+    public void validarMembroApoio(MembroApoio apoio) throws ExcecoesLicita{
+        if(apoio.getPessoaFisica().getCpf() == null){
+            throw new ExcecoesLicita("ERROR 09 - Membro de Apoio possui atributos obrigatórios vazio.");
+        }else if(apoio.getPessoaFisica().getNome() == null){
+            throw new ExcecoesLicita("ERROR 09 - Membro de Apoio possui atributos obrigatórios vazio.");
+        }
     }
     
 }

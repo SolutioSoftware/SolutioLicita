@@ -1,5 +1,6 @@
 package br.com.solutiolicita.servicos;
 
+import br.com.solutiolicita.excecoes.ExcecoesLicita;
 import br.com.solutiolicita.modelos.MembroApoio;
 
 /**
@@ -8,5 +9,5 @@ import br.com.solutiolicita.modelos.MembroApoio;
  */
 public interface ServicoMembroApoioIF extends ServicoIF<MembroApoio>{
     
-    
+    public void validarMembroApoio(MembroApoio apoio) throws ExcecoesLicita;
 }
