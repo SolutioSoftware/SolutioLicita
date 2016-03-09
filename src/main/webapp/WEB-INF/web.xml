@@ -40,4 +40,14 @@
             javax.enterprise.inject.spi.BeanManager
         </resource-env-ref-type>
     </resource-env-ref>
+    
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>bootstrap</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>primefaces.FONT_AWESOME</param-name>
+        <param-value>true</param-value>
+    </context-param>
 </web-app>

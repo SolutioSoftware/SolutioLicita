@@ -16,6 +16,11 @@ h1 {
     color: #036fab;
 }
 
+table{
+    font-size: 90%;
+}
+
+
 a:link, a:visited {
     color: #045491;
     font-weight : bold;
@@ -345,8 +350,6 @@ footer {
     width: 24px;
     height: 24px; 
     background-repeat: no-repeat
-
-
 }
 
 .bt_alerta:hover{
@@ -385,3 +388,34 @@ footer {
 
 }
 
+#sub_template{
+    border: 0px transparent;
+}
+
+#painel_info{
+    border: 0px;
+    border-right: 1px solid #ABABAB;
+    border-radius: 0;
+}
+
+#painel_conteudo{
+    border: 0px;
+    border-radius: 0;
+}
+
+.ui-clock{
+    font-size: 500%;
+    background-color: transparent;
+    height: 100%;
+    vertical-align: middle;
+    color: #ffffff;
+    border: 0px;
+}
+
+#content{
+    background-color: #2285BB;
+}
+
+#fasesDeLances{
+    background: transparent!important;
+}
