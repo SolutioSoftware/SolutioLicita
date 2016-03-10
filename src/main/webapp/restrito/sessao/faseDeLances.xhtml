@@ -7,6 +7,11 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:pe="http://primefaces.org/ui/extensions"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+     <f:metadata>
+         <f:viewParam name ="sessaoIniciarId" value="#{controladorFaseDeLance.pregao}"
+                     converter="#{pregaoConverter}"/>
+    </f:metadata>
 
     <!--Pregoeiro-->
     <ui:define name="pn_conteudo">
@@ -33,11 +38,11 @@
 
             <p:growl id="growFasesDeLances" showDetail="true" life="3000" class="ui-growl" />
 
-            <p:outputLabel value="Item 103: Caneta Preta" style="font-size: 36px; color: #036fab; font-weight: bold"  />
+            <p:outputLabel value="#{controladorFaseDeLance.itemPregao.item.nome}" style="font-size: 36px; color: #036fab; font-weight: bold"  />
             <br/>
             <p:outputLabel value="Melhor Proposta: R$ 0,60 por papelaria papel bom LTDA" style="font-weight:bold; font-size: 18px;"/>
             <br/>
-            <p:outputLabel value="Quantidade: 500 und" style="font-weight:bold; font-size: 18px;"/>
+            <p:outputLabel value="Quantidade: #{controladorFaseDeLance.itemPregao.quantidade} #{controladorFaseDeLance.itemPregao.item.unidade}" style="font-weight:bold; font-size: 18px;"/>
             <br/>
             <br/>
             <p:outputLabel value="Lance atual: R$ 0,52" style="font-size: 30px; color: #036fab; font-weight: bold"/>

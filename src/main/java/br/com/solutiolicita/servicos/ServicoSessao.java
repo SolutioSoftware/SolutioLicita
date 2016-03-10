@@ -22,14 +22,13 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.primefaces.model.UploadedFile;
 
 /**
- *
  * @author Matheus Oliveira
  */
 public class ServicoSessao implements ServicoSessaoIF {
 
     @Inject
     private DaoIF<Sessao> dao;
-
+    
     @Inject
     private DaoIF<Proposta> daoPropostas;
 
@@ -38,12 +37,22 @@ public class ServicoSessao implements ServicoSessaoIF {
 
     @Inject
     private DaoIF<Item> daoItem;
-
+    
     public ServicoSessao() {
     }
 
     @Override
     public void buscarPropostas(Sessao sessao, List<EmpresaLicitante> empresaLicitantes) {
+    }
+    
+    @Override
+    public List<ItemPregao> carregarFaseDeLance (Pregao Pregao){
+        
+        Object[] valores = {Pregao};
+        String[] parametros = {"idPregao"};
+        List<ItemPregao> itensDoPregao = daoItemPregao.consultar("ItemPregao.findByPregao", parametros, valores);
+        System.out.println(itensDoPregao);
+        return itensDoPregao;
     }
 
     //Metodos para montar a lista de propostas para que sejam salvas de uma única vez
