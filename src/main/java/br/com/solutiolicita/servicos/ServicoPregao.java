@@ -1,5 +1,6 @@
 package br.com.solutiolicita.servicos;
 
+import br.com.solutiolicita.excecoes.ExcecoesLicita;
 import br.com.solutiolicita.modelos.ItemPregao;
 import br.com.solutiolicita.modelos.Pregao;
 import br.com.solutiolicita.persistencia.DaoIF;
@@ -68,7 +69,7 @@ public class ServicoPregao implements ServicoPregaoIF {
      */
     @Override
     public void criarPlanilhaXLS(Object documento, Pregao pregao) {
-         HSSFWorkbook wb = (HSSFWorkbook) documento;
+        HSSFWorkbook wb = (HSSFWorkbook) documento;
         HSSFSheet planilha = wb.getSheetAt(0);
 
         //Move as celulas selecionadas para baixo de acordo com o valor informado
@@ -126,6 +127,15 @@ public class ServicoPregao implements ServicoPregaoIF {
         HSSFCell celula2 = linha3.getCell(2);
         celula2.setCellStyle(unlockedCellStyle);
     }
-    
 
+    @Override
+    public void validarPregao(Pregao pregao) throws ExcecoesLicita {
+        if (pregao == null) {
+            throw new ExcecoesLicita("ERROR 12 - Pregao possui campos obrigatórios vazios!");
+        } else if (pregao.getNumeroPregao() == null) {
+            throw new ExcecoesLicita("ERROR 12 - Pregao possui campos obrigatórios vazios!");
+        } else if (pregao.getNumeroProcesso() == null) {
+            throw new ExcecoesLicita("ERROR 12 - Pregao possui campos obrigatórios vazios!");
+        }
+    }
 }

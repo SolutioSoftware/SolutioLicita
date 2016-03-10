@@ -50,9 +50,9 @@ public class ServicoMembroApoio implements ServicoMembroApoioIF{
     @Override
     public void validarMembroApoio(MembroApoio apoio) throws ExcecoesLicita{
         if(apoio.getPessoaFisica().getCpf() == null){
-            throw new ExcecoesLicita("ERROR 09 - Membro de Apoio possui atributos obrigatórios vazio.");
+            throw new ExcecoesLicita("ERROR 10 - Membro de Apoio possui atributos obrigatórios vazio.");
         }else if(apoio.getPessoaFisica().getNome() == null){
-            throw new ExcecoesLicita("ERROR 09 - Membro de Apoio possui atributos obrigatórios vazio.");
+            throw new ExcecoesLicita("ERROR 10 - Membro de Apoio possui atributos obrigatórios vazio.");
         }
     }
     
