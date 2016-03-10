@@ -5,6 +5,7 @@
  */
 package br.com.solutiolicita.controller;
 
+import br.com.solutiolicita.controller.util.JsfUtil;
 import br.com.solutiolicita.modelos.ItemPregao;
 import br.com.solutiolicita.modelos.Pregao;
 import br.com.solutiolicita.modelos.Sessao;
@@ -12,6 +13,8 @@ import br.com.solutiolicita.servicos.ServicoSessaoIF;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -29,6 +32,7 @@ public class ControladorFaseDeLance implements Serializable {
     private Pregao pregao;
     private List<ItemPregao> itens;
     private ItemPregao itemPregao;
+    private int indiceDoItem;
 
     @Inject
     private ServicoSessaoIF servicoSessao;
@@ -41,6 +45,16 @@ public class ControladorFaseDeLance implements Serializable {
         sessao = new Sessao();
         pregao = new Pregao();
         itens = new ArrayList();
+        indiceDoItem = 1;
+    }
+
+    public String encerrarItem() {
+        indiceDoItem++;
+        if(indiceDoItem > itens.size()){
+            JsfUtil.addErrorMessage("Não há mais itens!");
+            return "/restrito/index.xhtml";
+        }
+        return null;
     }
 
     public Pregao getPregao() {
@@ -55,7 +69,12 @@ public class ControladorFaseDeLance implements Serializable {
         if (itens.isEmpty()) {
             itens = this.servicoSessao.carregarFaseDeLance(pregao);
         }
-        itemPregao = itens.get(0);
+        if (!itens.isEmpty()) {
+            Logger.getGlobal().log(Level.INFO, "indice do item: "+indiceDoItem);
+            if (itens.size() >= indiceDoItem) {
+                itemPregao = itens.get(indiceDoItem - 1);
+            } 
+        }
     }
 
     public Sessao getSessao() {
@@ -74,7 +93,9 @@ public class ControladorFaseDeLance implements Serializable {
     public void setItemPregao(ItemPregao itemPregao) {
         this.itemPregao = itemPregao;
     }
-    
-    
+
+    public int getIndiceDoItem() {
+        return indiceDoItem;
+    }
 
 }

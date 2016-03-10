@@ -7,9 +7,9 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:pe="http://primefaces.org/ui/extensions"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
-    
-     <f:metadata>
-         <f:viewParam name ="sessaoIniciarId" value="#{controladorFaseDeLance.pregao}"
+
+    <f:metadata>
+        <f:viewParam name ="sessaoIniciarId" value="#{controladorFaseDeLance.pregao}"
                      converter="#{pregaoConverter}"/>
     </f:metadata>
 
@@ -17,9 +17,10 @@
     <ui:define name="pn_conteudo">
 
         <h:form id="fasesDeLances" style="text-align: center">
-            
+            <p:growl id="growFasesDeLances" showDetail="true" life="3000" class="ui-growl" />
+
             <p:defaultCommand target="fasesDeLances:btIDarLance" />
-            
+
             <div align="right">
                 <h:panelGrid columns="1">
                     <p:commandButton id="btIPausarSessao" icon="ui-icon-close"  value="Pausar Sessão" label="Pausar Sessão"
@@ -36,9 +37,8 @@
                 </h:panelGrid>
             </div>
 
-            <p:growl id="growFasesDeLances" showDetail="true" life="3000" class="ui-growl" />
 
-            <p:outputLabel value="#{controladorFaseDeLance.itemPregao.item.nome}" style="font-size: 36px; color: #036fab; font-weight: bold"  />
+            <p:outputLabel value="Item: #{controladorFaseDeLance.indiceDoItem} #{controladorFaseDeLance.itemPregao.item.nome}" style="font-size: 36px; color: #036fab; font-weight: bold"  />
             <br/>
             <p:outputLabel value="Melhor Proposta: R$ 0,60 por papelaria papel bom LTDA" style="font-weight:bold; font-size: 18px;"/>
             <br/>
@@ -81,13 +81,21 @@
             <div align="center">
                 <h:panelGrid id="panelBtFaseDeLances" columns="3" cellpadding="20px"  >
 
-                    <p:commandButton id="btIDeclinarProposta" icon="ui-icon-close"  value="Declinar Proposta" label="Declinar Proposta"
+                    <p:commandButton id="btIDeclinarProposta" 
+                                     icon="ui-icon-close"  
+                                     value="Declinar Proposta" 
+                                     label="Declinar Proposta"
                                      />
 
-                    <p:commandButton id="btIEncerrarItem" icon="ui-icon-gavel"  value="Encerrar Item" label="Encerrar Item"
+                    <p:commandButton action="#{controladorFaseDeLance.encerrarItem()}" 
+                                     id="btIEncerrarItem" 
+                                     icon="ui-icon-gavel"  
+                                     value="Encerrar Item" 
+                                     label="Encerrar Item"
+                                     update="fasesDeLances"
                                      />
 
-                    
+
                     <p:commandButton id="btIDarLance" icon="ui-icon-plus"  value="Dar Lance!" label="Dar Lance!"
                                      />
 
