@@ -68,11 +68,10 @@
 
         <p:growl id="growPregao" showDetail="false" life="3000" class="ui-growl" />
 
-        <h:form id="pregao_form" title="Pregão" style="text-align: center">
+        <h:form id="pregao_form" title="Pregão" styleClass="form-conteudo">
 
-            <div style="margin-left: 25%; margin-top: 2%" >
 
-                <h:panelGrid columns="2"  id="panelGridSavePregao" columnClasses="colunaEsquerda,colunaDireita" >
+                <h:panelGrid columns="1"  id="panelGridSavePregao"  >
 
                     <p:outputLabel value="Número do Processo:" for="numeroProcesso" />
                     <p:inputText id="numeroProcesso" value="#{controladorPregao.pregao.numeroProcesso}" title="Número do Processo" 
@@ -110,13 +109,13 @@
                     <p:outputLabel id="display" />
 
                 </h:panelGrid>
-            </div>
 
-            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
 
-                <p:commandButton  id="btSalvarPregao" value="Salvar" icon="fa fa-save" action="#{controladorPregao.criar}" update="growPregao" process="@this" ajax="false" />
+                <p:commandButton  id="btSalvarPregao" value="Salvar" icon="fa fa-save" action="#{controladorPregao.criar}" 
+                                  update="growPregao"
+                                  process="@this"
+                                  ajax="false"  />
 
-            </div>
 
         </h:form>
 

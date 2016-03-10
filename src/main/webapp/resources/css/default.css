@@ -404,6 +404,7 @@ footer {
 #painel_conteudo{
     border: 0px;
     border-radius: 0;
+    padding: 2%;
 }
 
 .ui-clock{
@@ -428,16 +429,12 @@ footer {
     border-radius: 0;
 }
 
-.ui-datatable{
-    background: #2285BB;
 
-}
-.ui-datatable-header{
-    background: #2285BB;
-    border: 0px;
+.form-conteudo{
+    padding: 2%;
+    display: inline-block;
 }
 
-.ui-paginator{
-    border: 0px;
-    background: #2285BB;
+.form-conteudo:parent{
+    text-align: center;
 }
