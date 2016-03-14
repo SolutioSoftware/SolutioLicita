@@ -19,7 +19,7 @@
                 <f:facet name="header">
                     <p:outputPanel>
                         <p:button value="Novo" style="width: 80px" outcome="/restrito/licitadores/licitadorSalvar.xhtml" icon="fa fa-plus" 
-                                         class="botaoNovo"/>
+                                  class="botaoNovo"/>
                         <p:inputText id="globalFilter" onkeyup="PF('tbl_licitadores').filter()" style="width:250px" placeholder="Digite sua busca" />
                     </p:outputPanel>
                 </f:facet>
@@ -38,100 +38,97 @@
 
     <ui:define name="pn_conteudo">
 
-        <h:form id="licitador_form" title="Licitador" style="text-align: center"  >
+        <h:form id="licitador_form" title="Licitador" styleClass="form-conteudo" >
 
             <p:growl id="growLicitador" showDetail="false" life="3000" class="ui-growl"/>
 
-            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
+            <h:panelGrid columns="4" id="panelGridSaveLicitador" columnClasses="colunaEsquerda,colunaDireita,colunaEsquerda,colunaDireita">
 
-                <h:panelGrid columns="4" id="panelGridSaveLicitador" columnClasses="colunaEsquerda,colunaDireita,colunaEsquerda,colunaDireita">
+                <p:outputLabel value="CNPJ:" for="cnpj"/>
+                <p:inputMask id="cnpj" value="#{controladorLicitador.licitadora.pessoaJuridica.cnpj}" title="CNPJ" required="true" requiredMessage="O campo CNPJ é obrigatório" 
+                             mask="99.999.999/9999-99" placeholder="CNPJ"/>
 
-                    <p:outputLabel value="CNPJ:" for="cnpj"/>
-                    <p:inputMask id="cnpj" value="#{controladorLicitador.licitadora.pessoaJuridica.cnpj}" title="CNPJ" required="true" requiredMessage="O campo CNPJ é obrigatório" 
-                                 mask="99.999.999/9999-99" placeholder="CNPJ"/>
+                <p:outputLabel value="Razão Social:" for="razaoSocial"/>
+                <p:inputText id="razaoSocial" value="#{controladorLicitador.licitadora.pessoaJuridica.razaoSocial}" title="Razão Social" required="true" 
+                             requiredMessage="O campo Razão Social é obrigatorio" placeholder="Razão Social"/>
 
-                    <p:outputLabel value="Razão Social:" for="razaoSocial"/>
-                    <p:inputText id="razaoSocial" value="#{controladorLicitador.licitadora.pessoaJuridica.razaoSocial}" title="Razão Social" required="true" 
-                                 requiredMessage="O campo Razão Social é obrigatorio" placeholder="Razão Social"/>
+                <p:outputLabel value="Nome de Fantasia:" for="nomeFantasia"/>
+                <p:inputText id="nomeFantasia" value="#{controladorLicitador.licitadora.pessoaJuridica.nomeFantasia}" title="Nome de Fantasia" required="true" 
+                             requiredMessage="O campo nome de fantasia é obrigatorio" placeholder="Nome de Fantasia"/>
 
-                    <p:outputLabel value="Nome de Fantasia:" for="nomeFantasia"/>
-                    <p:inputText id="nomeFantasia" value="#{controladorLicitador.licitadora.pessoaJuridica.nomeFantasia}" title="Nome de Fantasia" required="true" 
-                                 requiredMessage="O campo nome de fantasia é obrigatorio" placeholder="Nome de Fantasia"/>
+                <p:outputLabel value="Logradouro:" for="logradouro" />
+                <p:inputText id="logradouro" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.logradouro}" title="Logradouro" placeholder="Logradouro" maxlength="60"/>
 
-                    <p:outputLabel value="Logradouro:" for="logradouro" />
-                    <p:inputText id="logradouro" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.logradouro}" title="Logradouro" placeholder="Logradouro" maxlength="60"/>
+                <p:outputLabel value="Cidade:" for="cidade"/>
+                <p:inputText id="cidade" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.cidade}" title="Cidade" placeholder="Cidade" maxlength="60" required="true" requiredMessage="O campo cidade é obrigatório"/>
 
-                    <p:outputLabel value="Cidade:" for="cidade"/>
-                    <p:inputText id="cidade" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.cidade}" title="Cidade" placeholder="Cidade" maxlength="60" required="true" requiredMessage="O campo cidade é obrigatório"/>
+                <p:outputLabel value="Numero:" for="numero"/>
+                <pe:inputNumber id="numero" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.numero}" title="Numero" maxValue="9999999" decimalPlaces="0"/>
 
-                    <p:outputLabel value="Numero:" for="numero"/>
-                    <pe:inputNumber id="numero" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.numero}" title="Numero" maxValue="9999999" decimalPlaces="0"/>
+                <p:outputLabel value="Estado:" for="estado"/>
+                <h:selectOneMenu id="estado" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.estado}" required="true" requiredMessage="O campo estado é obrigatório">
 
-                    <p:outputLabel value="Estado:" for="estado"/>
-                    <h:selectOneMenu id="estado" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.estado}" required="true" requiredMessage="O campo estado é obrigatório" style="width:188px">
+                    <f:selectItem noSelectionOption="true" />
+                    <f:selectItem itemLabel="Acre" itemValue="AC" />
+                    <f:selectItem itemLabel="Alagoas" itemValue="AL" />
+                    <f:selectItem itemLabel="Amapá" itemValue="AP" />
+                    <f:selectItem itemLabel="Amazonas" itemValue="AM" />
+                    <f:selectItem itemLabel="Bahia" itemValue="BA" />
+                    <f:selectItem itemLabel="Ceará" itemValue="CE" />
+                    <f:selectItem itemLabel="Distrito Federal" itemValue="DF" />
+                    <f:selectItem itemLabel="Espírito Santo" itemValue="ES" />
+                    <f:selectItem itemLabel="Goiás" itemValue="GO" />
+                    <f:selectItem itemLabel="Maranhão" itemValue="MA" />
+                    <f:selectItem itemLabel="Mato Grosso" itemValue="MT" />
+                    <f:selectItem itemLabel="Mato Grosso do Sul" itemValue="MS" />
+                    <f:selectItem itemLabel="Minas Gerais" itemValue="MG" />
+                    <f:selectItem itemLabel="Pará" itemValue="PA" />
+                    <f:selectItem itemLabel="Paraíba" itemValue="PB" />
+                    <f:selectItem itemLabel="Paraná" itemValue="PR" />
+                    <f:selectItem itemLabel="Pernanbuco" itemValue="PE" />
+                    <f:selectItem itemLabel="Piauí" itemValue="PI" />
+                    <f:selectItem itemLabel="Rio de Janeiro" itemValue="RJ" />
+                    <f:selectItem itemLabel="Rio Grande do Norte" itemValue="RN" />
+                    <f:selectItem itemLabel="Rio Grande do Sul" itemValue="RS" />
+                    <f:selectItem itemLabel="Rondônia" itemValue="RO" />
+                    <f:selectItem itemLabel="Roraima" itemValue="RR" />
+                    <f:selectItem itemLabel="Santa Catarina" itemValue="SC" />
+                    <f:selectItem itemLabel="São Paulo" itemValue="SP" />
+                    <f:selectItem itemLabel="Sergipe" itemValue="SE" />
+                    <f:selectItem itemLabel="Tocantins" itemValue="TO" />
 
-                        <f:selectItem noSelectionOption="true" />
-                        <f:selectItem itemLabel="Acre" itemValue="AC" />
-                        <f:selectItem itemLabel="Alagoas" itemValue="AL" />
-                        <f:selectItem itemLabel="Amapá" itemValue="AP" />
-                        <f:selectItem itemLabel="Amazonas" itemValue="AM" />
-                        <f:selectItem itemLabel="Bahia" itemValue="BA" />
-                        <f:selectItem itemLabel="Ceará" itemValue="CE" />
-                        <f:selectItem itemLabel="Distrito Federal" itemValue="DF" />
-                        <f:selectItem itemLabel="Espírito Santo" itemValue="ES" />
-                        <f:selectItem itemLabel="Goiás" itemValue="GO" />
-                        <f:selectItem itemLabel="Maranhão" itemValue="MA" />
-                        <f:selectItem itemLabel="Mato Grosso" itemValue="MT" />
-                        <f:selectItem itemLabel="Mato Grosso do Sul" itemValue="MS" />
-                        <f:selectItem itemLabel="Minas Gerais" itemValue="MG" />
-                        <f:selectItem itemLabel="Pará" itemValue="PA" />
-                        <f:selectItem itemLabel="Paraíba" itemValue="PB" />
-                        <f:selectItem itemLabel="Paraná" itemValue="PR" />
-                        <f:selectItem itemLabel="Pernanbuco" itemValue="PE" />
-                        <f:selectItem itemLabel="Piauí" itemValue="PI" />
-                        <f:selectItem itemLabel="Rio de Janeiro" itemValue="RJ" />
-                        <f:selectItem itemLabel="Rio Grande do Norte" itemValue="RN" />
-                        <f:selectItem itemLabel="Rio Grande do Sul" itemValue="RS" />
-                        <f:selectItem itemLabel="Rondônia" itemValue="RO" />
-                        <f:selectItem itemLabel="Roraima" itemValue="RR" />
-                        <f:selectItem itemLabel="Santa Catarina" itemValue="SC" />
-                        <f:selectItem itemLabel="São Paulo" itemValue="SP" />
-                        <f:selectItem itemLabel="Sergipe" itemValue="SE" />
-                        <f:selectItem itemLabel="Tocantins" itemValue="TO" />
+                </h:selectOneMenu>
 
-                    </h:selectOneMenu>
+                <p:outputLabel value="CEP:" for="cep"/>
+                <p:inputMask id="cep" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.cep}" title="CEP" mask="99.999-999" placeholder="CEP"/>
 
-                    <p:outputLabel value="CEP:" for="cep"/>
-                    <p:inputMask id="cep" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.cep}" title="CEP" mask="99.999-999" placeholder="CEP"/>
+                <p:outputLabel value="Telefone:" for="telefone"/>
+                <p:inputMask id="telefone" value="#{controladorLicitador.licitadora.pessoaJuridica.contatoPessoaJuridica.telefone}" title="Telefone" mask="(99)9999-9999" placeholder="Telefone" maxlength="14"/>
 
-                    <p:outputLabel value="Telefone:" for="telefone"/>
-                    <p:inputMask id="telefone" value="#{controladorLicitador.licitadora.pessoaJuridica.contatoPessoaJuridica.telefone}" title="Telefone" mask="(99)9999-9999" placeholder="Telefone" maxlength="14"/>
+                <p:outputLabel value="Celular:" for="celular"/>
+                <p:inputMask id="celular" value="#{controladorLicitador.licitadora.pessoaJuridica.contatoPessoaJuridica.celular}" title="Celular" mask="(99)99999-9999" placeholder="Celular" maxlength="14"/>
 
-                    <p:outputLabel value="Celular:" for="celular"/>
-                    <p:inputMask id="celular" value="#{controladorLicitador.licitadora.pessoaJuridica.contatoPessoaJuridica.celular}" title="Celular" mask="(99)99999-9999" placeholder="Celular" maxlength="14"/>
+                <p:outputLabel value="E-mail:" for="email"/>
+                <p:inputText id="email" styleClass="lower" value="#{controladorLicitador.licitadora.pessoaJuridica.contatoPessoaJuridica.email}" size="25" validatorMessage="E-mail incorreto" title="E-mail" placeholder="E-mail">
+                    <f:validateRegex pattern="^$|^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})$"/>
+                </p:inputText>
 
-                    <p:outputLabel value="E-mail:" for="email"/>
-                    <p:inputText id="email" styleClass="lower" value="#{controladorLicitador.licitadora.pessoaJuridica.contatoPessoaJuridica.email}" size="25" validatorMessage="E-mail incorreto" title="E-mail" placeholder="E-mail">
-                        <f:validateRegex pattern="^$|^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})$"/>
-                    </p:inputText>
+                <p:outputLabel value="Complemento:"  for="complemento"/>
+                <p:inputTextarea id="complemento" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.complemento}" title="Complemento" placeholder="Complemento" 
+                                 rows="3" cols="30" counter="display" maxlength="50" counterTemplate="{0} caracteres restantes." 
+                                 autoResize="true" style="width:190px"/>
 
-                    <p:outputLabel value="Complemento:"  for="complemento"/>
-                    <p:inputTextarea id="complemento" value="#{controladorLicitador.licitadora.pessoaJuridica.endereco.complemento}" title="Complemento" placeholder="Complemento" 
-                                     rows="3" cols="30" counter="display" maxlength="50" counterTemplate="{0} caracteres restantes." 
-                                     autoResize="true" style="width:190px"/>
+                <p:outputLabel/>
+                <p:outputLabel/>
+                <p:outputLabel/>
+                <p:outputLabel id="display" />
 
-                    <p:outputLabel/>
-                    <p:outputLabel/>
-                    <p:outputLabel/>
-                    <p:outputLabel id="display" />
-                    
-                    <h:inputHidden  id="id_falso_licitador" value="#{controladorLicitador.licitadora.id}" required="true"/>
-                    <h:inputHidden  id="id_falso_juridica" value="#{controladorLicitador.licitadora.pessoaJuridica.id}" required="true"/>
+                <h:inputHidden  id="id_falso_licitador" value="#{controladorLicitador.licitadora.id}" required="true"/>
+                <h:inputHidden  id="id_falso_juridica" value="#{controladorLicitador.licitadora.pessoaJuridica.id}" required="true"/>
 
-                </h:panelGrid>
-            </div>
+            </h:panelGrid>
 
-            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
+            <div style="margin-top: 2%;">
 
                 <p:commandButton  id="btAtualizarLicitador" value="Atualizar" icon="fa fa-refresh" action="#{controladorLicitador.editar}" update="@form" ajax="false"/>
 

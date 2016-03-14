@@ -70,52 +70,52 @@
 
         <h:form id="pregao_form" title="Pregão" styleClass="form-conteudo">
 
+            <h:panelGrid columns="1"  id="panelGridSavePregao"  >
 
-                <h:panelGrid columns="1"  id="panelGridSavePregao"  >
+                <p:outputLabel value="Número do Processo:" for="numeroProcesso" />
+                <p:inputText id="numeroProcesso" value="#{controladorPregao.pregao.numeroProcesso}" title="Número do Processo" 
+                             required="true" requiredMessage="O campo Número do Processo é obrigatorio" maxlength="20" style="width: 212px"/>
 
-                    <p:outputLabel value="Número do Processo:" for="numeroProcesso" />
-                    <p:inputText id="numeroProcesso" value="#{controladorPregao.pregao.numeroProcesso}" title="Número do Processo" 
-                                 required="true" requiredMessage="O campo Número do Processo é obrigatorio" maxlength="20" style="width: 212px"/>
+                <p:outputLabel value="Número do Pregão:" for="numeroPregao"/>
+                <p:inputText id="numeroPregao" value="#{controladorPregao.pregao.numeroPregao}" title="Número do Pregão" required="true" 
+                             requiredMessage="O Campo Número do pregão é obrigatorio" maxlength="20" style="width: 212px" /> 
 
-                    <p:outputLabel value="Número do Pregão:" for="numeroPregao"/>
-                    <p:inputText id="numeroPregao" value="#{controladorPregao.pregao.numeroPregao}" title="Número do Pregão" required="true" 
-                                 requiredMessage="O Campo Número do pregão é obrigatorio" maxlength="20" style="width: 212px" /> 
+                <p:outputLabel value="Status:" for="statusDoPregao" style="text-align:right"/>
+                <h:selectOneMenu id="statusDoPregao" value="#{controladorPregao.pregao.statusPregao}" style="width: 213px">
 
-                    <p:outputLabel value="Status:" for="statusDoPregao" style="text-align:right"/>
-                    <h:selectOneMenu id="statusDoPregao" value="#{controladorPregao.pregao.statusPregao}" style="width: 213px">
+                    <f:selectItem itemLabel="Aberto" itemValue="aberto" />
 
-                        <f:selectItem itemLabel="Aberto" itemValue="aberto" />
+                </h:selectOneMenu>
 
-                    </h:selectOneMenu>
+                <p:outputLabel value="Instituição Licitadora:" for="instituicaoLicitadora"/>
+                <h:selectOneMenu id="instituicaoLicitadora" value="#{controladorPregao.pregao.instituicaoLicitadora}" style="width: 213px" required="true" 
+                                 requiredMessage="O campo Instituição Licitadora deve ser selecionado" converter="instituicaoLicitadoraConverter">
 
-                    <p:outputLabel value="Instituição Licitadora:" for="instituicaoLicitadora"/>
-                    <h:selectOneMenu id="instituicaoLicitadora" value="#{controladorPregao.pregao.instituicaoLicitadora}" style="width: 213px" required="true" 
-                                     requiredMessage="O campo Instituição Licitadora deve ser selecionado" converter="instituicaoLicitadoraConverter">
+                    <f:selectItems value="#{controladorLicitador.licitadoras}" var="instituicao" itemLabel="#{instituicao.pessoaJuridica.nomeFantasia}" 
+                                   itemValue="#{controladorLicitador.licitadora.id}"/>
 
-                        <f:selectItems value="#{controladorLicitador.licitadoras}" var="instituicao" itemLabel="#{instituicao.pessoaJuridica.nomeFantasia}" 
-                                       itemValue="#{controladorLicitador.licitadora.id}"/>
-
-                    </h:selectOneMenu>
-
-
-                    <p:outputLabel value="Descrição:"  for="descricao" />
-                    <p:inputTextarea id="descricao" value="#{controladorPregao.pregao.descricao}" title="Descrição" placeholder="Descrição" 
-                                     rows="5" cols="30" counter="display" maxlength="255" counterTemplate="{0} caracteres restantes." 
-                                     autoResize="true" style="width:212px" />
-
-                    <p:outputLabel/>
-                    <p:outputLabel/>
-                    <p:outputLabel/>
-                    <p:outputLabel id="display" />
-
-                </h:panelGrid>
+                </h:selectOneMenu>
 
 
+                <p:outputLabel value="Descrição:"  for="descricao" />
+                <p:inputTextarea id="descricao" value="#{controladorPregao.pregao.descricao}" title="Descrição" placeholder="Descrição" 
+                                 rows="5" cols="30" counter="display" maxlength="255" counterTemplate="{0} caracteres restantes." 
+                                 autoResize="true" style="width:212px" />
+
+                <p:outputLabel/>
+                <p:outputLabel/>
+                <p:outputLabel/>
+                <p:outputLabel id="display" />
+
+            </h:panelGrid>
+
+
+            <div style="margin-top: 2%;">
                 <p:commandButton  id="btSalvarPregao" value="Salvar" icon="fa fa-save" action="#{controladorPregao.criar}" 
                                   update="growPregao"
                                   process="@this"
                                   ajax="false"  />
-
+            </div>
 
         </h:form>
 

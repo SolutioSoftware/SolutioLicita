@@ -45,18 +45,12 @@
 
     <ui:define name="pn_conteudo">
 
-        <h:form id="equipe_form" title="Membro Equipe" style="text-align: center"  >
+        <h:form id="equipe_form" title="Membro Equipe" styleClass="form-conteudo"  >
 
             <p:growl id="growEquipe" showDetail="false" life="3000" class="ui-growl"/>
 
-            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
-
                 <h:panelGrid columns="4" id="panelGridSavePessoaFisica" cellpadding="5" columnClasses="colunaEsquerda,colunaDireita,colunaEsquerda,colunaDireita">
 
-                   
-                    
-                    
-                    
                     <p:outputLabel value="Nome:" for="nome" />
                     <p:inputText id="nome" value="#{controladorEquipe.membroApoio.pessoaFisica.nome}" title="Nome"  required="true"  
                                  requiredMessage="O campo nome é obrigatório" placeholder="Nome" maxlength="80"/>
@@ -78,7 +72,7 @@
                     <p:inputText id="cidade" value="#{controladorEquipe.membroApoio.pessoaFisica.endereco.cidade}"  title="Cidade" placeholder="Cidade" maxlength="60"/>
 
                     <p:outputLabel value="Estado:" for="estado"/>
-                    <h:selectOneMenu id="estado" value="#{controladorEquipe.membroApoio.pessoaFisica.endereco.estado}"  style="width:188px">
+                    <h:selectOneMenu id="estado" value="#{controladorEquipe.membroApoio.pessoaFisica.endereco.estado}" >
 
                         <f:selectItem noSelectionOption="true" />
                         <f:selectItem itemLabel="Acre" itemValue="AC" />
@@ -143,9 +137,8 @@
 
                 </h:panelGrid>
 
-            </div>
 
-            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
+            <div style="margin-top: 2%;">
 
                 <p:commandButton  id="bt_editar_MembroApoio" value="Atualizar" icon="fa fa-refresh" action="#{controladorEquipe.editarMembroApoio}" ajax="false"/>
 

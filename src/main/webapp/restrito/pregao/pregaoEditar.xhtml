@@ -49,56 +49,57 @@
 
         <h:form id="pregao_form" title="Pregão" styleClass="form-conteudo">
 
-                <h:panelGrid columns="1" id="panelGridEditPregao" >
+            <h:panelGrid columns="1" id="panelGridEditPregao" >
 
-                    <p:outputLabel value="Número do Processo:" for="numeroProcesso"/>
-                    <p:inputText id="numeroProcesso" value="#{controladorPregao.pregao.numeroProcesso}" title="Número do Processo" 
-                                 required="true"
-                                 requiredMessage="O campo Número do Processo é obrigatorio" maxlength="20" style="width: 212px"/>
+                <p:outputLabel value="Número do Processo:" for="numeroProcesso"/>
+                <p:inputText id="numeroProcesso" value="#{controladorPregao.pregao.numeroProcesso}" title="Número do Processo" 
+                             required="true"
+                             requiredMessage="O campo Número do Processo é obrigatorio" maxlength="20" style="width: 212px"/>
 
-                    <p:outputLabel value="Número do Pregão:" for="numeroPregao"/>
-                    <p:inputText id="numeroPregao" value="#{controladorPregao.pregao.numeroPregao}" title="Número do Pregão" required="true" 
-                                 requiredMessage="O Campo Número do pregão é obrigatorio" maxlength="20" style="width: 212px" /> 
+                <p:outputLabel value="Número do Pregão:" for="numeroPregao"/>
+                <p:inputText id="numeroPregao" value="#{controladorPregao.pregao.numeroPregao}" title="Número do Pregão" required="true" 
+                             requiredMessage="O Campo Número do pregão é obrigatorio" maxlength="20" style="width: 212px" /> 
 
-                    <p:outputLabel value="Status:" for="statusDoPregao"/>
-                    <h:selectOneMenu id="statusDoPregao" value="#{controladorPregao.pregao.statusPregao}" style="width: 213px">
+                <p:outputLabel value="Status:" for="statusDoPregao"/>
+                <h:selectOneMenu id="statusDoPregao" value="#{controladorPregao.pregao.statusPregao}" style="width: 213px">
 
-                        <f:selectItem noSelectionOption="true" />
-                        <f:selectItem itemLabel="Aberto" itemValue="aberto" />
-                        <f:selectItem itemLabel="Anulado" itemValue="anulado" />
-                        <f:selectItem itemLabel="Cancelado" itemValue="cancelado" />
-                        <f:selectItem itemLabel="Concluído COM Recurso" itemValue="comRecurso" />
-                        <f:selectItem itemLabel="Concluído SEM Recurso" itemValue="semRecurso" />
-                        <f:selectItem itemLabel="Deserto" itemValue="deserto" />
-                        <f:selectItem itemLabel="Fracassado" itemValue="fracassad" />
+                    <f:selectItem noSelectionOption="true" />
+                    <f:selectItem itemLabel="Aberto" itemValue="aberto" />
+                    <f:selectItem itemLabel="Anulado" itemValue="anulado" />
+                    <f:selectItem itemLabel="Cancelado" itemValue="cancelado" />
+                    <f:selectItem itemLabel="Concluído COM Recurso" itemValue="comRecurso" />
+                    <f:selectItem itemLabel="Concluído SEM Recurso" itemValue="semRecurso" />
+                    <f:selectItem itemLabel="Deserto" itemValue="deserto" />
+                    <f:selectItem itemLabel="Fracassado" itemValue="fracassad" />
 
-                    </h:selectOneMenu>
+                </h:selectOneMenu>
 
-                    <p:outputLabel value="Instituição Licitadora:" for="instituicaoLicitadora"/>
-                    <h:selectOneMenu id="instituicaoLicitadora" value="#{controladorPregao.pregao.instituicaoLicitadora}" style="width: 213px" required="true" 
-                                     requiredMessage="O campo Instituição Licitadora deve ser selecionado" converter="instituicaoLicitadoraConverter">
+                <p:outputLabel value="Instituição Licitadora:" for="instituicaoLicitadora"/>
+                <h:selectOneMenu id="instituicaoLicitadora" value="#{controladorPregao.pregao.instituicaoLicitadora}" style="width: 213px" required="true" 
+                                 requiredMessage="O campo Instituição Licitadora deve ser selecionado" converter="instituicaoLicitadoraConverter">
 
-                        <f:selectItems value="#{controladorLicitador.licitadoras}" var="instituicao" itemLabel="#{instituicao.pessoaJuridica.nomeFantasia}" 
-                                       itemValue="#{controladorLicitador.licitadora.id}"/>
+                    <f:selectItems value="#{controladorLicitador.licitadoras}" var="instituicao" itemLabel="#{instituicao.pessoaJuridica.nomeFantasia}" 
+                                   itemValue="#{controladorLicitador.licitadora.id}"/>
 
-                    </h:selectOneMenu>
+                </h:selectOneMenu>
 
-                    <p:outputLabel value="Descrição:"  for="descricao"/>
-                    <p:inputTextarea id="descricao" value="#{controladorPregao.pregao.descricao}" title="Descrição" placeholder="Descrição" 
-                                     rows="5" cols="30" counter="display" maxlength="255" counterTemplate="{0} caracteres restantes." 
-                                     autoResize="true" style="width:212px" />
+                <p:outputLabel value="Descrição:"  for="descricao"/>
+                <p:inputTextarea id="descricao" value="#{controladorPregao.pregao.descricao}" title="Descrição" placeholder="Descrição" 
+                                 rows="5" cols="30" counter="display" maxlength="255" counterTemplate="{0} caracteres restantes." 
+                                 autoResize="true" style="width:212px" />
 
-                    <p:outputLabel/>
-                    <p:outputLabel/>
-                    <p:outputLabel/>
-                    <h:inputHidden id="id_falso_item" value="#{controladorPregao.pregao.id}" required="true"/>
-                    <p:outputLabel id="display" />
+                <p:outputLabel/>
+                <p:outputLabel/>
+                <p:outputLabel/>
+                <h:inputHidden id="id_falso_item" value="#{controladorPregao.pregao.id}" required="true"/>
+                <p:outputLabel id="display" />
 
-                </h:panelGrid>
+            </h:panelGrid>
 
-
+            <div style="margin-top: 2%;">
                 <p:commandButton  id="btAtualizarPregao" value="Atualizar" icon="fa fa-refresh" action="#{controladorPregao.editar}" 
                                   update="pn_info : dt_pregoes" ajax="false" />
+            </div>
 
 
         </h:form>

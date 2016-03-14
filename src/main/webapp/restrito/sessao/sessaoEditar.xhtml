@@ -50,13 +50,11 @@
 
     <ui:define name="pn_conteudo">
 
-        <h:form id="sessao_form" title="Sessão" style="text-align: center"  >
+        <h:form id="sessao_form" title="Sessão" styleClass="form-conteudo" >
 
             <p:growl id="growSessao" showDetail="false" life="3000" class="ui-growl" />
 
-            <div style="margin-left: 25%; margin-top: 2%">
-
-                <h:panelGrid columns="2" id="panelGridSaveSessao" columnClasses="colunaEsquerda,colunaDireita"  >
+                <h:panelGrid columns="1" id="panelGridSaveSessao" >
 
                     <p:outputLabel value="Numero do Pregão:" for="numeroDoPregao"/>
                     <h:selectOneMenu id="numeroDoPregao" value="#{controladorSessao.sessao.idPregao}" style="width: 190px" required="true" 
@@ -91,9 +89,8 @@
 
                 </h:panelGrid>
 
-            </div>
 
-            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
+            <div style="margin-top: 2%;">
 
                 <p:commandButton  id="bt_Atualizar_Sessao" value="Atualizar" icon="fa fa-refresh" action="#{controladorSessao.atualizar}" 
                                   update="growSessao" ajax="false" style="width: 125px"/>

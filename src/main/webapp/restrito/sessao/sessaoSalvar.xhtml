@@ -68,48 +68,46 @@
 
         <p:growl id="growSessao" showDetail="false" life="3000" class="ui-growl" />
 
-        <h:form id="sessao_form" title="Sessão" style="text-align: center"  >
+        <h:form id="sessao_form" title="Sessão" styleClass="form-conteudo"  >
 
-            <div style="margin-left: 25%; margin-top: 2%">
 
-                <h:panelGrid columns="2" id="panelGridSaveSessao" columnClasses="colunaEsquerda,colunaDireita"  >
+            <h:panelGrid columns="1" id="panelGridSaveSessao" >
 
-                    <p:outputLabel value="Numero do Pregão:" for="numeroDoPregao"/>
-                    <h:selectOneMenu id="numeroDoPregao" value="#{controladorSessao.sessao.idPregao}" style="width: 190px" required="true" 
-                                     requiredMessage="O campo Numero de Pregão deve ser selecionado" converter="#{pregaoConverter}">
+                <p:outputLabel value="Numero do Pregão:" for="numeroDoPregao"/>
+                <h:selectOneMenu id="numeroDoPregao" value="#{controladorSessao.sessao.idPregao}" style="width: 190px" required="true" 
+                                 requiredMessage="O campo Numero de Pregão deve ser selecionado" converter="#{pregaoConverter}">
 
-                        <f:selectItems value="#{controladorPregao.pregoes}" var="pregao" itemLabel="#{pregao.numeroPregao}" 
-                                       itemValue="#{controladorPregao.pregao.id}"/>
+                    <f:selectItems value="#{controladorPregao.pregoes}" var="pregao" itemLabel="#{pregao.numeroPregao}" 
+                                   itemValue="#{controladorPregao.pregao.id}"/>
 
-                    </h:selectOneMenu>
+                </h:selectOneMenu>
 
-                    <p:outputLabel value="Data Prevista:" for="dataPrevista"/>
-                    <p:calendar id="dataPrevista" value="#{controladorSessao.sessao.dataRealizacao}" mindate="#{controladorSessao.dataAtual}" locale="pt_BR" style="width: 210px"/>
+                <p:outputLabel value="Data Prevista:" for="dataPrevista"/>
+                <p:calendar id="dataPrevista" value="#{controladorSessao.sessao.dataRealizacao}" mindate="#{controladorSessao.dataAtual}" locale="pt_BR" style="width: 210px"/>
 
-                    <p:outputLabel value="Horário Previsto:" for="horarioPrevisto"/>
-                    <p:calendar id="horarioPrevisto" value="#{controladorSessao.sessao.horarioPrevisto}" pattern="HH:mm" timeOnly="true" 
-                                style="width: 210px" title="Hora" />
+                <p:outputLabel value="Horário Previsto:" for="horarioPrevisto"/>
+                <p:calendar id="horarioPrevisto" value="#{controladorSessao.sessao.horarioPrevisto}" pattern="HH:mm" timeOnly="true" 
+                            style="width: 210px" title="Hora" />
 
-                    <p:outputLabel value="Status:" for="statusDaSessao"/>
-                    <h:selectOneMenu id="statusDaSessao" value="#{controladorSessao.sessao.statusSessao}" style="width: 190px" required="true" requiredMessage="O Campo Status da Sessão deve ser selecionado">
+                <p:outputLabel value="Status:" for="statusDaSessao"/>
+                <h:selectOneMenu id="statusDaSessao" value="#{controladorSessao.sessao.statusSessao}" style="width: 190px" required="true" requiredMessage="O Campo Status da Sessão deve ser selecionado">
 
-                        <f:selectItem noSelectionOption="true" />
-                        <f:selectItem itemLabel="Agendada" itemValue="Agendada" />
-                        <f:selectItem itemLabel="Anulada" itemValue="Anulada" />
-                        <f:selectItem itemLabel="Cancelada" itemValue="Cancelada" />
-                        <f:selectItem itemLabel="Deserto" itemValue="Deserto" />
-                        <f:selectItem itemLabel="Encerrada" itemValue="Encerrada" />
-                        <f:selectItem itemLabel="Iniciada" itemValue="Iniciada" />
-                        <f:selectItem itemLabel="Pausada" itemValue="Pausada" />
-                        <f:selectItem itemLabel="Remarcada" itemValue="Remarcada" />
+                    <f:selectItem noSelectionOption="true" />
+                    <f:selectItem itemLabel="Agendada" itemValue="Agendada" />
+                    <f:selectItem itemLabel="Anulada" itemValue="Anulada" />
+                    <f:selectItem itemLabel="Cancelada" itemValue="Cancelada" />
+                    <f:selectItem itemLabel="Deserto" itemValue="Deserto" />
+                    <f:selectItem itemLabel="Encerrada" itemValue="Encerrada" />
+                    <f:selectItem itemLabel="Iniciada" itemValue="Iniciada" />
+                    <f:selectItem itemLabel="Pausada" itemValue="Pausada" />
+                    <f:selectItem itemLabel="Remarcada" itemValue="Remarcada" />
 
-                    </h:selectOneMenu>
+                </h:selectOneMenu>
 
-                </h:panelGrid>
+            </h:panelGrid>
 
-            </div>
 
-            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
+            <div style="margin-top: 2%">
 
                 <p:commandButton  id="bt_Salvar_Sessao" value="Salvar" icon="fa fa-save" action="#{controladorSessao.criar}" 
                                   update="growSessao" ajax="false" style="width: 125px"/>
