@@ -44,7 +44,7 @@ public class Login implements Serializable{
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
-    @Column(name = "usuario")
+    @Column(name = "usuario", unique = true)
     private String usuario;
     
     @Basic(optional = false)

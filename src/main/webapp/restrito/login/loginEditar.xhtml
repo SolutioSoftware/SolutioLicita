@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/TemplateLicitaPaineis.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="pn_info">
+        <h:form id="formDtItem">
+            <h1> Pregoeiros </h1>
+            <br/>
+            <p:dataTable id='dt_pregoeiros' var="entidade" value="#{controladorLogin.pregoeiros}" 
+                         widgetVar="tbl_itens" paginator="true" style="padding:5px" rows="10" rowsPerPageTemplate="5,10"  
+                         emptyMessage="Nenhum Item Cadastrado"  paginatorAlwaysVisible="true">
+
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <p:button value="Novo" style="width: 80px" outcome="/restrito/login/loginSalvar.xhtml" icon="fa fa-plus" 
+                                  class="botaoNovo"/>
+                        <p:inputText id="globalFilter" onkeyup="PF('tbl_itens').filter()" style="width:250px" placeholder="Digite sua busca" />
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="CPF" filterBy="#{entidade.pessoaFisica.cpf}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.pessoaFisica.cpf}"  />
+                </p:column>
+
+                <p:column headerText="Nome" filterBy="#{entidade.pessoaFisica.nome}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.pessoaFisica.nome}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="pn_conteudo">
+        <h:form id="form-editar-login" title="Login" class="form-conteudo">
+
+            <h1> Alterar Login </h1>
+            <br/>
+            <p:growl id="growPregao" showDetail="true" life="3000" class="ui-growl" />
+            <h:panelGrid id="panel-editar-login" columns="1">
+                <p:outputLabel value="Login"  for="id-novo-login"/>
+                <p:inputText id="id-novo-login"
+                             value="#{controladorLogin.login.usuario}"
+                             required="true"
+                             requiredMessage="Campo Login Obrigatório"
+                             placeholder="Insira novo Login..."
+                             maxlength="20"/>
+
+                <p:outputLabel value="Senha Atual" for="id-antiga-senha" />
+                <p:password id="id-antiga-senha"
+                            value="#{controladorLogin.senhaAntiga}" 
+                            required="true"
+                            maxlength="20"/>
+
+                <p:outputLabel value="Nova Senha" for="id-nova-senha"/>
+                <p:password id="id-nova-senha" 
+                            value="#{controladorLogin.novaSenha}"
+                            required="true"
+                            maxlength="20"/>
+
+                <p:outputLabel value="Confirmar Senha" for="id-confirmar-senha"/>
+                <p:password id="id-confirmar-senha" 
+                            value="#{controladorLogin.confirmarSenha}"
+                            required="true"
+                            maxlength="20"/>
+
+                <p:commandButton id="bt-atualizar-login" 
+                                 value="Atualizar"
+                                 action="#{controladorLogin.atualizar()}"
+                                 update="form-editar-login"/>
+
+            </h:panelGrid>
+
+        </h:form>
+    </ui:define> 
+
+
+</ui:composition>
+
+

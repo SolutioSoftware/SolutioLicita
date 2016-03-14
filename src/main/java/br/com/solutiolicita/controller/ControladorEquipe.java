@@ -8,9 +8,7 @@ package br.com.solutiolicita.controller;
 import br.com.solutiolicita.controller.util.JsfUtil;
 import br.com.solutiolicita.excecoes.ExcecoesLicita;
 import br.com.solutiolicita.modelos.MembroApoio;
-import br.com.solutiolicita.modelos.Pregoeiro;
 import br.com.solutiolicita.servicos.ServicoMembroApoioIF;
-import br.com.solutiolicita.servicos.ServicoPregoeiroIF;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,9 +25,6 @@ import javax.persistence.RollbackException;
 public class ControladorEquipe {
 
     private MembroApoio membroApoio;
-    private Pregoeiro pregoeiro;
-    @Inject
-    private ServicoPregoeiroIF servicoPregoeiro;
     @Inject
     private ServicoMembroApoioIF servicoMembroApoio;
 
@@ -39,7 +34,6 @@ public class ControladorEquipe {
     @PostConstruct
     public void init() {
         membroApoio = new MembroApoio();
-        pregoeiro = new Pregoeiro();
     }
 
     //Métodos para o Membro de Apoio
@@ -98,21 +92,6 @@ public class ControladorEquipe {
         return servicoMembroApoio.buscarTodos();
     }
 
-    //Metodos para o Pregoeiro
-    public String criarPregoeiro() {
-        servicoPregoeiro.criar(pregoeiro);
-        return "/restrito/equipe/equipe.xhtml";
-    }
-
-    public String editarPregoeiro() {
-        servicoPregoeiro.atualizar(pregoeiro);
-        return "/restrito/equipe/equipe.xhtml?faces-redirect=true";
-    }
-
-    public void removerPregoeiro() {
-        servicoPregoeiro.remover(pregoeiro);
-    }
-
     public MembroApoio getMembroApoio() {
         return membroApoio;
     }
@@ -121,12 +100,5 @@ public class ControladorEquipe {
         this.membroApoio = membroApoio;
     }
 
-    public Pregoeiro getPregoeiro() {
-        return pregoeiro;
-    }
-
-    public void setPregoeiro(Pregoeiro pregoeiro) {
-        this.pregoeiro = pregoeiro;
-    }
 
 }

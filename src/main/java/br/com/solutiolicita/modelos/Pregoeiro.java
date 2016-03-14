@@ -38,7 +38,7 @@ public class Pregoeiro implements Serializable{
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPregoeiro")
     private transient Set<Sessao> sessaoSet;
     
-    @OneToOne(cascade = CascadeType.ALL ,mappedBy = "idPregoeiro")
+    @OneToOne(cascade = CascadeType.ALL ,mappedBy = "idPregoeiro", orphanRemoval = true)
     private Login login;
     
     @JoinColumn(name = "id_pessoa_fisica", referencedColumnName = "id")

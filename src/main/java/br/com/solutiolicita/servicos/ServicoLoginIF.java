@@ -1,5 +1,6 @@
 package br.com.solutiolicita.servicos;
 
+import br.com.solutiolicita.excecoes.ExcecoesLicita;
 import br.com.solutiolicita.modelos.Login;
 
 
@@ -9,5 +10,8 @@ import br.com.solutiolicita.modelos.Login;
  */
 public interface ServicoLoginIF extends ServicoIF<Login>{
     
-    public boolean verificarDados(String usuario, String senha);
+    public Login verificarDados(String usuario, String senha);
+    
+    public void verificarNovosValores(Login login,String senhaAtual, String novaSenha, String confirmarSenha) throws ExcecoesLicita;
+    
 }

@@ -3,6 +3,7 @@ package br.com.solutiolicita.servicos;
 import br.com.solutiolicita.modelos.Pregoeiro;
 import br.com.solutiolicita.persistencia.DaoIF;
 import br.com.solutiolicita.persistencia.util.Transactional;
+import br.com.solutiolicita.util.Criptografar;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -21,6 +22,8 @@ public class ServicoPregoeiro implements ServicoPregoeiroIF{
     @Override
     @Transactional
     public void criar(Pregoeiro entidade) {
+        String senhaCrip = Criptografar.getInstance().criptografar(entidade.getLogin().getSenha());
+        entidade.getLogin().setSenha(senhaCrip);
         dao.criar(entidade);
     }
 
