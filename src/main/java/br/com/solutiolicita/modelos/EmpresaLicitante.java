@@ -174,9 +174,10 @@ public class EmpresaLicitante implements Serializable {
 
     @Override
     public String toString() {
-        return "br.solutio.licita.modelo.EmpresaLicitante[ empresaLicitantePK=" + id + " ]";
+        return "EmpresaLicitante{" + "id=" + id + ", inscricaoEstadual=" + inscricaoEstadual + ", tipoEmpresa=" + tipoEmpresa + ", complemento=" + complemento + ", lanceSet=" + lanceSet + ", pessoaJuridica=" + pessoaJuridica + ", propostaSet=" + propostaSet + ", contaBancaria=" + contaBancaria + ", representanteLegal=" + representanteLegal + '}';
     }
 
+ 
     
     
 }

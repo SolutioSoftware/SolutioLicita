@@ -1,5 +1,6 @@
 package br.com.solutiolicita.modelos;
 
+import br.com.solutiolicita.util.Ordenavel;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Basic;
@@ -30,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Proposta.findBySessaoWithLicitante", query = "SELECT p FROM Proposta p WHERE p.idLicitante = :idLicitante AND p.idSessao = :idSessao" ),
     @NamedQuery(name = "Proposta.findByValorUnitario", query = "SELECT p FROM Proposta p WHERE p.valorUnitario = :valorUnitario"),
     @NamedQuery(name = "Proposta.findByClassificada", query = "SELECT p FROM Proposta p WHERE p.classificada = :classificada")})
-public class Proposta implements Serializable{
+public class Proposta implements Serializable, Ordenavel<BigDecimal>{
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -141,7 +142,16 @@ public class Proposta implements Serializable{
 
     @Override
     public String toString() {
-        return "br.solutio.licita.modelo.Proposta[ id=" + id + " ]";
+        return "Proposta{" + "id=" + id + ", valorUnitario=" + valorUnitario.toString() + ", classificada=" + classificada + ", idLicitante=" + idLicitante + ", idItemPregao=" + idItemPregao + ", idSessao=" + idSessao + '}';
     }
+
+    
+
+    @Override
+    public BigDecimal parametroDeOrdenacao() {
+        return getValorUnitario();
+    }
+
+    
     
 }
