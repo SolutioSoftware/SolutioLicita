@@ -27,7 +27,6 @@ import javax.inject.Named;
 public class ControladorFaseDeLance implements Serializable {
 
     private Sessao sessao;
-    private Pregao pregao;
     private Lance lance;
     private Lance ultimoLance;
     private Proposta melhorProposta;
@@ -66,6 +65,7 @@ public class ControladorFaseDeLance implements Serializable {
             lance.setIdItemPregao(itemPregao);
             lance.setIdLicitante(getOfertante());
             lance.setIdSessao(sessao);
+            servicoSessao.salvarLance(lance);
             lances.add(lance);
             ultimoLance = lance;
             lance = new Lance();
@@ -110,7 +110,7 @@ public class ControladorFaseDeLance implements Serializable {
 
     private void buscarItensPregao() {
         if (itens.isEmpty()) {
-            itens = this.servicoSessao.buscarItensPregao(pregao);
+            itens = this.servicoSessao.buscarItensPregao(sessao.getIdPregao());
             if (itens.isEmpty()) {
                 itens = new ArrayList();
             }
@@ -135,11 +135,7 @@ public class ControladorFaseDeLance implements Serializable {
     }
 
     public Pregao getPregao() {
-        return pregao;
-    }
-
-    public void setPregao(Pregao pregao) {
-        this.pregao = pregao;
+        return sessao.getIdPregao();
     }
 
     public Sessao getSessao() {

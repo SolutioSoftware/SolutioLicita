@@ -14,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -53,7 +52,7 @@ public class Lance implements Serializable{
     @Column(name = "valor")
     private BigDecimal valor;
     
-    @PrimaryKeyJoinColumn(name = "id_licitante", referencedColumnName = "id")
+    @JoinColumn(name = "id_licitante", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private EmpresaLicitante idLicitante;
     
