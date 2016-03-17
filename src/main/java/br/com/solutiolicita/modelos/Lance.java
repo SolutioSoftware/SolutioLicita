@@ -1,6 +1,7 @@
 package br.com.solutiolicita.modelos;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -31,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Lance.findAll", query = "SELECT l FROM Lance l"),
     @NamedQuery(name = "Lance.findById", query = "SELECT l FROM Lance l WHERE l.id = :id"),
     @NamedQuery(name = "Lance.findByHorarioLance", query = "SELECT l FROM Lance l WHERE l.horarioLance = :horarioLance"),
+    @NamedQuery(name = "Lance.findByItemPregao", query = "SELECT l FROM Lance l WHERE l.idItemPregao = :idItemPregao"),
     @NamedQuery(name = "Lance.findByValor", query = "SELECT l FROM Lance l WHERE l.valor = :valor")})
 public class Lance implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -49,7 +51,7 @@ public class Lance implements Serializable{
     @Basic(optional = false)
     @NotNull
     @Column(name = "valor")
-    private BigInteger valor;
+    private BigDecimal valor;
     
     @PrimaryKeyJoinColumn(name = "id_licitante", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -70,7 +72,7 @@ public class Lance implements Serializable{
         this.id = id;
     }
 
-    public Lance(Long id, Date horarioLance, BigInteger valor) {
+    public Lance(Long id, Date horarioLance, BigDecimal valor) {
         this.id = id;
         this.horarioLance = horarioLance;
         this.valor = valor;
@@ -93,11 +95,11 @@ public class Lance implements Serializable{
         this.horarioLance = horarioLance;
     }
 
-    public BigInteger getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(BigInteger valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
 

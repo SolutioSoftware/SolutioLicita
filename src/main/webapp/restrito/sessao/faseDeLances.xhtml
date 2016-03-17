@@ -13,7 +13,6 @@
                      converter="#{pregaoConverter}"/>
     </f:metadata>
 
-    <!--Pregoeiro-->
     <ui:define name="pn_conteudo">
 
         <h:form id="fasesDeLances" style="text-align: center">
@@ -38,50 +37,56 @@
             </div>
 
 
-            <p:outputLabel value="Item: #{controladorFaseDeLance.indiceDoItem} #{controladorFaseDeLance.itemPregao.item.nome}" style="font-size: 36px; color: #036fab; font-weight: bold"  />
+            <p:outputLabel value="Item nº#{controladorFaseDeLance.indiceDoItem}: #{controladorFaseDeLance.itemPregao.item.nome}" style="font-size: 36px; color: #036fab; font-weight: bold"  />
             <br/>
-            <p:outputLabel value="Melhor Proposta: R$ 0,60 por papelaria papel bom LTDA" style="font-weight:bold; font-size: 18px;"/>
+            <p:outputLabel value="Melhor Proposta:  R$ #{controladorFaseDeLance.melhorProposta.valorUnitario} por #{controladorFaseDeLance.melhorProposta.idLicitante.pessoaJuridica.nomeFantasia}" style="font-weight:bold; font-size: 18px;"/>
             <br/>
-            <p:outputLabel value="Quantidade: #{controladorFaseDeLance.itemPregao.quantidade} #{controladorFaseDeLance.itemPregao.item.unidade}" style="font-weight:bold; font-size: 18px;"/>
+            <p:outputLabel value="Quantidade: #{controladorFaseDeLance.itemPregao.quantidade}" style="font-weight:bold; font-size: 18px;"/>
             <br/>
             <br/>
-            <p:outputLabel value="Lance atual: R$ 0,52" style="font-size: 30px; color: #036fab; font-weight: bold"/>
+            <p:outputLabel value="Lance atual: R$ #{controladorFaseDeLance.ultimoLance.valor}" style="font-size: 30px; color: #036fab; font-weight: bold"/>
             <br/>
-            <p:outputLabel value="Ofertante: Papelaria Soares" style="font-size: 18px; color: #036fab; font-weight: bold"/>
+            <p:outputLabel value="Ofertante: #{controladorFaseDeLance.ultimoLance.idLicitante.pessoaJuridica.nomeFantasia}" style="font-size: 18px; color: #036fab; font-weight: bold"/>
             <br/>
 
-            <p:dataTable id='dt_faseDeLances' var="lances" value="" 
-                         paginator="true" style="padding:5px" rows="5" rowsPerPageTemplate="5"  
+            <p:dataTable id='dt_faseDeLances' var="lances" value="#{controladorFaseDeLance.lances}" 
+                         paginator="true" style="padding:5px" rows="5" rowsPerPageTemplate="5" 
                          emptyMessage="Nenhum Lance Registrado"  paginatorAlwaysVisible="true" scrollable="false">
 
 
                 <p:column headerText="Valor" filterBy="" filterMatchMode="contains" filterStyle="display:none">
-                    <h:outputText value="" />
+                    <h:outputText value="#{lances.valor}" />
                 </p:column> 
 
                 <p:column headerText="Ofertante" filterBy="" filterMatchMode="contains" filterStyle="display:none">
-                    <h:outputText value="" />
+                    <h:outputText value="#{lances.idLicitante.pessoaJuridica.nomeFantasia}" />
                 </p:column> 
 
                 <p:column headerText="Horário" filterBy="" filterMatchMode="contains" filterStyle="display:none">
-                    <h:outputText value="" />
+                    <h:outputText value="#{lances.horarioLance}" />
                 </p:column> 
 
             </p:dataTable>
 
             <div align="center">
                 <h:panelGrid id="panelFaseDeLances" columns="2" >
+                    
+                    <p:growl autoUpdate="true"/>
+                    <p:outputLabel/>
+                    
                     <p:outputLabel value="Ofertante" style="font-size: 14px; font-weight: bold; padding: 50px;"/>
                     <p:outputLabel value="Novo Lance" style="font-size: 14px; font-weight: bold"/>
-                    <p:outputLabel value="papel bom LTDA " style="font-size: 20px; font-weight: bold; padding: 50px;"/>
-                    <pe:inputNumber value="33"/>
+                    <p:outputLabel value="#{controladorFaseDeLance.ofertante.pessoaJuridica.nomeFantasia} " style="font-size: 20px; font-weight: bold; padding: 50px;"/>
+                    <pe:inputNumber 
+                                    value="#{controladorFaseDeLance.lance.valor}"/>
                 </h:panelGrid>
             </div>
 
             <div align="center">
                 <h:panelGrid id="panelBtFaseDeLances" columns="3" cellpadding="20px"  >
 
-                    <p:commandButton id="btIDeclinarProposta" 
+                    <p:commandButton id="btIDeclinarProposta"
+                                     action="#{controladorFaseDeLance.declinarProposta()}"
                                      icon="ui-icon-close"  
                                      value="Declinar Proposta" 
                                      label="Declinar Proposta"
@@ -96,12 +101,16 @@
                                      />
 
 
-                    <p:commandButton id="btIDarLance" icon="ui-icon-plus"  value="Dar Lance!" label="Dar Lance!"
+                    <p:commandButton id="btIDarLance"
+                                     action="#{controladorFaseDeLance.darLance()}"
+                                     icon="ui-icon-plus"
+                                     value="Dar Lance!"
+                                     label="Dar Lance!"
+                                     update="fasesDeLances"
                                      />
 
                 </h:panelGrid>
             </div>
-
 
         </h:form>
 

@@ -4,11 +4,13 @@ import br.com.solutiolicita.excecoes.ExcecoesLicita;
 import br.com.solutiolicita.modelos.EmpresaLicitante;
 import br.com.solutiolicita.modelos.Item;
 import br.com.solutiolicita.modelos.ItemPregao;
+import br.com.solutiolicita.modelos.Lance;
 import br.com.solutiolicita.modelos.Pregao;
 import br.com.solutiolicita.modelos.Proposta;
 import br.com.solutiolicita.modelos.Sessao;
 import br.com.solutiolicita.persistencia.DaoIF;
 import br.com.solutiolicita.persistencia.util.Transactional;
+import br.com.solutiolicita.util.ClassificadorPropostas;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public class ServicoSessao implements ServicoSessaoIF {
 
     @Inject
     private DaoIF<Sessao> dao;
-    
+
     @Inject
     private DaoIF<Proposta> daoPropostas;
 
@@ -37,17 +39,51 @@ public class ServicoSessao implements ServicoSessaoIF {
 
     @Inject
     private DaoIF<Item> daoItem;
-    
+
+    @Inject
+    private DaoIF<Lance> daoLance;
+
     public ServicoSessao() {
     }
 
     @Override
-    public void buscarPropostas(Sessao sessao, List<EmpresaLicitante> empresaLicitantes) {
+    public List<Proposta> classificarPropostas(List<Proposta> propostasNaoClassif) {
+        ClassificadorPropostas classificador = new ClassificadorPropostas(propostasNaoClassif);
+        return classificador.preClassificarPropostas();
     }
-    
+
     @Override
-    public List<ItemPregao> carregarFaseDeLance (Pregao Pregao){
-        
+    public List<Proposta> buscarPropostas(ItemPregao itemPregao) {
+        List<Proposta> propostas;
+        Object[] valores = {itemPregao};
+        String[] parametros = {"idItemPregao"};
+        propostas = daoPropostas.consultar("Proposta.findByItemPregao", parametros, valores);
+        return propostas;
+    }
+
+    @Override
+    public List<Lance> buscarLances(ItemPregao itemPregao) {
+        List<Lance> lances;
+        String[] parametros = {"idItemPregao"};
+        Object[] valores = {itemPregao};
+        lances = daoLance.consultar("Lance.findByItemPregao", parametros, valores);
+        return lances;
+    }
+
+    @Override
+    public boolean validarLance(Lance lance, Lance ultimoLance, Proposta melhorProposta) {
+        if (ultimoLance.getValor() != null) {
+            return lance.getValor().floatValue() < ultimoLance.getValor().floatValue();
+        } else if (lance.getValor() != null) {
+            return melhorProposta.getValorUnitario().floatValue() > lance.getValor().floatValue();
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public List<ItemPregao> buscarItensPregao(Pregao Pregao) {
+
         Object[] valores = {Pregao};
         String[] parametros = {"idPregao"};
         List<ItemPregao> itensDoPregao = daoItemPregao.consultar("ItemPregao.findByPregao", parametros, valores);
@@ -126,6 +162,12 @@ public class ServicoSessao implements ServicoSessaoIF {
             Logger.getGlobal().log(Level.INFO, "Valor a ser salvo: ", proposta);
             daoPropostas.criar(proposta);
         }
+    }
+
+    @Override
+    @Transactional
+    public void salvarLance(Lance lance) {
+        daoLance.criar(lance);
     }
 
     @Override
