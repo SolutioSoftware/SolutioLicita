@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.RollbackException;
@@ -55,6 +56,9 @@ public class ControladorLogin implements Serializable {
         } catch (ExcecoesLicita el) {
             JsfUtil.addErrorMessage(el.getMessage());
             Logger.getGlobal().log(Level.WARNING, el.getMessage());
+        } catch (RollbackException re){
+            Logger.getGlobal().log(Level.WARNING, re.getMessage());
+            JsfUtil.addErrorMessage("Login já existe!");
         }
         return null;
     }
@@ -63,6 +67,7 @@ public class ControladorLogin implements Serializable {
         Login permissao = servicoLogin.verificarDados(login.getUsuario(), login.getSenha());
         if (permissao != null) {
             login = permissao;
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogado", login);
             return "/restrito/index.xhtml?faces-redirect=true";
         }
         JsfUtil.addErrorMessage("Usuário ou Senha Estão Incorretos!");
@@ -70,6 +75,7 @@ public class ControladorLogin implements Serializable {
     }
 
     public String logout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/restrito/login/login.xhtml?faces-redirect=true";
     }
 

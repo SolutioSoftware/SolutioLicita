@@ -1,6 +1,7 @@
 package br.com.solutiolicita.persistencia;
 
 import br.com.solutiolicita.excecoes.ExcecoesRunTimeLicita;
+import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -11,7 +12,7 @@ import javax.persistence.Query;
  * @author Matheus Oliveira
  * @param <T>
  */
-public class DaoGenerico<T> implements DaoIF<T> {
+public class DaoGenerico<T> implements DaoIF<T>, Serializable {
 
     @Inject
     private EntityManager entityManager;

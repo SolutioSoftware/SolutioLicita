@@ -33,7 +33,17 @@
     <listener>
         <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
     </listener>
-
+    
+    <filter>
+       <filter-name>FilterLogin</filter-name>
+       <filter-class>br.com.solutiolicita.controller.util.FilterLogin</filter-class>     
+   </filter>
+   
+   <filter-mapping>
+      <filter-name>FilterLogin</filter-name>
+      <url-pattern>/restrito/*</url-pattern>
+  </filter-mapping>
+    
     <resource-env-ref>
         <resource-env-ref-name>BeanManager</resource-env-ref-name>
         <resource-env-ref-type>

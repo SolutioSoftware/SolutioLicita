@@ -89,16 +89,18 @@
                                      action="#{controladorFaseDeLance.declinarProposta()}"
                                      icon="ui-icon-close"  
                                      value="Declinar Proposta" 
-                                     label="Declinar Proposta"
-                                     />
+                                     label="Declinar Proposta">
+                        <p:confirm header="Declinar Proposta!" message="Licitante realmente deseje não dar mais lances?" />
+                    </p:commandButton>
 
                     <p:commandButton action="#{controladorFaseDeLance.encerrarItem()}" 
                                      id="btIEncerrarItem" 
                                      icon="ui-icon-gavel"  
                                      value="Encerrar Item" 
                                      label="Encerrar Item"
-                                     update="fasesDeLances"
-                                     />
+                                     update="fasesDeLances">
+                        <p:confirm header="Encerrar Item!" message="Deseja, realmente, encerrar o item? Feito isto, não poderá mais voltar." />
+                    </p:commandButton>
 
 
                     <p:commandButton id="btIDarLance"
