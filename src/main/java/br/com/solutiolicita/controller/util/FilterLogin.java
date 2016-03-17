@@ -33,7 +33,7 @@ public class FilterLogin implements Filter {
         HttpServletRequest requisicao = (HttpServletRequest) request;
         HttpSession sessao = requisicao.getSession();
         if (sessao.getAttribute(USUARIO) == null) {
-            if(requisicao.getRequestURI().contains("restrito") && requisicao.getRequestURI().contains("login")) {
+            if(requisicao.getRequestURI().contains("restrito") && requisicao.getRequestURI().contains("login.xhtml")) {
                 chain.doFilter(request, response);
             }else if(requisicao.getRequestURI().contains("restrito")) {
                 ((HttpServletResponse) response).sendRedirect(requisicao.getContextPath() + "/restrito/login/login.xhtml");
