@@ -11,6 +11,7 @@
     <f:metadata>
         <f:viewParam name ="sessaoIniciarId" value="#{controladorFaseDeLance.sessao}"
                      converter="#{sessaoConverter}"/>
+        <f:viewAction  action="#{controladorFaseDeLance.carregarFaseDeLance()}"/>
     </f:metadata>
 
     <ui:define name="pn_conteudo">
@@ -89,7 +90,9 @@
                                      action="#{controladorFaseDeLance.declinarProposta()}"
                                      icon="ui-icon-close"  
                                      value="Declinar Proposta" 
-                                     label="Declinar Proposta">
+                                     label="Declinar Proposta"
+                                     update="fasesDeLances">
+                                     
                         <p:confirm header="Declinar Proposta!" message="Licitante realmente deseje não dar mais lances?" />
                     </p:commandButton>
 

@@ -51,8 +51,8 @@ public class ClassificadorPropostas {
     }
     
     private List<Proposta> classificarPropostas(List<Proposta> propostas){
-        
-        return Classificador.getInstancia().classificar(propostas);
+        Collections.sort(propostas, Classificador.getInstancia());
+        return propostas;
         
     }
     

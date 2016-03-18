@@ -73,7 +73,7 @@ public class ServicoSessao implements ServicoSessaoIF {
     @Override
     public boolean validarLance(Lance lance, Lance ultimoLance, Proposta melhorProposta) {
         int limiteValorProposta = 0;
-        if (ultimoLance.getValor() != null) {
+        if (ultimoLance.getValor() != null && lance.getValor() !=null) {
             return lance.getValor().floatValue() < ultimoLance.getValor().floatValue();
         } else if (lance.getValor() != null) {
 

@@ -1,6 +1,8 @@
 package br.com.solutiolicita.controller;
 
+import br.com.solutiolicita.controller.util.IteradorRodada;
 import br.com.solutiolicita.controller.util.JsfUtil;
+import br.com.solutiolicita.excecoes.ExcecoesLicita;
 import br.com.solutiolicita.modelos.EmpresaLicitante;
 import br.com.solutiolicita.modelos.ItemPregao;
 import br.com.solutiolicita.modelos.Lance;
@@ -31,14 +33,13 @@ public class ControladorFaseDeLance implements Serializable {
     private Lance ultimoLance;
     private Proposta melhorProposta;
     private EmpresaLicitante licitanteRodada;
+    private IteradorRodada iteradorRodada;
     private List<ItemPregao> itens;
     private List<Proposta> propostas;
     private List<Lance> lances;
     private ItemPregao itemPregao;
     private int contItemCorrente;
     private int indiceItemCorrente;
-    private int indiceDoOfertante;
-    private final int LIMITE_PROPOSTAS = 1;
     private final int IND_MELHOR_PROPOSTA = 0;
 
     @Inject
@@ -52,12 +53,12 @@ public class ControladorFaseDeLance implements Serializable {
         sessao = new Sessao();
         lance = new Lance();
         ultimoLance = new Lance();
+        iteradorRodada = new IteradorRodada();
         itens = new ArrayList();
         propostas = new ArrayList();
         lances = new ArrayList();
         contItemCorrente = 1;
         indiceItemCorrente = 0;
-        indiceDoOfertante = 0;
     }
 
     public void darLance() {
@@ -69,36 +70,27 @@ public class ControladorFaseDeLance implements Serializable {
             lances.add(lance);
             ultimoLance = lance;
             lance = new Lance();
-            passarVez();
-        }else{
+            licitanteRodada = iteradorRodada.proximo(propostas);
+        } else {
             JsfUtil.addErrorMessage("O Lance tem que ser inferior aos antigos!");
         }
 
     }
 
-    private void passarVez() {
-        indiceDoOfertante++;
-        if (indiceDoOfertante >= propostas.size()) {
-            indiceDoOfertante = 0;
-            licitanteRodada = propostas.get(indiceDoOfertante).getIdLicitante();
-        } else {
-            licitanteRodada = propostas.get(indiceDoOfertante).getIdLicitante();
-        }
-
-    }
-
     public void declinarProposta() {
-        if (propostas.size() >= LIMITE_PROPOSTAS) {
-            propostas.remove(indiceDoOfertante);
-        } else {
-            JsfUtil.addErrorMessage("Não há mais Licitantes!");
+        try {
+            iteradorRodada.remocao(propostas);
+            licitanteRodada = iteradorRodada.proximo(propostas);
+        } catch (ExcecoesLicita e) {
+            Logger.getGlobal().log(Level.WARNING, e.getMessage());
+            JsfUtil.addErrorMessage(e.getMessage());
         }
     }
 
     public String encerrarItem() {
         indiceItemCorrente++;
         contItemCorrente++;
-        indiceDoOfertante = 0;
+        iteradorRodada.reiniciarIterador();
         if (indiceItemCorrente >= itens.size()) {
             return "/restrito/sessao/sessao.xhtml";
         }
@@ -127,11 +119,23 @@ public class ControladorFaseDeLance implements Serializable {
                 propostas = servicoSessao.classificarPropostas(propostas);
                 melhorProposta = propostas.get(IND_MELHOR_PROPOSTA);
                 licitanteRodada = propostas.get(IND_MELHOR_PROPOSTA).getIdLicitante();
+                criarPrimeiroLance();
+                
             }
         }
         if (propostas.isEmpty()) {
             propostas = new ArrayList();
         }
+    }
+    
+    public void criarPrimeiroLance(){
+        Lance primeiroLance = new Lance();
+        primeiroLance.setValor(melhorProposta.getValorUnitario());
+        primeiroLance.setIdItemPregao(melhorProposta.getIdItemPregao());
+        primeiroLance.setIdLicitante(melhorProposta.getIdLicitante());
+        primeiroLance.setIdSessao(sessao);
+        ultimoLance = primeiroLance;
+        servicoSessao.salvarLance(primeiroLance);
     }
 
     public Pregao getPregao() {
@@ -147,7 +151,6 @@ public class ControladorFaseDeLance implements Serializable {
     }
 
     public ItemPregao getItemPregao() {
-        carregarFaseDeLance();
         return itemPregao;
     }
 
