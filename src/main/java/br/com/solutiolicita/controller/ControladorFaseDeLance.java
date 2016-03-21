@@ -41,6 +41,7 @@ public class ControladorFaseDeLance implements Serializable {
     private int contItemCorrente;
     private int indiceItemCorrente;
     private final int IND_MELHOR_PROPOSTA = 0;
+    private final int QUANT_MIN_LANCES = 1;
 
     @Inject
     private ServicoSessaoIF servicoSessao;
@@ -88,16 +89,19 @@ public class ControladorFaseDeLance implements Serializable {
     }
 
     public String encerrarItem() {
-        indiceItemCorrente++;
-        contItemCorrente++;
-        iteradorRodada.reiniciarIterador();
-        if (indiceItemCorrente >= itens.size()) {
-            return "/restrito/sessao/sessao.xhtml";
+        if(proximoItem()){
+            carregarFaseDeLance();
+            lances = new ArrayList();
+            return null;
         }
-        ultimoLance = new Lance();
-        carregarFaseDeLance();
-        lances = new ArrayList();
-        return null;
+        return "/restrito/sessao/sessao.xhtml";
+    }
+    
+    public boolean proximoItem(){
+        indiceItemCorrente ++;
+        contItemCorrente ++;
+        iteradorRodada.reiniciarIterador();
+        return indiceItemCorrente < itens.size();
     }
 
     private void buscarItensPregao() {
@@ -115,20 +119,46 @@ public class ControladorFaseDeLance implements Serializable {
             Logger.getGlobal().log(Level.INFO, "indice do item: {0}", indiceItemCorrente);
             itemPregao = itens.get(indiceItemCorrente);
             propostas = servicoSessao.buscarPropostas(itemPregao);
-            if (!propostas.isEmpty()) {
-                propostas = servicoSessao.classificarPropostas(propostas);
-                melhorProposta = propostas.get(IND_MELHOR_PROPOSTA);
-                licitanteRodada = propostas.get(IND_MELHOR_PROPOSTA).getIdLicitante();
-                criarPrimeiroLance();
-                
+            List<Lance> lancesExis = servicoSessao.buscarLances(itemPregao);
+            //Verifica se contêm mais de um lance para aquele ItemPregao
+            if (lancesExis.size() <= QUANT_MIN_LANCES) {
+                //Verifica se possui propostas para o ItemPregao
+                if (!propostas.isEmpty()) {
+                    propostas = servicoSessao.classificarPropostas(propostas);
+                    melhorProposta = propostas.get(IND_MELHOR_PROPOSTA);
+                    licitanteRodada = propostas.get(IND_MELHOR_PROPOSTA).getIdLicitante();
+                    /*Se não existir nenhum lance, indica que é a primeira vez que aquele 
+                    * itemPregao estão sendo iniciado na fase de lances e necessita
+                    * que um lance seja salvo.
+                     */
+                    if (lancesExis.isEmpty()) {
+                        criarPrimeiroLance();
+                    }
+                    /* Caso só tenha uma proposta, considera que a única empresaLicitante 
+                    * que deu proposta para ele, foi a vencedora e que deve ir para o próximo
+                     */
+                    if (propostas.size() == 1) {
+                        encerrarItem();
+                    } /* Caso só tenha um lance, indica que o item foi iniciado a fase de lances,
+                    *  mas, por algum motivo ele foi interrompido ou pausado. Então, quando for
+                    * ser iniciado novamente, ele deve ser exibido informando o valor da melhorProposta
+                    * como o último lance
+                     */ else if (lancesExis.size() == 1) {
+                        ultimoLance = lancesExis.get(0);
+                    }
+
+                } else if (propostas.isEmpty()) {
+                    //TO-DO Informar que o status do ItemPRegao é deserto
+                    propostas = new ArrayList();
+                }
+            } else {
+                encerrarItem();
             }
         }
-        if (propostas.isEmpty()) {
-            propostas = new ArrayList();
-        }
+
     }
-    
-    public void criarPrimeiroLance(){
+
+    public void criarPrimeiroLance() {
         Lance primeiroLance = new Lance();
         primeiroLance.setValor(melhorProposta.getValorUnitario());
         primeiroLance.setIdItemPregao(melhorProposta.getIdItemPregao());
