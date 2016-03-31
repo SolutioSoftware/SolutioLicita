@@ -10,6 +10,7 @@ import br.com.solutiolicita.modelos.Pregao;
 import br.com.solutiolicita.modelos.Proposta;
 import br.com.solutiolicita.modelos.Sessao;
 import br.com.solutiolicita.servicos.ServicoSessaoIF;
+import br.com.solutiolicita.util.ClassificadorPropostas;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,7 @@ public class ControladorFaseDeLance implements Serializable {
     private int indiceItemCorrente;
     private final int IND_MELHOR_PROPOSTA = 0;
     private final int QUANT_MIN_LANCES = 1;
+    private final int QUANT_MIN_PROPOSTAS = 1;
 
     @Inject
     private ServicoSessaoIF servicoSessao;
@@ -89,17 +91,17 @@ public class ControladorFaseDeLance implements Serializable {
     }
 
     public String encerrarItem() {
-        if(proximoItem()){
+        if (proximoItem()) {
             carregarFaseDeLance();
             lances = new ArrayList();
             return null;
         }
         return "/restrito/sessao/sessao.xhtml";
     }
-    
-    public boolean proximoItem(){
-        indiceItemCorrente ++;
-        contItemCorrente ++;
+
+    public boolean proximoItem() {
+        indiceItemCorrente++;
+        contItemCorrente++;
         iteradorRodada.reiniciarIterador();
         return indiceItemCorrente < itens.size();
     }
@@ -107,54 +109,51 @@ public class ControladorFaseDeLance implements Serializable {
     private void buscarItensPregao() {
         if (itens.isEmpty()) {
             itens = this.servicoSessao.buscarItensPregao(sessao.getIdPregao());
-            if (itens.isEmpty()) {
-                itens = new ArrayList();
-            }
         }
     }
 
-    public void carregarFaseDeLance() {
+    public String iniciarPregao() {
         buscarItensPregao();
+        return carregarFaseDeLance();
+    }
+
+    public String carregarFaseDeLance() {
         if (!itens.isEmpty()) {
             Logger.getGlobal().log(Level.INFO, "indice do item: {0}", indiceItemCorrente);
-            itemPregao = itens.get(indiceItemCorrente);
-            propostas = servicoSessao.buscarPropostas(itemPregao);
-            List<Lance> lancesExis = servicoSessao.buscarLances(itemPregao);
-            //Verifica se contêm mais de um lance para aquele ItemPregao
-            if (lancesExis.size() <= QUANT_MIN_LANCES) {
-                //Verifica se possui propostas para o ItemPregao
-                if (!propostas.isEmpty()) {
+            /*Loop para verificar qual itemPregao ainda não possui nenhum lance*/
+            boolean naoTemLance = true;
+            while (naoTemLance) {
+                itemPregao = itens.get(indiceItemCorrente);
+                propostas = servicoSessao.buscarPropostas(itemPregao);
+                List<Lance> lancesExis = servicoSessao.buscarLances(itemPregao);
+                if (propostas.size() > QUANT_MIN_PROPOSTAS) {
                     propostas = servicoSessao.classificarPropostas(propostas);
                     melhorProposta = propostas.get(IND_MELHOR_PROPOSTA);
-                    licitanteRodada = propostas.get(IND_MELHOR_PROPOSTA).getIdLicitante();
-                    /*Se não existir nenhum lance, indica que é a primeira vez que aquele 
-                    * itemPregao estão sendo iniciado na fase de lances e necessita
-                    * que um lance seja salvo.
-                     */
+                    licitanteRodada = melhorProposta.getIdLicitante();
                     if (lancesExis.isEmpty()) {
                         criarPrimeiroLance();
+                        naoTemLance = false;
+                    } else if (lancesExis.size() > QUANT_MIN_LANCES) {
+                        naoTemLance = proximoItem();
+                    }else{
+                        ultimoLance = lancesExis.get(IND_MELHOR_PROPOSTA);
+                        naoTemLance = false;
                     }
-                    /* Caso só tenha uma proposta, considera que a única empresaLicitante 
-                    * que deu proposta para ele, foi a vencedora e que deve ir para o próximo
-                     */
-                    if (propostas.size() == 1) {
-                        encerrarItem();
-                    } /* Caso só tenha um lance, indica que o item foi iniciado a fase de lances,
-                    *  mas, por algum motivo ele foi interrompido ou pausado. Então, quando for
-                    * ser iniciado novamente, ele deve ser exibido informando o valor da melhorProposta
-                    * como o último lance
-                     */ else if (lancesExis.size() == 1) {
-                        ultimoLance = lancesExis.get(0);
-                    }
-
-                } else if (propostas.isEmpty()) {
-                    //TO-DO Informar que o status do ItemPRegao é deserto
-                    propostas = new ArrayList();
+                } else if (lancesExis.size() <= QUANT_MIN_LANCES) {
+                    naoTemLance = false;
+                } else {
+                    naoTemLance = proximoItem();
                 }
-            } else {
-                encerrarItem();
             }
+            if(!(indiceItemCorrente < itens.size()) ){
+                JsfUtil.addSuccessMessage("Não possui mais itens a serem leiloados!");
+                return "/restrito/sessao/sessao.xhtml";
+            }
+        }else{
+            JsfUtil.addErrorMessage("Este Pregão não possui nenhum item!");
+            return "/restrito/sessao/sessao.xhtml";
         }
+        return null;
 
     }
 

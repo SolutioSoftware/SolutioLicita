@@ -11,7 +11,7 @@
     <f:metadata>
         <f:viewParam name ="sessaoIniciarId" value="#{controladorFaseDeLance.sessao}"
                      converter="#{sessaoConverter}"/>
-        <f:viewAction  action="#{controladorFaseDeLance.carregarFaseDeLance()}"/>
+        <f:viewAction  action="#{controladorFaseDeLance.iniciarPregao()}"/>
     </f:metadata>
 
     <ui:define name="pn_conteudo">
