@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -79,8 +80,8 @@ public class Sessao implements Serializable{
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSessao")
     private transient Set<Lance> lanceSet;
     
-    @JoinColumn(name = "id_pregao", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
+    @JoinColumn(name="id_pregao")
     private Pregao idPregao;
     
     @PrimaryKeyJoinColumn(name = "id_pregoeiro", referencedColumnName = "id")

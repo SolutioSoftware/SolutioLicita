@@ -7,16 +7,17 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -64,22 +65,17 @@ public class Pregao implements Serializable{
     
     @Size(max = 10)
     @Column(name = "status_pregao")
-    private String statusPregao;
+    @Enumerated(EnumType.STRING)
+    private ENUMStatusPregao statusPregao;
     
     @Column(name = "sincronizado")
     private Boolean sincronizado;
     
-    @JoinTable(name = "tbl_historico_status_pregao", joinColumns = {
-        @JoinColumn(name = "id_pregao", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_status", referencedColumnName = "id")})
-    @ManyToMany
-    private transient Set<StatusPregao> statusPregaoSet;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pregao", orphanRemoval = true)
     private Set<ItemPregao> itensPregoes;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPregao")
-    private transient Set<Sessao> sessaoSet;
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, optional = false, mappedBy = "idPregao")
+    private Sessao sessao;
     
     @ManyToOne
     @JoinColumn(name = "instituicaoLicitadora", referencedColumnName = "id")
@@ -130,11 +126,11 @@ public class Pregao implements Serializable{
         this.descricao = descricao;
     }
 
-    public String getStatusPregao() {
+    public ENUMStatusPregao getStatusPregao() {
         return statusPregao;
     }
 
-    public void setStatusPregao(String statusPregao) {
+    public void setStatusPregao(ENUMStatusPregao statusPregao) {
         this.statusPregao = statusPregao;
     }
 
@@ -146,15 +142,6 @@ public class Pregao implements Serializable{
         this.sincronizado = sincronizado;
     }
 
-    @XmlTransient
-    public Set<StatusPregao> getStatusPregaoSet() {
-        return statusPregaoSet;
-    }
-
-    public void setStatusPregaoSet(Set<StatusPregao> statusPregaoSet) {
-        this.statusPregaoSet = statusPregaoSet;
-    }
-
     public Set<ItemPregao> getItensPregoes() {
         return itensPregoes;
     }
@@ -163,14 +150,13 @@ public class Pregao implements Serializable{
         this.itensPregoes = itensPregoes;
     }
 
-    
     @XmlTransient
-    public Set<Sessao> getSessaoSet() {
-        return sessaoSet;
+    public Sessao getSessaoSet() {
+        return sessao;
     }
 
-    public void setSessaoSet(Set<Sessao> sessaoSet) {
-        this.sessaoSet = sessaoSet;
+    public void setSessao(Sessao sessao) {
+        this.sessao = sessao;
     }
     
     public InstituicaoLicitadora getInstituicaoLicitadora() {

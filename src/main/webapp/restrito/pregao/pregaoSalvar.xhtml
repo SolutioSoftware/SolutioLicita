@@ -80,13 +80,6 @@
                 <p:inputText id="numeroPregao" value="#{controladorPregao.pregao.numeroPregao}" title="Número do Pregão" required="true" 
                              requiredMessage="O Campo Número do pregão é obrigatorio" maxlength="20" style="width: 212px" /> 
 
-                <p:outputLabel value="Status:" for="statusDoPregao" style="text-align:right"/>
-                <h:selectOneMenu id="statusDoPregao" value="#{controladorPregao.pregao.statusPregao}" style="width: 213px">
-
-                    <f:selectItem itemLabel="Aberto" itemValue="aberto" />
-
-                </h:selectOneMenu>
-
                 <p:outputLabel value="Instituição Licitadora:" for="instituicaoLicitadora"/>
                 <h:selectOneMenu id="instituicaoLicitadora" value="#{controladorPregao.pregao.instituicaoLicitadora}" style="width: 213px" required="true" 
                                  requiredMessage="O campo Instituição Licitadora deve ser selecionado" converter="instituicaoLicitadoraConverter">

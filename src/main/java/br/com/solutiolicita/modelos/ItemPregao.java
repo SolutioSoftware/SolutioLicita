@@ -8,6 +8,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -74,13 +76,8 @@ public class ItemPregao implements Serializable {
 
     @Size(max = 15)
     @Column(name = "status_item")
-    private String statusItem;
-
-    @JoinTable(name = "tbl_historico_status_item_pregao", joinColumns = {
-        @JoinColumn(name = "id_item_pregao", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_status", referencedColumnName = "id")})
-    @ManyToMany
-    private transient Set<StatusItemPregao> statusItemPregaoSet;
+    @Enumerated(EnumType.STRING)
+    private ENUMStatusItemPregao statusItem;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idItemPregao")
     private transient Set<Lance> lanceSet;
@@ -107,21 +104,12 @@ public class ItemPregao implements Serializable {
         this.valorReferencia = valorReferencia;
     }
 
-    public String getStatusItem() {
+    public ENUMStatusItemPregao getStatusItem() {
         return statusItem;
     }
 
-    public void setStatusItem(String statusItem) {
+    public void setStatusItem(ENUMStatusItemPregao statusItem) {
         this.statusItem = statusItem;
-    }
-
-    @XmlTransient
-    public Set<StatusItemPregao> getStatusItemPregaoSet() {
-        return statusItemPregaoSet;
-    }
-
-    public void setStatusItemPregaoSet(Set<StatusItemPregao> statusItemPregaoSet) {
-        this.statusItemPregaoSet = statusItemPregaoSet;
     }
 
     @XmlTransient
@@ -150,7 +138,6 @@ public class ItemPregao implements Serializable {
         hash = 97 * hash + this.quantidade;
         hash = 97 * hash + Objects.hashCode(this.valorReferencia);
         hash = 97 * hash + Objects.hashCode(this.statusItem);
-        hash = 97 * hash + Objects.hashCode(this.statusItemPregaoSet);
         hash = 97 * hash + Objects.hashCode(this.lanceSet);
         hash = 97 * hash + Objects.hashCode(this.propostaSet);
         return hash;
@@ -178,9 +165,6 @@ public class ItemPregao implements Serializable {
             return false;
         }
         if (!Objects.equals(this.statusItem, other.statusItem)) {
-            return false;
-        }
-        if (!Objects.equals(this.statusItemPregaoSet, other.statusItemPregaoSet)) {
             return false;
         }
         if (!Objects.equals(this.lanceSet, other.lanceSet)) {
@@ -218,7 +202,7 @@ public class ItemPregao implements Serializable {
 
     @Override
     public String toString() {
-        return "ItemPregao{" + "id=" + id + ", pregao=" + pregao + ", item=" + item + ", quantidade=" + quantidade + ", valorReferencia=" + valorReferencia + ", statusItem=" + statusItem + ", statusItemPregaoSet=" + statusItemPregaoSet + ", lanceSet=" + lanceSet + ", propostaSet=" + propostaSet + '}';
+        return "ItemPregao{" + "id=" + id + ", pregao=" + pregao + ", item=" + item + ", quantidade=" + quantidade + ", valorReferencia=" + valorReferencia + ", statusItem=" + statusItem + ", lanceSet=" + lanceSet + ", propostaSet=" + propostaSet + '}';
     }
 
 }

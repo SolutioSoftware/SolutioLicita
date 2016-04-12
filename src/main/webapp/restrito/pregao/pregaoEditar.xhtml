@@ -62,16 +62,9 @@
 
                 <p:outputLabel value="Status:" for="statusDoPregao"/>
                 <h:selectOneMenu id="statusDoPregao" value="#{controladorPregao.pregao.statusPregao}" style="width: 213px">
-
-                    <f:selectItem noSelectionOption="true" />
-                    <f:selectItem itemLabel="Aberto" itemValue="aberto" />
-                    <f:selectItem itemLabel="Anulado" itemValue="anulado" />
-                    <f:selectItem itemLabel="Cancelado" itemValue="cancelado" />
-                    <f:selectItem itemLabel="Concluído COM Recurso" itemValue="comRecurso" />
-                    <f:selectItem itemLabel="Concluído SEM Recurso" itemValue="semRecurso" />
-                    <f:selectItem itemLabel="Deserto" itemValue="deserto" />
-                    <f:selectItem itemLabel="Fracassado" itemValue="fracassad" />
-
+                    
+                    <f:selectItems value="#{controladorPregao.statusPregao}" var="status"
+                                   itemValue="#{status}" itemLabel="#{status.statusPregao}"/>
                 </h:selectOneMenu>
 
                 <p:outputLabel value="Instituição Licitadora:" for="instituicaoLicitadora"/>

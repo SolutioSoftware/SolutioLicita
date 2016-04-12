@@ -1,6 +1,7 @@
 package br.com.solutiolicita.servicos;
 
 import br.com.solutiolicita.excecoes.ExcecoesLicita;
+import br.com.solutiolicita.modelos.ENUMStatusPregao;
 import br.com.solutiolicita.modelos.ItemPregao;
 import br.com.solutiolicita.modelos.Pregao;
 import br.com.solutiolicita.persistencia.DaoIF;
@@ -34,6 +35,7 @@ public class ServicoPregao implements ServicoPregaoIF {
     @Override
     @Transactional
     public void criar(Pregao entidade) {
+        entidade.setStatusPregao(ENUMStatusPregao.ABERTO);
         dao.criar(entidade);
     }
 

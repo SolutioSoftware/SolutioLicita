@@ -2,6 +2,7 @@ package br.com.solutiolicita.controller;
 
 import br.com.solutiolicita.controller.util.JsfUtil;
 import br.com.solutiolicita.excecoes.ExcecoesLicita;
+import br.com.solutiolicita.modelos.ENUMStatusPregao;
 import br.com.solutiolicita.modelos.Pregao;
 import br.com.solutiolicita.servicos.ServicoPregaoIF;
 import java.util.List;
@@ -103,5 +104,8 @@ public class ControladorPregao {
     public void setPregao(Pregao pregao) {
         this.pregao = pregao;
     }
-
+    
+    public ENUMStatusPregao[] getStatusPregao(){
+        return ENUMStatusPregao.values();
+    }
 }
