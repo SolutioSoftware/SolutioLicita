@@ -7,8 +7,8 @@
                 template="/WEB-INF/template/TemplateLicitaPaineis.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    
-    
+
+
     <ui:define name="pn_info">
 
         <h:form id="formInSessao">
@@ -142,11 +142,11 @@
                               fileLimit="1"
                               required="true"
                               update="id_nome_arquivo"/>
-                
+
                 <p:button value="Fase De Lances" id="bt_faseDeLance" class="bt_faseDeLAnce" outcome="/restrito/sessao/faseDeLances.xhtml">
                     <f:param name="sessaoIniciarId" value="#{controladorSessaoIniciar.sessao.id}"/>
                 </p:button>
-                <p:button value="Monitor Licitantes" id="bt_MonitorDeLance" class="bt_faseDeLAnce" outcome="/restrito/sessao/monitorLicitantes.xhtml"/>
+
             </div>
         </h:form>
     </ui:define> 

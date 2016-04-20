@@ -10,14 +10,13 @@ import br.com.solutiolicita.modelos.Pregao;
 import br.com.solutiolicita.modelos.Proposta;
 import br.com.solutiolicita.modelos.Sessao;
 import br.com.solutiolicita.servicos.ServicoSessaoIF;
-import br.com.solutiolicita.util.ClassificadorPropostas;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -26,7 +25,7 @@ import javax.inject.Named;
  * @author ricardocaldeira
  */
 @Named
-@ViewScoped
+@SessionScoped
 public class ControladorFaseDeLance implements Serializable {
 
     private Sessao sessao;
@@ -113,6 +112,7 @@ public class ControladorFaseDeLance implements Serializable {
     }
 
     public String iniciarPregao() {
+        limparDados();
         buscarItensPregao();
         return carregarFaseDeLance();
     }
@@ -221,6 +221,15 @@ public class ControladorFaseDeLance implements Serializable {
 
     public void setLances(List<Lance> lances) {
         this.lances = lances;
+    }
+
+    private void limparDados() {
+        iteradorRodada = new IteradorRodada();
+        itens = new ArrayList();
+        propostas = new ArrayList();
+        lances = new ArrayList();
+        contItemCorrente = 1;
+        indiceItemCorrente = 0;
     }
 
 }
