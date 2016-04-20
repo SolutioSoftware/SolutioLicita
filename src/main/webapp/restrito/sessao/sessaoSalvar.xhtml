@@ -89,27 +89,12 @@
                 <p:calendar id="horarioPrevisto" value="#{controladorSessao.sessao.horarioPrevisto}" pattern="HH:mm" timeOnly="true" 
                             style="width: 210px" title="Hora" />
 
-                <p:outputLabel value="Status:" for="statusDaSessao"/>
-                <h:selectOneMenu id="statusDaSessao" value="#{controladorSessao.sessao.statusSessao}" style="width: 190px" required="true" requiredMessage="O Campo Status da Sessão deve ser selecionado">
-
-                    <f:selectItem noSelectionOption="true" />
-                    <f:selectItem itemLabel="Agendada" itemValue="Agendada" />
-                    <f:selectItem itemLabel="Anulada" itemValue="Anulada" />
-                    <f:selectItem itemLabel="Cancelada" itemValue="Cancelada" />
-                    <f:selectItem itemLabel="Deserto" itemValue="Deserto" />
-                    <f:selectItem itemLabel="Encerrada" itemValue="Encerrada" />
-                    <f:selectItem itemLabel="Iniciada" itemValue="Iniciada" />
-                    <f:selectItem itemLabel="Pausada" itemValue="Pausada" />
-                    <f:selectItem itemLabel="Remarcada" itemValue="Remarcada" />
-
-                </h:selectOneMenu>
-
             </h:panelGrid>
 
 
             <div style="margin-top: 2%">
 
-                <p:commandButton  id="bt_Salvar_Sessao" value="Salvar" icon="fa fa-save" action="#{controladorSessao.criar}" 
+                <p:commandButton  id="bt_Salvar_Sessao" value="Salvar" icon="fa fa-save" action="#{controladorSessao.criar()}" 
                                   update="growSessao" ajax="false" style="width: 125px"/>
 
                 <p:commandButton  id="bt_Iniciar_Sessao" value="Iniciar" icon="fa fa-youtube-play" update="growSessao" ajax="false" style="width: 125px"

@@ -66,7 +66,8 @@ public class EmpresaLicitante implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idLicitante")
     private transient Set<Proposta> propostaSet;
     
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "empresaLicitante")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_licitante", referencedColumnName = "id")
     private ContaBancaria contaBancaria;
     
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "empresaLicitante")

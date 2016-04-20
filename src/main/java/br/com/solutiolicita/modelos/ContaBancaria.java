@@ -57,8 +57,7 @@ public class ContaBancaria implements Serializable {
     @Column(name = "operacao")
     private String operacao;
     
-    @JoinColumn(name = "id_licitante", referencedColumnName = "id")
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, mappedBy = "contaBancaria")
     private EmpresaLicitante empresaLicitante;
 
     public ContaBancaria() {

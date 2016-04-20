@@ -30,6 +30,7 @@ public class ControladorSessao {
     }
 
     public String criar() {
+        sessao.setStatusSessao("Agendada");
         servicoSessao.criar(sessao);
         return "/restrito/sessao/sessao.xhtml";
     }
@@ -45,8 +46,10 @@ public class ControladorSessao {
 
     public String iniciarSessao() {
         if (sessao.getId() == null) {
+            sessao.setStatusSessao("Iniciada");
             servicoSessao.criar(sessao);
-        }else{
+        } else {
+            sessao.setStatusSessao("Iniciada");
             servicoSessao.atualizar(sessao);
         }
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sessao", sessao);

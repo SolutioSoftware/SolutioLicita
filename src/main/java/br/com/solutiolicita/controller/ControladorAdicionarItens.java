@@ -86,6 +86,7 @@ public class ControladorAdicionarItens implements Serializable {
     }
 
     public void editandoXlsParaExportar(Object document) {
+        servicoPregao.atualizar(pregao);
         Logger.getGlobal().log(Level.INFO, "Iniciando export .XLS {0}", getPregao());
         servicoPregao.criarPlanilhaXLS(document, pregao);
     }

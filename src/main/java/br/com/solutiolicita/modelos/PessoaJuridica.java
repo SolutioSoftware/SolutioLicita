@@ -36,7 +36,6 @@ public class PessoaJuridica implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id")
     private Long id;
     
@@ -57,7 +56,7 @@ public class PessoaJuridica implements Serializable{
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pessoaJuridica")
     private EmpresaLicitante empresaLicitante;
     
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "idPessoaJuridica")
+    @Embedded
     private ContatoPessoaJuridica contatoPessoaJuridica;
     
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pessoaJuridica")

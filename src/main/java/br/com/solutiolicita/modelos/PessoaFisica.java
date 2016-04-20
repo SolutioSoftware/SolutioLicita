@@ -36,7 +36,6 @@ public class PessoaFisica implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id")
     private Long id;
 
@@ -57,7 +56,7 @@ public class PessoaFisica implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pessoaFisica")
     private MembroApoio membroApoio;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "idPessoaFisica")
+    @Embedded
     private ContatoPessoaFisica contatoPessoaFisica;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pessoaFisica")
