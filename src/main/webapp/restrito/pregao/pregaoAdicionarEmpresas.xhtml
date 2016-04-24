@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/TemplateLicitaPaineis.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <f:metadata>
+        <f:viewParam name ="pregaoId" value="#{controladorAdicionarLicitante.pregao}"
+                     converter="#{pregaoConverter}"/>
+    </f:metadata>
+
+    <ui:define id="define_info" name="pn_info" >
+
+        <h:form id="formDtLicitantes">
+
+            <p:dataTable id='dt_licitantes' var="entidade" value="#{controladorLicitante.licitantes}" 
+                         widgetVar="tbl_licitantes" paginator="true" style="padding:5px" rows="12" rowsPerPageTemplate="5,10"  
+                         emptyMessage="Nenhuma Empresa Cadastrado"  paginatorAlwaysVisible="true" scrollable="false">
+
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <p:inputText id="globalFilter" onkeyup="PF('tbl_itens').filter()" style="width:250px" placeholder="Digite sua busca" />
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="Razão Social" filterBy="#{entidade.pessoaJuridica.razaoSocial}" filterMatchMode="contains" filterStyle="display:none">
+                    <h:outputText value="#{entidade.pessoaJuridica.razaoSocial}" />
+                </p:column>
+
+                <p:column headerText="CNPJ" filterBy="#{entidade.pessoaJuridica.cnpj}" filterMatchMode="contains" filterStyle="display:none"  width="130">
+                    <h:outputText value="#{entidade.pessoaJuridica.cnpj}" />
+                </p:column>
+
+                <p:column headerText="Adicionar Empresa" width="45" style="text-align: center">
+
+                    <p:commandButton id="btAdiconarEmpresas" icon="ui-icon-plus" action="#{controladorAdicionarLicitante.adicionarEmpresa()}" 
+                                     update=":pregao_form:formDtLicitantesAdicionados:dt_licitantes_adicionados"
+                                     style="font-size: 10px" >
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorAdicionarLicitante.empresaLicitante}"  />
+                        <p:tooltip for="btAdiconarEmpresas" value="Adicionar"/>
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+
+    </ui:define>
+
+    <ui:define id="define_conteudo" name="pn_conteudo">
+
+        <p:growl id="growPregaoAdicionarLicitante" showDetail="false" life="3000" class="ui-growl" />
+
+        <h:form id="pregao_form" title="Pregão" style="text-align: center">
+
+            <div style="margin-left: 1%; margin-top: 2%; margin-right: 1%; margin-bottom: 1%">
+             
+                <p:panelGrid columns="1" id="panelGridAdicionarLicitante" layout="grid" class="panelGridInformacoes">
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column>Detalhes do Pregão</p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Número do Processo:" for="numeroProcesso" style="font-weight:bold" class="colunaTitulo"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel id="numeroProcesso" value="#{controladorAdicionarLicitante.pregao.numeroProcesso}" class="colunaValor"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Número do Pregão:" for="numeroDoPregao" style="font-weight:bold" class="colunaTitulo"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel id="numeroDoPregao" value="#{controladorAdicionarLicitante.pregao.numeroPregao}" class="colunaValor"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Status do Pregão:" for="statusDoPregao" class="colunaTitulo"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel id="statusDoPregao" value="#{controladorSessaoIniciar.sessao.statusSessao}" class="colunaValor"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Instituição Licitadora:" for="instituicaoLicitadora" style="font-weight:bold" class="colunaTitulo"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel id="instituicaoLicitadora" value="#{controladorAdicionarLicitante.pregao.instituicaoLicitadora.pessoaJuridica.nomeFantasia}" class="colunaValor"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                
+            </div>
+
+
+
+            <h:form id="formDtLicitantesAdicionados" prependId="false">
+
+                <p:dataTable id='dt_licitantes_adicionados' var="entidade" value="#{controladorAdicionarLicitante.pregao.empresasLicitantes}" 
+                             widgetVar="tbl_licitantes_adicionados" paginator="true" style="padding:5px" rows="8" rowsPerPageTemplate="5,10,30,50,100"  
+                             emptyMessage="Nenhuma Empresa Adicionada"  paginatorAlwaysVisible="true" editable="true" editMode="cell">
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <p:inputText id="globalFilter" onkeyup="PF('tbl_licitantes_adicionados').filter()" style="width:250px" placeholder="Digite sua busca" />
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column headerText="Razão Social" filterBy="#{entidade.pessoaJuridica.razaoSocial}" filterMatchMode="contains" filterStyle="display:none">
+                        <h:outputText value="#{entidade.pessoaJuridica.razaoSocial}" />
+                    </p:column>
+
+                    <p:column headerText="Nome Fantasia" filterBy="#{entidade.pessoaJuridica.nomeFantasia}" filterMatchMode="contains" filterStyle="display:none">
+                        <h:outputText value="#{entidade.pessoaJuridica.nomeFantasia}" />
+                    </p:column>
+
+                    <p:column headerText="CNPJ" filterBy="#{entidade.pessoaJuridica.cnpj}" filterMatchMode="contains" filterStyle="display:none">
+                        <h:outputText value="#{entidade.pessoaJuridica.cnpj}" />
+                    </p:column>
+
+                    <p:column headerText="Excluir" width="50" exportable="false" style="text-align: center">
+                        
+                        <p:commandButton id="btExcluirEmpresa" icon="ui-icon-trash" action="#{controladorAdicionarLicitante.removerEmpresa()}" 
+                                         update=":pregao_form:formDtLicitantesAdicionados:dt_licitantes_adicionados"
+                                         style="font-size: 10px" >
+                            <f:setPropertyActionListener value="#{entidade}" target="#{controladorAdicionarLicitante.empresaLicitante}"  />
+                            <p:tooltip for="btExcluirEmpresa" value="Excluir"/>
+                        </p:commandButton>
+                        
+                         
+                    </p:column>
+
+                </p:dataTable>
+                
+                <p:commandButton  id="btAtualizarPregao" value="Atualizar" icon="fa fa-refresh" action="#{controladorAdicionarLicitante.atualizar()}" 
+                                   update=":pn_info : dt_licitante" ajax="false" style="margin-right: 20px" />
+
+            </h:form>
+
+        </h:form>
+
+    </ui:define> 
+
+</ui:composition>

@@ -39,7 +39,7 @@
                 </p:column>
 
 
-                <p:column headerText="Ações" width="75">
+                <p:column headerText="Ações" width="100">
 
                     <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorPregao.prepararEditar}" update="@form"  style="font-size: 10px">
                         <f:setPropertyActionListener value="#{entidade}" target="#{controladorPregao.pregao}"  />
@@ -56,6 +56,12 @@
                                       style="font-size: 10px">
                         <f:param name="pregaoId" value="#{entidade.id}"/>
                         <p:tooltip for="btAdicionaItens" value="Adicionar Itens"/>
+                    </p:button>
+                    
+                    <p:button id="btAdicionarEmpresas" icon="fa fa-institution" outcome="pregaoAdicionarEmpresas.xhtml?faces-redirect=true" 
+                                      style="font-size: 10px">
+                        <f:param name="pregaoId" value="#{entidade.id}"/>
+                        <p:tooltip for="btAdicionarEmpresas" value="Adicionar Licitantes"/>
                     </p:button>
                     
                 </p:column>

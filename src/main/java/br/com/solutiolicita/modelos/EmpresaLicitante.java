@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -72,6 +73,9 @@ public class EmpresaLicitante implements Serializable {
     
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "empresaLicitante")
     private RepresentanteLegal representanteLegal;
+    
+    @ManyToMany(mappedBy = "empresasLicitantes")
+    private Set<Pregao> pregoes;
 
     public EmpresaLicitante() {
         pessoaJuridica = new PessoaJuridica();
@@ -153,6 +157,16 @@ public class EmpresaLicitante implements Serializable {
     public void setRepresentanteLegal(RepresentanteLegal representanteLegal) {
         this.representanteLegal = representanteLegal;
     }
+
+    public Set<Pregao> getPregoes() {
+        return pregoes;
+    }
+
+    public void setPregoes(Set<Pregao> pregoes) {
+        this.pregoes = pregoes;
+    }
+    
+    
 
     @Override
     public int hashCode() {

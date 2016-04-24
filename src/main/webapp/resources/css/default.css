@@ -438,3 +438,28 @@ footer {
 .form-conteudo:parent{
     text-align: center;
 }
+
+.colunaTitulo{
+    color: #036fab;
+    font-weight:bold
+}
+
+.colunaValor{
+    text-align: left;
+    margin-left: 10px;
+}
+
+.tabelaHeader{
+    font-weight:bold;
+}
+
+.tabelaCorpo{
+    width: 100%;
+    margin-top: 30px;
+}
+
+.panelGridInformacoes{
+    text-align: left; 
+    width: 100%;
+    border: 0;
+}

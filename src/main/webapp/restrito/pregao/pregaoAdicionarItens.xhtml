@@ -61,30 +61,51 @@
 
         <h:form id="pregao_form" title="Pregão" style="text-align: center">
 
-            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
-
-                <h:panelGrid columns="4" id="panelGridAdicionarItens">
-
-                    <p:outputLabel value="Número do Processo:" for="numeroProcesso" style="font-weight:bold"/>
-                    <p:outputLabel id="numeroProcesso" value="#{controladorAdicionarItens.pregao.numeroProcesso}"/>
-
-                    <p:outputLabel value="Número do Pregão:" for="numeroPregao" style="font-weight:bold"/>
-                    <p:outputLabel id="numeroPregao" value="#{controladorAdicionarItens.pregao.numeroPregao}"/> 
-
-                    <p:outputLabel value="Status do Pregão:" for="statusDoPregao" style="font-weight:bold"/>
-                    <p:outputLabel id="statusDoPregao" value="#{controladorAdicionarItens.pregao.statusPregao.statusPregao}"/>
-
-                    <p:outputLabel value="Instituição Licitadora:" for="instituicaoLicitadora" style="font-weight:bold"/>
-                    <p:outputLabel id="instituicaoLicitadora" value="#{controladorAdicionarItens.pregao.instituicaoLicitadora.pessoaJuridica.nomeFantasia}"/>
-
-                </h:panelGrid>
+            <div style="margin-left: 1%; margin-top: 2%; margin-right: 1%; margin-bottom: 1%">
+             
+                <p:panelGrid columns="1" id="panelGridAdicionarItens" layout="grid" class="panelGridInformacoes">
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column>Detalhes do Pregão</p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Número do Processo:" for="numeroProcesso" style="font-weight:bold" class="colunaTitulo"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel id="numeroProcesso" value="#{controladorAdicionarItens.pregao.numeroProcesso}" class="colunaValor"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Número do Pregão:" for="numeroDoPregao" style="font-weight:bold" class="colunaTitulo"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel id="numeroDoPregao" value="#{controladorAdicionarItens.pregao.numeroPregao}" class="colunaValor"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Status do Pregão:" for="statusDoPregao" class="colunaTitulo"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel id="statusDoPregao" value="#{controladorSessaoIniciar.sessao.statusSessao}" class="colunaValor"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Instituição Licitadora:" for="instituicaoLicitadora" style="font-weight:bold" class="colunaTitulo"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel id="instituicaoLicitadora" value="#{controladorAdicionarItens.pregao.instituicaoLicitadora.pessoaJuridica.nomeFantasia}" class="colunaValor"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                
             </div>
 
-            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
 
-                <p:commandButton  id="btAtualizarPregao" value="Atualizar" icon="fa fa-refresh" action="#{controladorAdicionarItens.atualizar()}" 
-                                  update=":pn_info : dt_pregoes" ajax="false" />
-            </div>
 
             <h:form id="formDtItemPregao" prependId="false">
 
@@ -126,17 +147,21 @@
                     </p:column>
 
                     <p:column headerText="Excluir" width="50" exportable="false" >
-
+                        
                         <p:commandButton id="btExcluirItemPregao" icon="ui-icon-trash" action="#{controladorAdicionarItens.removerItem()}" 
                                          update=":pregao_form:formDtItemPregao:dt_itensPregao"
                                          style="font-size: 10px" >
                             <f:setPropertyActionListener value="#{entidade}" target="#{controladorAdicionarItens.itemPregao}"  />
                             <p:tooltip for="btExcluirItemPregao" value="Excluir"/>
                         </p:commandButton>
-
+                        
+                         
                     </p:column>
 
                 </p:dataTable>
+                
+                 <p:commandButton  id="btAtualizarPregao" value="Atualizar" icon="fa fa-refresh" action="#{controladorAdicionarItens.atualizar()}" 
+                                   update=":pn_info : dt_pregoes" ajax="false" style="margin-right: 20px" />
 
                 <p:commandButton value="Export Excel" ajax="false" icon="fa fa-file-excel-o">
                     <p:dataExporter type="xls" target="dt_itensPregao" fileName="Itens Pregao nº:#{controladorAdicionarItens.pregao.numeroPregao}" postProcessor="#{controladorAdicionarItens.editandoXlsParaExportar}" />
