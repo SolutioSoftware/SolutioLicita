@@ -334,4 +334,10 @@ public class ServicoSessao implements ServicoSessaoIF {
         
         return daoPropostas.consultar("Proposta.findBySessao", parametros, valores);
     }
+
+    @Override
+    @Transactional
+    public void atualizarStatusItemPregao(ItemPregao itemPregao) {
+        daoItemPregao.atualizar(itemPregao);
+    }
 }

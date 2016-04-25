@@ -3,15 +3,18 @@ package br.com.solutiolicita.controller;
 import br.com.solutiolicita.controller.util.IteradorRodada;
 import br.com.solutiolicita.controller.util.JsfUtil;
 import br.com.solutiolicita.excecoes.ExcecoesLicita;
+import br.com.solutiolicita.modelos.ENUMStatusItemPregao;
 import br.com.solutiolicita.modelos.EmpresaLicitante;
 import br.com.solutiolicita.modelos.ItemPregao;
 import br.com.solutiolicita.modelos.Lance;
 import br.com.solutiolicita.modelos.Pregao;
 import br.com.solutiolicita.modelos.Proposta;
 import br.com.solutiolicita.modelos.Sessao;
+import br.com.solutiolicita.servicos.ServicoItemIF;
 import br.com.solutiolicita.servicos.ServicoSessaoIF;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,12 +44,13 @@ public class ControladorFaseDeLance implements Serializable {
     private int contItemCorrente;
     private int indiceItemCorrente;
     private final int IND_MELHOR_PROPOSTA = 0;
+    private final int IND_PIOR_PROPOSTA = 0;
     private final int QUANT_MIN_LANCES = 1;
     private final int QUANT_MIN_PROPOSTAS = 1;
 
     @Inject
     private ServicoSessaoIF servicoSessao;
-
+    
     public ControladorFaseDeLance() {
     }
 
@@ -90,11 +94,14 @@ public class ControladorFaseDeLance implements Serializable {
     }
 
     public String encerrarItem() {
+        itemPregao.setStatusItem(ENUMStatusItemPregao.COM_VENCEDOR);
+        servicoSessao.atualizarStatusItemPregao(itemPregao);
         if (proximoItem()) {
-            carregarFaseDeLance();
             lances = new ArrayList();
+            carregarFaseDeLance();
             return null;
         }
+        //Retornar para a página de resultados.
         return "/restrito/sessao/sessao.xhtml";
     }
 
@@ -120,51 +127,84 @@ public class ControladorFaseDeLance implements Serializable {
     public String carregarFaseDeLance() {
         if (!itens.isEmpty()) {
             Logger.getGlobal().log(Level.INFO, "indice do item: {0}", indiceItemCorrente);
-            /*Loop para verificar qual itemPregao ainda não possui nenhum lance*/
+            /*Loop para verificar qual itemPregao ainda não foi leiloado*/
             boolean naoTemLance = true;
             while (naoTemLance) {
                 itemPregao = itens.get(indiceItemCorrente);
-                propostas = servicoSessao.buscarPropostas(itemPregao);
-                List<Lance> lancesExis = servicoSessao.buscarLances(itemPregao);
-                if (propostas.size() > QUANT_MIN_PROPOSTAS) {
-                    propostas = servicoSessao.classificarPropostas(propostas);
-                    melhorProposta = propostas.get(IND_MELHOR_PROPOSTA);
-                    licitanteRodada = melhorProposta.getIdLicitante();
-                    if (lancesExis.isEmpty()) {
+                if (itemPregao.getStatusItem() == null) {
+                    propostas = servicoSessao.buscarPropostas(itemPregao);
+                    if (propostas.size() <= 3) {
+                        if (propostas.isEmpty()) {
+                            itemPregao.setStatusItem(ENUMStatusItemPregao.DESERTO);
+                            servicoSessao.atualizarStatusItemPregao(itemPregao);
+                            naoTemLance = proximoItem();
+                        } else {
+                            propostas = servicoSessao.classificarPropostas(propostas);
+                            melhorProposta = propostas.get(IND_MELHOR_PROPOSTA);
+                            Collections.reverse(propostas);
+                            licitanteRodada = propostas.get(IND_PIOR_PROPOSTA).getIdLicitante();
+                            //ordernar do maior para o menor e manter os 3, e vai a fase de lances
+                            criarPrimeiroLance();
+                            naoTemLance = false;
+                        }
+                    } else {
+                        propostas = servicoSessao.classificarPropostas(propostas);
+                        melhorProposta = propostas.get(IND_MELHOR_PROPOSTA);
+                        Collections.reverse(propostas);
+                        licitanteRodada = propostas.get(IND_PIOR_PROPOSTA).getIdLicitante();
                         criarPrimeiroLance();
                         naoTemLance = false;
-                    } else if (lancesExis.size() > QUANT_MIN_LANCES) {
-                        naoTemLance = proximoItem();
-                    }else{
-                        ultimoLance = lancesExis.get(IND_MELHOR_PROPOSTA);
-                        naoTemLance = false;
+                        //Classificar as propostas, obedecendo o valor mínimo de empresas concorrentes(3)
                     }
-                } else if (lancesExis.size() <= QUANT_MIN_LANCES) {
-                    naoTemLance = false;
                 } else {
                     naoTemLance = proximoItem();
                 }
             }
-            if(!(indiceItemCorrente < itens.size()) ){
-                JsfUtil.addSuccessMessage("Não possui mais itens a serem leiloados!");
-                return "/restrito/sessao/sessao.xhtml";
-            }
-        }else{
+            return null;
+        } else {
             JsfUtil.addErrorMessage("Este Pregão não possui nenhum item!");
             return "/restrito/sessao/sessao.xhtml";
         }
-        return null;
-
     }
 
+//                    List<Lance> lancesExis = servicoSessao.buscarLances(itemPregao);
+//                    if (propostas.size() > QUANT_MIN_PROPOSTAS) {
+//                        propostas = servicoSessao.classificarPropostas(propostas);
+//                        melhorProposta = propostas.get(IND_MELHOR_PROPOSTA);
+//                        licitanteRodada = melhorProposta.getIdLicitante();
+//                        if (lancesExis.isEmpty()) {
+//                            criarPrimeiroLance();
+//                            naoTemLance = false;
+//                        } else if (lancesExis.size() > QUANT_MIN_LANCES) {
+//                            naoTemLance = proximoItem();
+//                        } else {
+//                            ultimoLance = lancesExis.get(IND_MELHOR_PROPOSTA);
+//                            naoTemLance = false;
+//                        }
+//                    } else if (lancesExis.size() <= QUANT_MIN_LANCES) {
+//                        naoTemLance = false;
+//                    } else {
+//                        naoTemLance = proximoItem();
+//                    }
+//                }
+//                if (!(indiceItemCorrente < itens.size())) {
+//                    JsfUtil.addSuccessMessage("Não possui mais itens a serem leiloados!");
+//                    return "/restrito/sessao/sessao.xhtml";
+//                }
+//            }
     public void criarPrimeiroLance() {
-        Lance primeiroLance = new Lance();
-        primeiroLance.setValor(melhorProposta.getValorUnitario());
-        primeiroLance.setIdItemPregao(melhorProposta.getIdItemPregao());
-        primeiroLance.setIdLicitante(melhorProposta.getIdLicitante());
-        primeiroLance.setIdSessao(sessao);
-        ultimoLance = primeiroLance;
-        servicoSessao.salvarLance(primeiroLance);
+        lances = servicoSessao.buscarLances(itemPregao);
+        if (lances.isEmpty()) {
+            Lance primeiroLance = new Lance();
+            primeiroLance.setValor(melhorProposta.getValorUnitario());
+            primeiroLance.setIdItemPregao(melhorProposta.getIdItemPregao());
+            primeiroLance.setIdLicitante(melhorProposta.getIdLicitante());
+            primeiroLance.setIdSessao(sessao);
+            ultimoLance = primeiroLance;
+            servicoSessao.salvarLance(primeiroLance);
+        }else{
+            ultimoLance = lances.get(lances.size()-1);
+        }
     }
 
     public Pregao getPregao() {
@@ -227,7 +267,6 @@ public class ControladorFaseDeLance implements Serializable {
         iteradorRodada = new IteradorRodada();
         itens = new ArrayList();
         propostas = new ArrayList();
-        lances = new ArrayList();
         contItemCorrente = 1;
         indiceItemCorrente = 0;
     }

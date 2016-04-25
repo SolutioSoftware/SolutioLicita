@@ -24,6 +24,8 @@ public interface ServicoSessaoIF extends ServicoIF<Sessao> {
     
     public void salvarLance(Lance lance);
     
+    public void atualizarStatusItemPregao(ItemPregao itemPregao);
+    
     public List<Proposta> buscarPropostas(ItemPregao itemPregao);
     
     public List<Proposta> buscarPropostasPorSessao(Sessao sessao);

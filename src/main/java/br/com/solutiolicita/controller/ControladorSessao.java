@@ -1,5 +1,6 @@
 package br.com.solutiolicita.controller;
 
+import br.com.solutiolicita.controller.util.JsfUtil;
 import br.com.solutiolicita.modelos.Sessao;
 import br.com.solutiolicita.servicos.ServicoSessaoIF;
 import java.util.Date;
@@ -8,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.persistence.RollbackException;
 
 /**
  *
@@ -57,7 +59,11 @@ public class ControladorSessao {
     }
 
     public void remover() {
-        servicoSessao.remover(sessao);
+        try {
+            servicoSessao.remover(sessao);
+        } catch (RollbackException re) {
+            JsfUtil.addErrorMessage("Sessão não pode ser removida.");
+        }
     }
 
     public Sessao getSessao() {

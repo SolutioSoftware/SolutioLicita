@@ -130,7 +130,7 @@ public class ClassificarPropostasTest {
         
         assertEquals(new BigDecimal("5.0"), propostas.get(0).getValorUnitario());
         assertEquals(true, propostas.get(0).getClassificada());
-        assertEquals(1, propostas.size());       
+        assertEquals(3, propostas.size());       
         
         
     }

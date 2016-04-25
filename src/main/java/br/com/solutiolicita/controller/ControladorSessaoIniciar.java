@@ -47,7 +47,7 @@ public class ControladorSessaoIniciar implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("sessao");
         empresasParticipantes = new ArrayList<>();
         propostasDoLicitante = new ArrayList<>();
-        
+
         listarLicitantesParticipantes();
     }
 
@@ -87,28 +87,26 @@ public class ControladorSessaoIniciar implements Serializable {
         try {
             getPropostasDoLicitante().removeAll(getPropostasDoLicitante());
             setPropostasDoLicitante(getServicoSessao().propostasPorLicitante(sessao, empresaLicitante));
-            
 
         } catch (ExcecoesLicita ex) {
             Logger.getLogger(ControladorSessaoIniciar.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         }
 
     }
-    
-    public void listarLicitantesParticipantes(){
-        
+
+    public void listarLicitantesParticipantes() {
+
         List<Proposta> propostas = getServicoSessao().buscarPropostasPorSessao(getSessao());
-        
-        for (Proposta proposta : propostas){
-            
-            if (!getEmpresasParticipantes().contains(proposta.getIdLicitante())){
+
+        for (Proposta proposta : propostas) {
+
+            if (!getEmpresasParticipantes().contains(proposta.getIdLicitante())) {
                 getEmpresasParticipantes().add(proposta.getIdLicitante());
             }
-            
+
         }
-        
-        
+
     }
 
     public void removerArquivo() {
@@ -156,14 +154,12 @@ public class ControladorSessaoIniciar implements Serializable {
     }
 
     public List<Proposta> getPropostasDoLicitante() {
-        
+
         return propostasDoLicitante;
     }
 
     public void setPropostasDoLicitante(List<Proposta> propostasDoLicitante) {
         this.propostasDoLicitante = propostasDoLicitante;
     }
-    
-    
 
 }
