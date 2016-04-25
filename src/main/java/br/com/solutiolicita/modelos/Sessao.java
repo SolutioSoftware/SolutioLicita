@@ -22,6 +22,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -31,7 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author WitaloCarlos
  */
 @Entity
-@Table(name = "tbl_sessao")
+@Table(name = "tbl_sessao", uniqueConstraints={@UniqueConstraint(columnNames = "id_Pregao")})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Sessao.findAll", query = "SELECT s FROM Sessao s"),

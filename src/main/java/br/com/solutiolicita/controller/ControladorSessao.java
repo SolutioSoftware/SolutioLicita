@@ -32,8 +32,12 @@ public class ControladorSessao {
     }
 
     public String criar() {
-        sessao.setStatusSessao("Agendada");
-        servicoSessao.criar(sessao);
+        try {
+            sessao.setStatusSessao("Agendada");
+            servicoSessao.criar(sessao);
+        } catch (RollbackException re) {
+            JsfUtil.addErrorMessage("Já existe uma sessão para este pregão.");
+        }
         return "/restrito/sessao/sessao.xhtml";
     }
 
