@@ -116,8 +116,9 @@
                         <p:column headerText="Propostas" width="70" style="text-align: center">
 
                             <p:commandButton id="btUploadProposta" icon="fa fa-search"
-                                             update=":sessaoIn_form:formDtPropostas:dt_Propostas"
+                                             update=":sessaoIn_form:formDtPropostas:dt_PropostasImportadas"
                                              oncomplete="PF('adicionarPropostasDialog').show()"
+                                             action="#{controladorSessaoIniciar.propostasPorLicitante()}"
                                              style="font-size: 10px"   >
                                 <f:setPropertyActionListener value="#{participante}" target="#{controladorSessaoIniciar.empresaLicitante}"  />
                                 <p:tooltip for="btUploadProposta" value="Adicionar"/>
@@ -130,7 +131,7 @@
                         <f:param name="sessaoIniciarId" value="#{controladorSessaoIniciar.sessao.id}"/>
                     </p:button>
 
-                    <p:dialog header="Propostas" widgetVar="adicionarPropostasDialog" appendTo="@(body)"  draggable="false" modal="true" resizable="false" width="800">
+                    <p:dialog header="Propostas"  id="propostasDialog" widgetVar="adicionarPropostasDialog" appendTo="@(body)"  draggable="false" modal="true" resizable="false" width="800">
 
                         <div style="margin: 3%">
 

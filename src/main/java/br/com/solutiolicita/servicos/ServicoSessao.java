@@ -308,7 +308,7 @@ public class ServicoSessao implements ServicoSessaoIF {
     @Override
     public List<Proposta> propostasPorLicitante(Sessao sessao, EmpresaLicitante licitante) throws ExcecoesLicita {
         
-        List<Proposta> propostasGeral = new ArrayList<>(sessao.getPropostaSet());
+        List<Proposta> propostasGeral = buscarPropostasPorSessao(sessao);
         List<Proposta> propostaDoLicitante = new ArrayList<>();
         
         for(Proposta proposta : propostasGeral){
@@ -320,5 +320,18 @@ public class ServicoSessao implements ServicoSessaoIF {
         }
         
         return propostaDoLicitante;
+    }
+
+    @Override
+    public List<Proposta> buscarTodasPropostas() {
+        return daoPropostas.consultar("Proposta.findAll");
+    }
+
+    @Override
+    public List<Proposta> buscarPropostasPorSessao(Sessao sessao) {
+        String[] parametros = {"idSessao"};
+        Object[] valores = {sessao};
+        
+        return daoPropostas.consultar("Proposta.findBySessao", parametros, valores);
     }
 }

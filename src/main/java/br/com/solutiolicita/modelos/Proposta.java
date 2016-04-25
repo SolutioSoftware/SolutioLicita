@@ -28,37 +28,38 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Proposta.findAll", query = "SELECT p FROM Proposta p"),
     @NamedQuery(name = "Proposta.findById", query = "SELECT p FROM Proposta p WHERE p.id = :id"),
     @NamedQuery(name = "Proposta.findBySessao", query = "SELECT p FROM Proposta p WHERE P.idSessao = :idSessao"),
-    @NamedQuery(name = "Proposta.findBySessaoWithLicitante", query = "SELECT p FROM Proposta p WHERE p.idLicitante = :idLicitante AND p.idSessao = :idSessao" ),
+    @NamedQuery(name = "Proposta.findBySessaoWithLicitante", query = "SELECT p FROM Proposta p WHERE p.idLicitante = :idLicitante AND p.idSessao = :idSessao"),
     @NamedQuery(name = "Proposta.findByValorUnitario", query = "SELECT p FROM Proposta p WHERE p.valorUnitario = :valorUnitario"),
     @NamedQuery(name = "Proposta.findByItemPregao", query = "SELECT p FROM Proposta p WHERE p.idItemPregao = :idItemPregao"),
     @NamedQuery(name = "Proposta.findByClassificada", query = "SELECT p FROM Proposta p WHERE p.classificada = :classificada")})
-public class Proposta implements Serializable, Ordenavel<BigDecimal>{
+public class Proposta implements Serializable, Ordenavel<BigDecimal> {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "valor_unitario")
     private BigDecimal valorUnitario;
-   
+
     @Column(name = "classificada")
     private Boolean classificada;
-    
+
     @JoinColumn(name = "id_licitante", referencedColumnName = "id")
     @ManyToOne
     private EmpresaLicitante idLicitante;
-    
+
     @JoinColumn(name = "id_item_pregao", referencedColumnName = "id")
     @ManyToOne
     private ItemPregao idItemPregao;
-    
-    @JoinColumn(name = "id_sessao", referencedColumnName = "id")
+
     @ManyToOne
+    @JoinColumn(name = "id_sessao", referencedColumnName = "id")
     private Sessao idSessao;
 
     public Proposta() {
@@ -73,7 +74,6 @@ public class Proposta implements Serializable, Ordenavel<BigDecimal>{
         this.valorUnitario = valorUnitario;
     }
 
-   
     public Long getId() {
         return id;
     }
@@ -146,13 +146,9 @@ public class Proposta implements Serializable, Ordenavel<BigDecimal>{
         return "Proposta{" + "id=" + id + ", valorUnitario=" + valorUnitario.toString() + ", classificada=" + classificada + ", idLicitante=" + idLicitante + ", idItemPregao=" + idItemPregao + ", idSessao=" + idSessao + '}';
     }
 
-    
-
     @Override
     public BigDecimal parametroDeOrdenacao() {
         return getValorUnitario();
     }
 
-    
-    
 }

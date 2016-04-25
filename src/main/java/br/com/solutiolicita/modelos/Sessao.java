@@ -89,7 +89,7 @@ public class Sessao implements Serializable{
     private Pregoeiro idPregoeiro;
     
     @OneToMany(mappedBy = "idSessao")
-    private transient Set<Proposta> propostaSet;
+    private Set<Proposta> propostaSet;
 
     public Sessao() {
     }

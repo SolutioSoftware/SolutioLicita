@@ -9,6 +9,7 @@ import br.com.solutiolicita.servicos.ServicoSessaoIF;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -45,6 +46,9 @@ public class ControladorSessaoIniciar implements Serializable {
         sessao = (Sessao) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sessao");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("sessao");
         empresasParticipantes = new ArrayList<>();
+        propostasDoLicitante = new ArrayList<>();
+        
+        listarLicitantesParticipantes();
     }
 
     public void validarArquivoXLS(FileUploadEvent file) {
@@ -81,7 +85,7 @@ public class ControladorSessaoIniciar implements Serializable {
     public void propostasPorLicitante() {
 
         try {
-            setPropostasDoLicitante(null);
+            getPropostasDoLicitante().removeAll(getPropostasDoLicitante());
             setPropostasDoLicitante(getServicoSessao().propostasPorLicitante(sessao, empresaLicitante));
             
 
@@ -90,6 +94,21 @@ public class ControladorSessaoIniciar implements Serializable {
             
         }
 
+    }
+    
+    public void listarLicitantesParticipantes(){
+        
+        List<Proposta> propostas = getServicoSessao().buscarPropostasPorSessao(getSessao());
+        
+        for (Proposta proposta : propostas){
+            
+            if (!getEmpresasParticipantes().contains(proposta.getIdLicitante())){
+                getEmpresasParticipantes().add(proposta.getIdLicitante());
+            }
+            
+        }
+        
+        
     }
 
     public void removerArquivo() {
@@ -137,6 +156,7 @@ public class ControladorSessaoIniciar implements Serializable {
     }
 
     public List<Proposta> getPropostasDoLicitante() {
+        
         return propostasDoLicitante;
     }
 
