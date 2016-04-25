@@ -304,4 +304,21 @@ public class ServicoSessao implements ServicoSessaoIF {
         }
         //<<Fim - (MVP)>>
     }
+
+    @Override
+    public List<Proposta> propostasPorLicitante(Sessao sessao, EmpresaLicitante licitante) throws ExcecoesLicita {
+        
+        List<Proposta> propostasGeral = new ArrayList<>(sessao.getPropostaSet());
+        List<Proposta> propostaDoLicitante = new ArrayList<>();
+        
+        for(Proposta proposta : propostasGeral){
+            
+            if (proposta.getIdLicitante().equals(licitante)){
+                propostaDoLicitante.add(proposta);
+            }
+            
+        }
+        
+        return propostaDoLicitante;
+    }
 }

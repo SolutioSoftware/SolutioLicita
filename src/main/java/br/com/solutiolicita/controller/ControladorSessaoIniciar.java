@@ -32,6 +32,7 @@ public class ControladorSessaoIniciar implements Serializable {
     private Sessao sessao;
     private EmpresaLicitante empresaLicitante;
     private List<EmpresaLicitante> empresasParticipantes;
+    private List<Proposta> propostasDoLicitante;
 
     @Inject
     private ServicoSessaoIF servicoSessao;
@@ -53,6 +54,7 @@ public class ControladorSessaoIniciar implements Serializable {
             propostas = servicoSessao.validarArquivoXLS(planilhaImport, sessao.getIdPregao(), sessao, empresaLicitante);
             servicoSessao.salvarPropostar(propostas);
             JsfUtil.addSuccessMessage("Planilha está CORRETA!");
+            planilhaImport = null;
         } catch (ExcecoesLicita el) {
             planilhaImport = null;
             RequestContext.getCurrentInstance().update("sessaoIn_form:file-import-xls");
@@ -74,6 +76,20 @@ public class ControladorSessaoIniciar implements Serializable {
             // TODO
         }
         //Logger.getGlobal().log(Level.INFO, "Adicionando itemPregao {0}", itemPregao);
+    }
+
+    public void propostasPorLicitante() {
+
+        try {
+            setPropostasDoLicitante(null);
+            setPropostasDoLicitante(getServicoSessao().propostasPorLicitante(sessao, empresaLicitante));
+            
+
+        } catch (ExcecoesLicita ex) {
+            Logger.getLogger(ControladorSessaoIniciar.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+
     }
 
     public void removerArquivo() {
@@ -119,5 +135,15 @@ public class ControladorSessaoIniciar implements Serializable {
     public void setEmpresasParticipantes(List<EmpresaLicitante> empresasParticipantes) {
         this.empresasParticipantes = empresasParticipantes;
     }
+
+    public List<Proposta> getPropostasDoLicitante() {
+        return propostasDoLicitante;
+    }
+
+    public void setPropostasDoLicitante(List<Proposta> propostasDoLicitante) {
+        this.propostasDoLicitante = propostasDoLicitante;
+    }
+    
+    
 
 }

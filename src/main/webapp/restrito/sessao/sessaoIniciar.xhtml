@@ -14,7 +14,7 @@
         <h:form id="formInSessao">
 
             <p:outputLabel value="Empresas Licitantes" style="font-weight:bold" />
-            <p:dataTable id='dt_empresas' var="empresaLicitante" value="#{controladorLicitante.licitantes}" 
+            <p:dataTable id='dt_empresas' var="empresaLicitante" value="#{controladorSessaoIniciar.sessao.idPregao.empresasLicitantes}" 
                          widgetVar="tbl_licitantes" paginator="true" style="padding:5px" rows="12" rowsPerPageTemplate="10"  
                          emptyMessage="Nenhuma Emp. Licitante Cadastrada"  paginatorAlwaysVisible="true" scrollable="false">
 
@@ -115,43 +115,67 @@
 
                         <p:column headerText="Propostas" width="70" style="text-align: center">
 
-                            <p:commandButton id="btUploadProposta" icon="ui-icon-plus"
+                            <p:commandButton id="btUploadProposta" icon="fa fa-search"
                                              update=":sessaoIn_form:formDtPropostas:dt_Propostas"
+                                             oncomplete="PF('adicionarPropostasDialog').show()"
                                              style="font-size: 10px"   >
                                 <f:setPropertyActionListener value="#{participante}" target="#{controladorSessaoIniciar.empresaLicitante}"  />
-                                <p:tooltip for="btAdiconarEmpresaLicitante" value="Adicionar"/>
+                                <p:tooltip for="btUploadProposta" value="Adicionar"/>
                             </p:commandButton>
 
                         </p:column>
                     </p:dataTable>
+
+                    <p:button value="Iniciar Fase de Lances" id="bt_faseDeLance" icon="fa fa-play-circle" style="margin-top: 20px" outcome="/restrito/sessao/faseDeLances.xhtml">
+                        <f:param name="sessaoIniciarId" value="#{controladorSessaoIniciar.sessao.id}"/>
+                    </p:button>
+
+                    <p:dialog header="Propostas" widgetVar="adicionarPropostasDialog" appendTo="@(body)"  draggable="false" modal="true" resizable="false" width="800">
+
+                        <div style="margin: 3%">
+
+
+                            <p:fileUpload id="file-import-xls"
+                                          fileUploadListener="#{controladorSessaoIniciar.validarArquivoXLS}"
+                                          label="Importar Arquivo de Propostas"                                      
+                                          class="fileUploadPlanilha"
+                                          allowTypes="/(\.|\/)(xls|xlsx)$/"
+                                          invalidFileMessage="Arquivo do Tipo Inválido."        
+                                          mode="advanced"
+                                          fileLimit="1"
+                                          required="true"
+                                          update="dt_PropostasImportadas"
+                                          />
+
+                            <p:dataTable id='dt_PropostasImportadas' var="proposta" value="#{controladorSessaoIniciar.propostasDoLicitante}" 
+                                         widgetVar="tbl_propostas_importadas" paginator="true" class="tabelaCorpo" rows="8" rowsPerPageTemplate="5,10,30,50,100"  
+                                         emptyMessage="Nenhuma proposta adicionada."  paginatorAlwaysVisible="false" >
+                                <f:facet name="header">                           
+                                    <p:outputLabel value="Propostas" class="tabelaHeader"/>                           
+                                </f:facet> 
+
+                                <p:column headerText="Item" filterBy="#{proposta.idItemPregao.item.nome}" filterMatchMode="contains" filterStyle="display:none">
+                                    <h:outputText value="#{proposta.idItemPregao.item.nome}" /></p:column>
+
+                                <p:column headerText="Valor de Referência" filterBy="#{proposta.idItemPregao.valorReferencia}" filterMatchMode="contains" filterStyle="display:none">
+                                    <h:outputText value="#{proposta.idItemPregao.valorReferencia}" /></p:column>
+
+                                <p:column headerText="Valor da Proposta" filterBy="#{proposta.valorUnitario}" filterMatchMode="contains" filterStyle="display:none">
+                                    <h:outputText value="#{proposta.valorUnitario}" />
+                                </p:column>
+
+                            </p:dataTable>
+                        </div>
+
+
+
+                    </p:dialog>
+
+
                 </h:form>
 
             </div>
 
-            <div style="margin-left: 2%; margin-top: 2%; margin-right: 2%">
-                <p:outputLabel value="Nome do Arquivo: " style="font-weight: bold; font-size: medium" />
-                <p:outputLabel id="id_nome_arquivo" value="#{controladorSessaoIniciar.planilhaImport.fileName}  " />
-                <p:commandButton id="bt_remover_arquivo" 
-                                 action="#{controladorSessaoIniciar.removerArquivo()}"
-                                 update="sessaoIn_form" 
-                                 icon="ui-icon-closethick"
-                                 />
-                <p:fileUpload id="file-import-xls"
-                              fileUploadListener="#{controladorSessaoIniciar.validarArquivoXLS}"
-                              label="Procurar Arquivo..."
-                              class="fileUploadPlanilha"
-                              allowTypes="/(\.|\/)(xls|xlsx)$/"
-                              invalidFileMessage="Arquivo do Tipo Inválido."
-                              auto="true"
-                              fileLimit="1"
-                              required="true"
-                              update="id_nome_arquivo"/>
-
-                <p:button value="Fase De Lances" id="bt_faseDeLance" class="bt_faseDeLAnce" outcome="/restrito/sessao/faseDeLances.xhtml">
-                    <f:param name="sessaoIniciarId" value="#{controladorSessaoIniciar.sessao.id}"/>
-                </p:button>
-
-            </div>
         </h:form>
     </ui:define> 
 

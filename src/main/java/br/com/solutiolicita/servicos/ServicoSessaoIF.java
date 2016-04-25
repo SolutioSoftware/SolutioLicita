@@ -17,6 +17,8 @@ import org.primefaces.model.UploadedFile;
 public interface ServicoSessaoIF extends ServicoIF<Sessao> {
     
     public List<Proposta> importarValoresPlanilha(UploadedFile file, Pregao pregao, Sessao sessao, EmpresaLicitante licitante) throws ExcecoesLicita;
+
+    public List<Proposta> propostasPorLicitante(Sessao sessao, EmpresaLicitante licitante) throws ExcecoesLicita;
     
     public void salvarPropostar(List<Proposta> propostas);
     

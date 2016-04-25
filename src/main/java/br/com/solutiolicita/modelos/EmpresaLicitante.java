@@ -36,44 +36,44 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "EmpresaLicitante.findByTipoEmpresa", query = "SELECT e FROM EmpresaLicitante e WHERE e.tipoEmpresa = :tipoEmpresa"),
     @NamedQuery(name = "EmpresaLicitante.findByComplemento", query = "SELECT e FROM EmpresaLicitante e WHERE e.complemento = :complemento")})
 public class EmpresaLicitante implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Size(max = 25)
     @Column(name = "inscricao_estadual")
     private String inscricaoEstadual;
-    
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "tipo_empresa")
     private String tipoEmpresa;
-    
+
     @Size(max = 150)
     @Column(name = "complemento")
     private String complemento;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idLicitante")
     private transient Set<Lance> lanceSet;
-    
+
     @JoinColumn(name = "id_pessoa_juridica", referencedColumnName = "id")
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     private PessoaJuridica pessoaJuridica;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idLicitante")
     private transient Set<Proposta> propostaSet;
-    
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_licitante", referencedColumnName = "id")
     private ContaBancaria contaBancaria;
-    
+
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "empresaLicitante")
     private RepresentanteLegal representanteLegal;
-    
+
     @ManyToMany(mappedBy = "empresasLicitantes")
     private Set<Pregao> pregoes;
 
@@ -82,7 +82,6 @@ public class EmpresaLicitante implements Serializable {
         representanteLegal = new RepresentanteLegal();
         contaBancaria = new ContaBancaria();
     }
-
 
     public Long getId() {
         return this.id;
@@ -165,8 +164,6 @@ public class EmpresaLicitante implements Serializable {
     public void setPregoes(Set<Pregao> pregoes) {
         this.pregoes = pregoes;
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -180,11 +177,11 @@ public class EmpresaLicitante implements Serializable {
         if (!(object instanceof EmpresaLicitante)) {
             return false;
         }
+        
         EmpresaLicitante other = (EmpresaLicitante) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+
+        return toString().equals(other.toString());
+
     }
 
     @Override
@@ -192,7 +189,4 @@ public class EmpresaLicitante implements Serializable {
         return "EmpresaLicitante{" + "id=" + id + ", inscricaoEstadual=" + inscricaoEstadual + ", tipoEmpresa=" + tipoEmpresa + ", complemento=" + complemento + ", lanceSet=" + lanceSet + ", pessoaJuridica=" + pessoaJuridica + ", propostaSet=" + propostaSet + ", contaBancaria=" + contaBancaria + ", representanteLegal=" + representanteLegal + '}';
     }
 
- 
-    
-    
 }
