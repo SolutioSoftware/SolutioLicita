@@ -8,17 +8,19 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="pn_conteudo">
-        <p:dataTable id="id_dt_resultado_pregao" rows="15" paginator="true" rowsPerPageTemplate="15, 30, 45, 60"
+        <p:dataTable id="id_dt_resultado_pregao" 
+                     value="#{controladorFaseDeLance.lancesVencedores}" var="lanceVencedor"
+                     rows="15" paginator="true" rowsPerPageTemplate="15, 30, 45, 60"
                      paginatorAlwaysVisible="true"
                      emptyMessage="Nenhum resultado localizado...">
             <p:column headerText="ItemPregao">
-                <h:outputText value="hello"/>
+                <h:outputText value="#{lanceVencedor.idItemPregao.item.nome}"/>
             </p:column>
             <p:column headerText="Empresa Licitante">
-                <h:outputText value="empresaVencedora" />
+                <h:outputText value="#{lanceVencedor.idLicitante.pessoaJuridica.nomeFantasia}" />
             </p:column>
             <p:column headerText="Lance">
-                <h:outputText value="Lance ganhador" />
+                <h:outputText value="#{lanceVencedor.valor}" />
             </p:column>
         </p:dataTable>
         

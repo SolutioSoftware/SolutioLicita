@@ -39,6 +39,7 @@ public class ControladorFaseDeLance implements Serializable {
     private IteradorRodada iteradorRodada;
     private List<ItemPregao> itens;
     private List<Proposta> propostas;
+    private List<Lance> lancesVencedores;
     private List<Lance> lances;
     private ItemPregao itemPregao;
     private int contItemCorrente;
@@ -50,7 +51,7 @@ public class ControladorFaseDeLance implements Serializable {
 
     @Inject
     private ServicoSessaoIF servicoSessao;
-    
+
     public ControladorFaseDeLance() {
     }
 
@@ -63,6 +64,7 @@ public class ControladorFaseDeLance implements Serializable {
         itens = new ArrayList();
         propostas = new ArrayList();
         lances = new ArrayList();
+        lancesVencedores = new ArrayList();
         contItemCorrente = 1;
         indiceItemCorrente = 0;
     }
@@ -97,6 +99,7 @@ public class ControladorFaseDeLance implements Serializable {
         itemPregao.setStatusItem(ENUMStatusItemPregao.COM_VENCEDOR);
         servicoSessao.atualizarStatusItemPregao(itemPregao);
         if (proximoItem()) {
+            lancesVencedores.add(lance);
             lances = new ArrayList();
             carregarFaseDeLance();
             return null;
@@ -167,31 +170,6 @@ public class ControladorFaseDeLance implements Serializable {
         }
     }
 
-//                    List<Lance> lancesExis = servicoSessao.buscarLances(itemPregao);
-//                    if (propostas.size() > QUANT_MIN_PROPOSTAS) {
-//                        propostas = servicoSessao.classificarPropostas(propostas);
-//                        melhorProposta = propostas.get(IND_MELHOR_PROPOSTA);
-//                        licitanteRodada = melhorProposta.getIdLicitante();
-//                        if (lancesExis.isEmpty()) {
-//                            criarPrimeiroLance();
-//                            naoTemLance = false;
-//                        } else if (lancesExis.size() > QUANT_MIN_LANCES) {
-//                            naoTemLance = proximoItem();
-//                        } else {
-//                            ultimoLance = lancesExis.get(IND_MELHOR_PROPOSTA);
-//                            naoTemLance = false;
-//                        }
-//                    } else if (lancesExis.size() <= QUANT_MIN_LANCES) {
-//                        naoTemLance = false;
-//                    } else {
-//                        naoTemLance = proximoItem();
-//                    }
-//                }
-//                if (!(indiceItemCorrente < itens.size())) {
-//                    JsfUtil.addSuccessMessage("Não possui mais itens a serem leiloados!");
-//                    return "/restrito/sessao/sessao.xhtml";
-//                }
-//            }
     public void criarPrimeiroLance() {
         lances = servicoSessao.buscarLances(itemPregao);
         if (lances.isEmpty()) {
@@ -202,8 +180,8 @@ public class ControladorFaseDeLance implements Serializable {
             primeiroLance.setIdSessao(sessao);
             ultimoLance = primeiroLance;
             servicoSessao.salvarLance(primeiroLance);
-        }else{
-            ultimoLance = lances.get(lances.size()-1);
+        } else {
+            ultimoLance = lances.get(lances.size() - 1);
         }
     }
 
@@ -257,6 +235,10 @@ public class ControladorFaseDeLance implements Serializable {
 
     public List<Lance> getLances() {
         return lances;
+    }
+
+    public List<Lance> getLancesVencedores() {
+        return lancesVencedores;
     }
 
     public void setLances(List<Lance> lances) {
