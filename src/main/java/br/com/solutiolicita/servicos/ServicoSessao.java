@@ -323,6 +323,7 @@ public class ServicoSessao implements ServicoSessaoIF {
     }
 
     @Override
+    @Transactional
     public void removerPropostasPorLicitante(Sessao sessao, EmpresaLicitante licitante) throws ExcecoesLicita {
 
         String[] parametros = {"idLicitante","idSessao"};
