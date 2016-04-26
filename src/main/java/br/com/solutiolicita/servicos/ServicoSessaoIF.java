@@ -20,6 +20,8 @@ public interface ServicoSessaoIF extends ServicoIF<Sessao> {
 
     public List<Proposta> propostasPorLicitante(Sessao sessao, EmpresaLicitante licitante) throws ExcecoesLicita;
     
+    public void removerPropostasPorLicitante(Sessao sessao, EmpresaLicitante licitante) throws ExcecoesLicita;
+    
     public void salvarPropostar(List<Proposta> propostas);
     
     public void salvarLance(Lance lance);

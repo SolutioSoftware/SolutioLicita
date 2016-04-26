@@ -73,13 +73,13 @@ public class ServicoSessao implements ServicoSessaoIF {
     @Override
     public boolean validarLance(Lance lance, Lance ultimoLance, Proposta melhorProposta) {
         int limiteValorProposta = 0;
-        if (ultimoLance.getValor() != null && lance.getValor() !=null) {
+        if (ultimoLance.getValor() != null && lance.getValor() != null) {
             return lance.getValor().floatValue() < ultimoLance.getValor().floatValue();
         } else if (lance.getValor() != null) {
 
             if (lance.getValor().floatValue() > limiteValorProposta) {
                 return melhorProposta.getValorUnitario().floatValue() > lance.getValor().floatValue();
-            }else{
+            } else {
                 return false;
             }
         } else {
@@ -307,19 +307,29 @@ public class ServicoSessao implements ServicoSessaoIF {
 
     @Override
     public List<Proposta> propostasPorLicitante(Sessao sessao, EmpresaLicitante licitante) throws ExcecoesLicita {
-        
+
         List<Proposta> propostasGeral = buscarPropostasPorSessao(sessao);
         List<Proposta> propostaDoLicitante = new ArrayList<>();
-        
-        for(Proposta proposta : propostasGeral){
-            
-            if (proposta.getIdLicitante().equals(licitante)){
+
+        for (Proposta proposta : propostasGeral) {
+
+            if (proposta.getIdLicitante().equals(licitante)) {
                 propostaDoLicitante.add(proposta);
             }
-            
+
         }
-        
+
         return propostaDoLicitante;
+    }
+
+    @Override
+    public void removerPropostasPorLicitante(Sessao sessao, EmpresaLicitante licitante) throws ExcecoesLicita {
+
+        String[] parametros = {"idLicitante","idSessao"};
+        Object[] valores = {licitante, sessao};
+
+        daoPropostas.remover("Proposta.removeBySessaoLicitante", parametros, valores);
+
     }
 
     @Override
@@ -331,7 +341,7 @@ public class ServicoSessao implements ServicoSessaoIF {
     public List<Proposta> buscarPropostasPorSessao(Sessao sessao) {
         String[] parametros = {"idSessao"};
         Object[] valores = {sessao};
-        
+
         return daoPropostas.consultar("Proposta.findBySessao", parametros, valores);
     }
 

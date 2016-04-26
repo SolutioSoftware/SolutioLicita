@@ -131,7 +131,8 @@
                         <f:param name="sessaoIniciarId" value="#{controladorSessaoIniciar.sessao.id}"/>
                     </p:button>
 
-                    <p:dialog header="Propostas"  id="propostasDialog" widgetVar="adicionarPropostasDialog" appendTo="@(body)"  draggable="false" modal="true" resizable="false" width="800">
+                    <p:dialog header="Propostas"  id="propostasDialog" 
+                              widgetVar="adicionarPropostasDialog" appendTo="@(body)"  draggable="false" modal="true" resizable="false" width="800">
 
                         <div style="margin: 3%">
 
@@ -143,7 +144,6 @@
                                           allowTypes="/(\.|\/)(xls|xlsx)$/"
                                           invalidFileMessage="Arquivo do Tipo Inválido."        
                                           mode="advanced"
-                                          fileLimit="1"
                                           required="true"
                                           update="dt_PropostasImportadas"
                                           />
@@ -166,6 +166,7 @@
                                 </p:column>
 
                             </p:dataTable>
+
                         </div>
 
 

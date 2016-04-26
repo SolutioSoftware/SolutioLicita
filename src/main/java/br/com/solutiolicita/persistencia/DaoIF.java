@@ -18,6 +18,8 @@ public interface DaoIF<T> {
     
     public boolean remover(T entidade);
     
+    public boolean remover(String namedQuery, String[] parametros, Object[] valores);
+    
     public boolean atualizar(T entidade);
     
     public T buscarPorId(Long id);

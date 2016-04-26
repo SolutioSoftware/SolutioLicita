@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Proposta.findBySessao", query = "SELECT p FROM Proposta p WHERE P.idSessao = :idSessao"),
     @NamedQuery(name = "Proposta.findBySessaoWithLicitante", query = "SELECT p FROM Proposta p WHERE p.idLicitante = :idLicitante AND p.idSessao = :idSessao"),
     @NamedQuery(name = "Proposta.findByValorUnitario", query = "SELECT p FROM Proposta p WHERE p.valorUnitario = :valorUnitario"),
+    @NamedQuery(name = "Proposta.removeBySessaoLicitante", query = "DELETE FROM Proposta p WHERE p.idLicitante = :idLicitante AND p.idSessao = :idSessao"),
     @NamedQuery(name = "Proposta.findByItemPregao", query = "SELECT p FROM Proposta p WHERE p.idItemPregao = :idItemPregao"),
     @NamedQuery(name = "Proposta.findByClassificada", query = "SELECT p FROM Proposta p WHERE p.classificada = :classificada")})
 public class Proposta implements Serializable, Ordenavel<BigDecimal> {

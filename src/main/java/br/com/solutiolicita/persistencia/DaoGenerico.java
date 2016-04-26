@@ -72,6 +72,31 @@ public class DaoGenerico<T> implements DaoIF<T>, Serializable {
     }
 
     @Override
+    public boolean remover(String namedQuery, String[] parametros, Object[] valores) {
+        Query query = getEntityManager().createNamedQuery(namedQuery, entidade);
+
+        if (parametros != null && valores != null) {
+            if (parametros.length == valores.length) {
+
+                for (int i = 0; i < parametros.length; i++) {
+
+                    query.setParameter(parametros[i], valores[i]);
+
+                }
+
+                query.executeUpdate();
+                return true;
+
+            } else {
+                throw new ExcecoesRunTimeLicita("As listas de parametros e valores não possuem tamanhos iguais.");
+            }
+        } else {
+            throw new ExcecoesRunTimeLicita("As listas de parametros e/ou valores não devem ser nulas.");
+        }
+
+    }
+
+    @Override
     public List consultar(String namedQuery) {
         if (namedQuery != null) {
 

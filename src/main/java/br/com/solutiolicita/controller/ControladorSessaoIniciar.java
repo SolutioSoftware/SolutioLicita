@@ -50,14 +50,36 @@ public class ControladorSessaoIniciar implements Serializable {
 
         listarLicitantesParticipantes();
     }
+    
+    
+    public void validarImportacaoArquivo(FileUploadEvent file){
+        
+        propostasPorLicitante();
+        
+        if (!getPropostasDoLicitante().isEmpty()) {
+            try {
+                getServicoSessao().removerPropostasPorLicitante(sessao, empresaLicitante);
+            } catch (ExcecoesLicita ex) {
+                Logger.getLogger(ControladorSessaoIniciar.class.getName()).log(Level.SEVERE, "Erro: {0}", ex.getMessage());
+            }
+            
+            
+        } 
+        
+        validarArquivoXLS(file);
+        
+    }
 
     public void validarArquivoXLS(FileUploadEvent file) {
+
         try {
+
             planilhaImport = file.getFile();
             List<Proposta> propostas;
             propostas = servicoSessao.validarArquivoXLS(planilhaImport, sessao.getIdPregao(), sessao, empresaLicitante);
             servicoSessao.salvarPropostar(propostas);
-            JsfUtil.addSuccessMessage("Planilha está CORRETA!");
+            propostasPorLicitante();
+            JsfUtil.addSuccessMessage("Planilha Importada com Sucesso!");
             planilhaImport = null;
         } catch (ExcecoesLicita el) {
             planilhaImport = null;
@@ -80,6 +102,19 @@ public class ControladorSessaoIniciar implements Serializable {
             // TODO
         }
         //Logger.getGlobal().log(Level.INFO, "Adicionando itemPregao {0}", itemPregao);
+    }
+
+    public void confirmarNovasPropostas() {
+        try {
+            getServicoSessao().removerPropostasPorLicitante(sessao, empresaLicitante);
+        } catch (ExcecoesLicita ex) {
+            Logger.getLogger(ControladorSessaoIniciar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void cancelarNovasPropostas() {
+
+        RequestContext.getCurrentInstance().closeDialog("confirmarNovasPropostas");
     }
 
     public void propostasPorLicitante() {
