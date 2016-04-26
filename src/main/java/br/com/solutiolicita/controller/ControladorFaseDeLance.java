@@ -10,7 +10,6 @@ import br.com.solutiolicita.modelos.Lance;
 import br.com.solutiolicita.modelos.Pregao;
 import br.com.solutiolicita.modelos.Proposta;
 import br.com.solutiolicita.modelos.Sessao;
-import br.com.solutiolicita.servicos.ServicoItemIF;
 import br.com.solutiolicita.servicos.ServicoSessaoIF;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -46,8 +45,6 @@ public class ControladorFaseDeLance implements Serializable {
     private int indiceItemCorrente;
     private final int IND_MELHOR_PROPOSTA = 0;
     private final int IND_PIOR_PROPOSTA = 0;
-    private final int QUANT_MIN_LANCES = 1;
-    private final int QUANT_MIN_PROPOSTAS = 1;
 
     @Inject
     private ServicoSessaoIF servicoSessao;
@@ -160,6 +157,7 @@ public class ControladorFaseDeLance implements Serializable {
                         //Classificar as propostas, obedecendo o valor mínimo de empresas concorrentes(3)
                     }
                 } else {
+                    selecionarLanceVencedor();
                     naoTemLance = proximoItem();
                 }
             }
@@ -251,6 +249,13 @@ public class ControladorFaseDeLance implements Serializable {
         propostas = new ArrayList();
         contItemCorrente = 1;
         indiceItemCorrente = 0;
+    }
+
+    private void selecionarLanceVencedor() {
+        List<Lance> lancesDoItem = servicoSessao.buscarLances(itemPregao);
+        if (lancesDoItem.size() > 1) {
+            lancesVencedores.add(lancesDoItem.get(lancesDoItem.size() - 1));
+        }
     }
 
 }
