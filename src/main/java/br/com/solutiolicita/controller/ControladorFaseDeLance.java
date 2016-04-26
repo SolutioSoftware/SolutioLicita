@@ -102,7 +102,7 @@ public class ControladorFaseDeLance implements Serializable {
             return null;
         }
         //Retornar para a página de resultados.
-        return "/restrito/sessao/sessao.xhtml";
+        return "/restrito/pregao/pregaoResultado.xhtml";
     }
 
     public boolean proximoItem() {
