@@ -44,17 +44,28 @@
                 </p:column>
 
 
-                <p:column headerText="Ações" width="50">
+                <p:column headerText="Ações" width="80">
 
-                    <p:commandButton id="btEditar" icon="ui-icon-pencil" action="#{controladorSessao.prepararEditar}" update="@form"  style="font-size: 10px">
+                    <p:commandButton id="btEditar" icon="ui-icon-pencil"
+                                     disabled="#{entidade.statusSessao.equals(controladorSessao.statusEncerrada)}"
+                                     action="#{controladorSessao.prepararEditar}"
+                                     update="@form"  style="font-size: 10px">
                         <f:setPropertyActionListener value="#{entidade}" target="#{controladorSessao.sessao}"  />
                         <p:tooltip for="btEditar" value="Editar"/>
                     </p:commandButton>
 
-                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorSessao.remover}" update="@form" style="font-size: 10px">
+                    <p:commandButton id="btExcluir" icon="fa fa-trash" action="#{controladorSessao.remover}"
+                                     update="@form" style="font-size: 10px">
                         <f:setPropertyActionListener value="#{entidade}" target="#{controladorSessao.sessao}"  />
                         <p:tooltip for="btExcluir" value="Excluir"/>
                         <p:confirm icon="ui-icon-alert" header="Excluir Sessão" message="Deseja realmente excluir esta sessão"/>
+                    </p:commandButton>
+                    
+                    <p:commandButton id="btResultados" icon="ui-icon-clipboard" 
+                                     disabled="#{!entidade.statusSessao.equals(controladorSessao.statusEncerrada)}" 
+                                     update="@form"  style="font-size: 10px">
+<!--                        <f:setPropertyActionListener value="{entidade}" target="{controladorSessao.sessao}"  />-->
+                        <p:tooltip for="btResultados" value="resultados"/>
                     </p:commandButton>
 
                 </p:column>

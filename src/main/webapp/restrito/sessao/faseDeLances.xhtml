@@ -23,7 +23,9 @@
 
             <div align="right">
                 <h:panelGrid columns="1">
-                    <p:commandButton id="btIPausarSessao" icon="ui-icon-close"  value="Pausar Sessão" label="Pausar Sessão"
+                    <p:commandButton id="btIPausarSessao" icon="ui-icon-close"
+                                     value="Pausar Sessão" label="Pausar Sessão"
+                                     action="#{controladorFaseDeLance.pausarSessao()}"
                                      style="height: 15px; width: 200px; margin-bottom: 0px; font-size: 8px; background: #036fab; color: #ffffff">
                         <p:tooltip for="btIPausarSessao" value="Pausar Sessão"/>
                         <p:confirm icon="ui-icon-alert" header="Pausar Sessão" message="Deseja realmente pausar esta sessão"/>

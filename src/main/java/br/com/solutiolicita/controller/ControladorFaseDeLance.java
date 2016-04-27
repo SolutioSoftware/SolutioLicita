@@ -14,6 +14,7 @@ import br.com.solutiolicita.servicos.ServicoSessaoIF;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,6 +72,7 @@ public class ControladorFaseDeLance implements Serializable {
             lance.setIdItemPregao(itemPregao);
             lance.setIdLicitante(getOfertante());
             lance.setIdSessao(sessao);
+            lance.setHorarioLance(new Date());
             servicoSessao.salvarLance(lance);
             lances.add(lance);
             ultimoLance = lance;
@@ -102,6 +104,8 @@ public class ControladorFaseDeLance implements Serializable {
             return null;
         }
         //Retornar para a página de resultados.
+        sessao.setStatusSessao("Encerrada");
+        servicoSessao.atualizar(sessao);
         return "/restrito/pregao/pregaoResultado.xhtml";
     }
 
@@ -176,11 +180,18 @@ public class ControladorFaseDeLance implements Serializable {
             primeiroLance.setIdItemPregao(melhorProposta.getIdItemPregao());
             primeiroLance.setIdLicitante(melhorProposta.getIdLicitante());
             primeiroLance.setIdSessao(sessao);
+            primeiroLance.setHorarioLance(new Date());
             ultimoLance = primeiroLance;
             servicoSessao.salvarLance(primeiroLance);
         } else {
             ultimoLance = lances.get(lances.size() - 1);
         }
+    }
+    
+    public String pausarSessao(){
+        sessao.setStatusSessao("Pausada");
+        servicoSessao.atualizar(sessao);
+        return "/restrito/index.xhtml";
     }
 
     public Pregao getPregao() {
@@ -247,6 +258,7 @@ public class ControladorFaseDeLance implements Serializable {
         iteradorRodada = new IteradorRodada();
         itens = new ArrayList();
         propostas = new ArrayList();
+        lancesVencedores = new ArrayList();
         contItemCorrente = 1;
         indiceItemCorrente = 0;
     }

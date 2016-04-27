@@ -22,6 +22,8 @@ public class ControladorSessao {
 
     @Inject
     private ServicoSessaoIF servicoSessao;
+    
+    private final String STATUS_ENCERRADA = "Encerrada";
 
     public ControladorSessao() {
     }
@@ -85,5 +87,9 @@ public class ControladorSessao {
     public Date getDataAtual() {
         return new Date();
     }
-
+    
+    public String getStatusEncerrada(){
+        return STATUS_ENCERRADA;
+    }
+    
 }
