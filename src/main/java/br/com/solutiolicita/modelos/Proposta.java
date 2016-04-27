@@ -45,7 +45,7 @@ public class Proposta implements Serializable, Ordenavel<BigDecimal> {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "valor_unitario")
+    @Column(name = "valor_unitario", scale = 2, precision = 25)
     private BigDecimal valorUnitario;
 
     @Column(name = "classificada")

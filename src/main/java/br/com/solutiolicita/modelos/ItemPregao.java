@@ -69,7 +69,7 @@ public class ItemPregao implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "valor_referencia")
+    @Column(name = "valor_referencia", scale = 2, precision = 25)
     private BigDecimal valorReferencia;
 
     @Size(max = 15)

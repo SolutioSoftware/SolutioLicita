@@ -48,7 +48,7 @@ public class Lance implements Serializable{
     
     @Basic(optional = false)
     @NotNull
-    @Column(name = "valor")
+    @Column(name = "valor", scale = 2, precision = 25)
     private BigDecimal valor;
     
     @JoinColumn(name = "id_licitante", referencedColumnName = "id")
