@@ -28,7 +28,7 @@
             <br/>
 
             <p:dataTable id='dt_faseDeLances' var="lances" value="#{controladorFaseDeLance.lances}" 
-                         paginator="true" style="padding:5px" rows="5" rowsPerPageTemplate="5" 
+                         paginator="true" style="padding:5px" rows="8" rowsPerPageTemplate="3,5,8,10" sortBy="#{lances.valor}" sortOrder="ascending"
                          emptyMessage="Nenhum Lance Registrado"  paginatorAlwaysVisible="true" scrollable="false">
 
 
