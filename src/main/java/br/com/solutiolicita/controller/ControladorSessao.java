@@ -24,6 +24,8 @@ public class ControladorSessao {
     private Sessao sessao;
     
     private List<Lance> lances; 
+    
+    private List<ItemPregao> itensPregao;
 
     @Inject
     private ServicoSessaoIF servicoSessao;
@@ -37,6 +39,7 @@ public class ControladorSessao {
     public void iniciar() {
         sessao = new Sessao();
         lances = new ArrayList();
+        itensPregao = new ArrayList();
     }
 
     public String criar() {
@@ -79,10 +82,7 @@ public class ControladorSessao {
     }
     
     public String buscarResultados(){
-        List<ItemPregao> itensPregao = servicoSessao.buscarItensPregao(sessao.getIdPregao());
-        for (ItemPregao itemPregao : itensPregao) {
-            lances.addAll(servicoSessao.buscarLances(itemPregao));
-        }
+        itensPregao = servicoSessao.buscarItensPregao(sessao.getIdPregao());
         return "/restrito/pregao/pregaoFinalizado.xhtml";
     }
 
@@ -108,6 +108,14 @@ public class ControladorSessao {
     
     public List<Lance> getLances(){
         return lances;
+    }
+    
+    public List<ItemPregao> getItensPregao(){
+        return itensPregao;
+    }
+    
+    public List<Lance> getLances(ItemPregao itemPregao){
+        return servicoSessao.buscarLances(itemPregao);
     }
     
 }

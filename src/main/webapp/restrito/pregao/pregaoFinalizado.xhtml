@@ -9,21 +9,36 @@
 
     <ui:define name="pn_conteudo">
         <p:dataTable id="id_dt_resultado_pregao" 
-                     value="#{controladorSessao.lances}" var="lanceVencedor"
+                     value="#{controladorSessao.itensPregao}" var="itemPregao"
                      rows="15" paginator="true" rowsPerPageTemplate="15, 30, 45, 60"
                      paginatorAlwaysVisible="true"
                      emptyMessage="Nenhum resultado localizado...">
-            <p:column headerText="ItemPregao">
-                <h:outputText value="#{lanceVencedor.idItemPregao.item.nome}"/>
-            </p:column>
-            <p:column headerText="Empresa Licitante">
-                <h:outputText value="#{lanceVencedor.idLicitante.pessoaJuridica.nomeFantasia}" />
-            </p:column>
-            <p:column headerText="Lance">
-                <h:outputText value="#{lanceVencedor.valor}" />
-            </p:column>
+            <f:facet name="header">Item Pregão</f:facet>
+            
+            <p:columnGroup type="header">
+                <p:row>
+                    <p:column headerText="Item"/>
+                    <p:column headerText="Empresas Licitantes"/>
+                    <p:column headerText="Lances"/>
+                </p:row>
+            </p:columnGroup>
+            <p:subTable value="#{controladorSessao.getLances(itemPregao)}" var="lance">
+                <f:facet name="header">
+                    <h:outputText value="#{itemPregao.item.nome}"/>
+                </f:facet>
+                <p:column>
+                    <h:outputText value="#{itemPregao.statusItem}"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{lance.idLicitante.pessoaJuridica.nomeFantasia}"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{lance.valor}"/>
+                </p:column>
+               
+                
+            </p:subTable>
         </p:dataTable>
-        
         <p:button id="bt-voltar-inicio" value="Voltar" outcome="/restrito/index.xhtml"/>
         
     </ui:define> 
