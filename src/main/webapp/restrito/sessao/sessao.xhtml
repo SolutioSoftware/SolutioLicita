@@ -10,6 +10,7 @@
     <ui:define name="pn_info">
 
         <h:form id="formDtSessao">
+            <p:growl autoUpdate="true"/>
 
             <p:dataTable id='dt_sessao' var="entidade" value="#{controladorSessao.sessoes}" 
                          widgetVar="tbl_sessoes" paginator="true" style="padding:5px" rows="10" rowsPerPageTemplate="5,10"  
@@ -61,10 +62,11 @@
                         <p:confirm icon="ui-icon-alert" header="Excluir Sessão" message="Deseja realmente excluir esta sessão"/>
                     </p:commandButton>
                     
-                    <p:commandButton id="btResultados" icon="ui-icon-clipboard" 
+                    <p:commandButton id="btResultados" icon="ui-icon-clipboard"
+                                     action="#{controladorSessao.buscarResultados()}"
                                      disabled="#{!entidade.statusSessao.equals(controladorSessao.statusEncerrada)}" 
                                      update="@form"  style="font-size: 10px">
-<!--                        <f:setPropertyActionListener value="{entidade}" target="{controladorSessao.sessao}"  />-->
+                        <f:setPropertyActionListener value="#{entidade}" target="#{controladorSessao.sessao}"  />
                         <p:tooltip for="btResultados" value="resultados"/>
                     </p:commandButton>
 

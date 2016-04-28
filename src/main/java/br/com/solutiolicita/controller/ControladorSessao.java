@@ -71,6 +71,10 @@ public class ControladorSessao {
             JsfUtil.addErrorMessage("Sessão não pode ser removida.");
         }
     }
+    
+    public void buscarResultados(){
+        JsfUtil.addSuccessMessage("Resultado da sessão: " + sessao.getStatusSessao());
+    }
 
     public Sessao getSessao() {
         return sessao;
