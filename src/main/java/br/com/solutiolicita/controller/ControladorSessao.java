@@ -1,8 +1,11 @@
 package br.com.solutiolicita.controller;
 
 import br.com.solutiolicita.controller.util.JsfUtil;
+import br.com.solutiolicita.modelos.ItemPregao;
+import br.com.solutiolicita.modelos.Lance;
 import br.com.solutiolicita.modelos.Sessao;
 import br.com.solutiolicita.servicos.ServicoSessaoIF;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -19,6 +22,8 @@ import javax.persistence.RollbackException;
 public class ControladorSessao {
 
     private Sessao sessao;
+    
+    private List<Lance> lances; 
 
     @Inject
     private ServicoSessaoIF servicoSessao;
@@ -31,6 +36,7 @@ public class ControladorSessao {
     @PostConstruct
     public void iniciar() {
         sessao = new Sessao();
+        lances = new ArrayList();
     }
 
     public String criar() {
@@ -72,8 +78,12 @@ public class ControladorSessao {
         }
     }
     
-    public void buscarResultados(){
-        JsfUtil.addSuccessMessage("Resultado da sessão: " + sessao.getStatusSessao());
+    public String buscarResultados(){
+        List<ItemPregao> itensPregao = servicoSessao.buscarItensPregao(sessao.getIdPregao());
+        for (ItemPregao itemPregao : itensPregao) {
+            lances.addAll(servicoSessao.buscarLances(itemPregao));
+        }
+        return "/restrito/pregao/pregaoFinalizado.xhtml";
     }
 
     public Sessao getSessao() {
@@ -94,6 +104,10 @@ public class ControladorSessao {
     
     public String getStatusEncerrada(){
         return STATUS_ENCERRADA;
+    }
+    
+    public List<Lance> getLances(){
+        return lances;
     }
     
 }
