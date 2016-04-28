@@ -24,10 +24,10 @@
             </p:columnGroup>
             <p:subTable value="#{controladorSessao.getLances(itemPregao)}" var="lance">
                 <f:facet name="header">
-                    <h:outputText value="#{itemPregao.item.nome}"/>
+                    <h:outputText value="Item: #{itemPregao.item.nome} | Status:  #{itemPregao.statusItem}"/>
                 </f:facet>
                 <p:column>
-                    <h:outputText value="#{itemPregao.statusItem}"/>
+                    <h:outputText value="#{lance.horarioLance}"/>
                 </p:column>
                 <p:column>
                     <h:outputText value="#{lance.idLicitante.pessoaJuridica.nomeFantasia}"/>

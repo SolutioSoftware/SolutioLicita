@@ -113,8 +113,13 @@ public class ServicoSessao implements ServicoSessaoIF {
 
                     ItemPregao itemPregao;
                     itemPregao = procurarItemPregao(linha, pregao);
-
-                    propostas.add(montarProposta(linha, itemPregao, sessao, licitante));
+                       
+                    Proposta proposta = montarProposta(linha, itemPregao, sessao, licitante);
+                    
+                    if(proposta != null){
+                    propostas.add(proposta);    
+                    }
+                    
 
                 }
                 return propostas;
@@ -135,7 +140,14 @@ public class ServicoSessao implements ServicoSessaoIF {
         proposta.setIdSessao(sessao);
         proposta.setIdLicitante(licitante);
         proposta.setValorUnitario(valorProposta);
-        return proposta;
+        
+        if(proposta.getValorUnitario().compareTo(new BigDecimal("0")) == 0){
+            return null;
+        } else {
+            return proposta;
+        }
+        
+        
     }
 
     private ItemPregao procurarItemPregao(HSSFRow linha, Pregao pregao) throws NumberFormatException, ExcecoesLicita {

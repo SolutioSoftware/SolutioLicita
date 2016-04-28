@@ -22,14 +22,14 @@ import javax.persistence.RollbackException;
 public class ControladorSessao {
 
     private Sessao sessao;
-    
-    private List<Lance> lances; 
-    
+
+    private List<Lance> lances;
+
     private List<ItemPregao> itensPregao;
 
     @Inject
     private ServicoSessaoIF servicoSessao;
-    
+
     private final String STATUS_ENCERRADA = "Encerrada";
 
     public ControladorSessao() {
@@ -62,15 +62,21 @@ public class ControladorSessao {
     }
 
     public String iniciarSessao() {
-        if (sessao.getId() == null) {
-            sessao.setStatusSessao("Iniciada");
-            servicoSessao.criar(sessao);
-        } else {
-            sessao.setStatusSessao("Iniciada");
-            servicoSessao.atualizar(sessao);
+        try {
+            if (sessao.getId() == null) {
+                sessao.setStatusSessao("Iniciada");
+                servicoSessao.criar(sessao);
+            } else {
+                sessao.setStatusSessao("Iniciada");
+                sessao.setHorarioInicio(new Date());
+                servicoSessao.atualizar(sessao);
+            }
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sessao", sessao);
+            return "sessaoIniciar.xhtml";
+        } catch (RollbackException re) {
+            JsfUtil.addErrorMessage("Já existe uma sessão para este pregão.");
         }
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sessao", sessao);
-        return "sessaoIniciar.xhtml";
+        return "/restrito/sessao/sessaoSalvar.xhtml";
     }
 
     public void remover() {
@@ -80,8 +86,8 @@ public class ControladorSessao {
             JsfUtil.addErrorMessage("Sessão não pode ser removida.");
         }
     }
-    
-    public String buscarResultados(){
+
+    public String buscarResultados() {
         itensPregao = servicoSessao.buscarItensPregao(sessao.getIdPregao());
         return "/restrito/pregao/pregaoFinalizado.xhtml";
     }
@@ -101,21 +107,21 @@ public class ControladorSessao {
     public Date getDataAtual() {
         return new Date();
     }
-    
-    public String getStatusEncerrada(){
+
+    public String getStatusEncerrada() {
         return STATUS_ENCERRADA;
     }
-    
-    public List<Lance> getLances(){
+
+    public List<Lance> getLances() {
         return lances;
     }
-    
-    public List<ItemPregao> getItensPregao(){
+
+    public List<ItemPregao> getItensPregao() {
         return itensPregao;
     }
-    
-    public List<Lance> getLances(ItemPregao itemPregao){
+
+    public List<Lance> getLances(ItemPregao itemPregao) {
         return servicoSessao.buscarLances(itemPregao);
     }
-    
+
 }

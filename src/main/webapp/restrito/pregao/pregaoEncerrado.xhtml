@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/TemplateLicitaLance.xhtml">
+
+    <ui:define name="pn_conteudo">
+        
+        <div style="text-align: center">
+            <p:outputLabel value="Pregão Finalizado" style="font-size: 30pt;font-weight: bold;color: #036fab"/>
+            <br/>
+            <p:outputLabel value="Todos os itens foram leiloados." style="font-size: 25pt;color: #036fab"/>
+            <br/>
+            <p:button style="font-size: 15pt" id="bt-voltar-inicio" value="Voltar Para o Inicio" outcome="/restrito/index.xhtml"/>
+        </div>
+
+    </ui:define> 
+</ui:composition>

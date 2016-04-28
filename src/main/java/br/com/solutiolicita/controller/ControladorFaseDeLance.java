@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -105,8 +106,10 @@ public class ControladorFaseDeLance implements Serializable {
         }
         //Retornar para a página de resultados.
         sessao.setStatusSessao("Encerrada");
+        sessao.setHorarioEncerramento(new Date());
         servicoSessao.atualizar(sessao);
-        return "/restrito/pregao/pregaoResultado.xhtml";
+        JsfUtil.addSuccessMessage("Não existem mais itens a serem licitados. Pregão Finalizado!");
+        return "/restrito/pregao/pregaoEncerrado.xhtml";
     }
 
     public boolean proximoItem() {
